@@ -1,0 +1,61 @@
+\documentclass{styles/note}
+\usepackage{styles/linalg}
+
+\course{Groups and Group Actions}
+\courseterm{HT 2020}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+
+\section{Groups}
+  
+  \subsection{The Group Axioms}
+    
+    \begin{definition}{}{}
+      Let $S$ be a set, a \term{binary operation} $*$ on $S$ is a map from $S \times S$ to $S$, mapping $a, b$ to $a * b$.
+    \end{definition}
+    
+    There are a few key properties that a binary operation can have:
+    
+    \begin{definition}{}{}
+      Let $*$ be a binary operation on a set $S$.
+      \begin{itemize}
+        \item $*$ is \term{associative} if $\forall a, b, c \in S: (a * b) * c = a * (b * c)$
+        \item $*$ is \term{commutative} if $\forall a, b \in S: a * b = b * a$
+      \end{itemize}
+    \end{definition}
+    
+    \begin{definition}{}{}
+      Let $*$ be a binary operation on a set $S$. We say some $e \in S$ is an \term{identity element} if $\forall a \in S: a * e = e * a = a$.
+    \end{definition}
+    
+    \begin{definition}{}{}
+      Let $*$ be a binary operation on a set $S$ with identity $e$. Let $a \in S$, then we say $b \in S$ is an \term{inverse} of $a$ is $a * b = b * a = e$. We then write $b = a^{-1}$.
+    \end{definition}
+    
+    We are now ready to define a group:
+    
+    \begin{definition}{}{}
+      A \term{group} $(G, *)$ consists of a set $G$ and a binary operation $*$ on $G$ such that
+      \begin{romanenum}
+        \item $*$ is associative
+        \item $G$ has an identity under $*$
+        \item for all $a \in G$, the inverse of $a$ exists
+      \end{romanenum}
+      Further, a group $(G, *)$ is said to be \term{abelian} if $*$ is commutative.
+    \end{definition}
+
+
+
+
+
+\end{document}
