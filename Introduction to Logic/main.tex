@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcommand*{\term}[1]{\textit{#1}}
+\newcommand{\NN}{\mathbb{N}}
+\renewcommand{\implies}{\rightarrow}
+
+
+\title{Elements of Deductive Logic}
+\author{Jiaming (George) Yu}
+
+\begin{document}
+\maketitle
+
+
+\section{Mathematical Induction}
+
+Proof by mathematical induction is a powerful method of reasoning. As we will see, there are numerous formulations of induction.
+
+\paragraph{Weak Principle of Induction (WPI)} If (i) some $P$ is true of the first member of a sequence $S$ (ordered by the natural numbers), and (ii) if $P$ is true of the $n$\textsuperscript{th} member of $S$, then $P$ is true of the $(n + 1)$\textsuperscript{th} member of $S$; then for every $x \in S$, $P$ is true of $x$.
+
+We call condition (i) the \term{base case} and condition (ii) the \term{induction case}.
+
+Notation-wise, we can write $P(x)$ for the statement `$P$ is true for $x$'. This way, we can rewrite WPI symbolically as:
+\[ P(s_0) \wedge (P(s_n) \implies P(s_{n+1})) \implies (\forall x \in S) P(x) \]
+
+\paragraph{The Strong Principle of Induction (SPI)} If ; then for every $x \in S$
+
+\paragraph{The Least Number Principle (LNP)} For a non-empty subset $M$ of $\NN$, $M$ has a least member.
+
+
+\end{document}
