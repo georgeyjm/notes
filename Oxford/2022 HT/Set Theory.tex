@@ -1,0 +1,361 @@
+\documentclass{styles/tufte}
+\usepackage{styles/settheory}
+
+\course{B$\bm{1.2}$ Set Theory}
+\courseterm{HT 2022}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+\section{First Axioms of Set Theory}
+
+The language of set theory is the language of first-order predicate calculus (FOPC) equipped with an extra non-logical symbol ``$\in$'', which denotes the binary membership relation.
+
+As this is not a course in logic, we will be informal in some formulas, dropping parentheses occasionally, using informal symbols (e.g. $\neq$)
+
+One of set theory's objectives is to reduce all of mathematics to set theory, treating all mathematical objects, theorems, and the sort all as objects of set theory. Therefore, in formulating the axioms, we will often assume something is a set, but that is essentially saying it could be anything --- a number, a function, a set, etc.
+
+For each axiom, we will formulate it both in natural language and in $\LL$.
+
+\begin{zf}{The axiom of extensionality}{1}
+  Two sets are equal if and only if they have the same elements.
+  \[ \forall x \forall y \left(x = y \,\iff \forall z (z \in x \,\iff\, z \in y)\right) \]
+\end{zf}
+
+\begin{zf}{Null set axiom}{2}
+  There exists an empty set containing no elements.
+  \[ \exists x \forall y \, \neg (y \in x) \]
+\end{zf}
+
+\begin{theorem}{}{}
+  There is a unique set containing no elements.\marginnote{Informally, we denote this set by $\emptyset$, and we can construct an equivalent restatement of any statement containing $\emptyset$.}
+\end{theorem}
+\begin{proof}
+  By \cref{zf2}, there exists an empty set $x$. Suppose $y$ is another empty set. Then $x$ and $y$ have the same elements (i.e.~no elements), so $x = y$ by \cref{zf1}.
+\end{proof}
+
+Now that we have the empty set, we need to expand our `universe' of sets to include the non-empty ones.
+
+\begin{zf}{Unordered pairs}{3}
+  Let $x, y$ be two sets, then there exists a set whose elements are exactly $x$ and $y$.
+  \[ \forall x \forall y \exists z \left((x \in z) \land (y \in z) \land \forall w (w \in z \implies (w = x \,\lor\, w = y))\right) \]
+\end{zf}
+
+As with \cref{zf2}, such an unordered pair $z$ is unique given $x, y$, and we can introduce the notation $\set*{x, y}$ for better readability.\marginnote{Again, we can still reduce any formula} Note also we can form unordered pairs with the same element to get $\set{x, x} = \set{x}$.
+
+\begin{definition}{Ordered pair}{}
+  Let $x, y$ be sets. The set $\opair{x, y} \defeq \set{\set{x}, \set*{x, y}}$ is the \term{ordered pair} of $x$ and $y$. We call $x$ the \term{first coordinate} and $y$ the \term{second coordinate}.
+\end{definition}
+
+\begin{theorem}{}{}
+  Let $x, y, u, v$ be sets and suppose $\opair{x, y} = \opair{u, v}$, then $x = u$ and $y = v$.
+\end{theorem}
+\begin{proof}
+  Suppose $\set{\set{x}, \set*{x, y}} = \set{\set{u}, \set{u, v}}$.
+  
+  First suppose $x = y$. Then $\set*{x, y} = \set{x}$ and thus $\set{\set{x}, \set*{x, y}} = \set{\set{x}}$. By \cref{zf1}, each element of $\opair{u, v}$ is an element of $\opair{x, y} = \set{\set{x}}$, so $\set{u} = \set{x}$. Applying \cref{zf1} again, we get $u = x$. But we also have $\set{u, v} = \set{x} = \set{u}$, so $\set{u, v} = \set{u}$ and thus $v = u$ by \cref{zf1}. Therefore $x = y = u = v$. If instead we suppose $u = v$, then we still arrive at the same conclusion by a symmetrical argument.
+  
+  Therefore we can assume $x \neq y$ and $u \neq v$. Again, by \cref{zf1}, $\set{x}$ is an element of $\set{\set{u}, \set{u, v}}$. There are two cases: 1. if $\set{x} = \set{u}$, then $x = u$ by \cref{zf1}; 2. if $\set{x} = \set{u, v}$, then $x = u = v$ by \cref{zf1}, a contradiction \contradiction.
+  
+  Similarly, $\set*{x, y}$ is an element of $\set{\set{u}, \set{u, v}}$. There are two cases: 1. if $\set*{x, y} = \set{u}$, then $u = x = y$, a contradiction \contradiction; 2. if $\set*{x, y} = \set{u, v}$, then $y$ is an element of $\set{u, v}$ by \cref{zf1}, but if $y = u$ then $x = u = y$, a contradiction, so $y = v$.
+  
+  Thus we conclude $x = u$ and $y = v$.
+\end{proof}
+
+\begin{zf}{Unions}{4}
+  Let $x$ be a set, then there exists a set consisting of exactly all the elements of the elements of $x$.\marginnote{This `union' is denoted by $\bigcup x$. Note that this axiom, in contrast to defining $x \cup y$, permits infinite unions.}
+  \[ \forall x \exists y \forall z \left(z \in y \iff \exists w (z \in w \land w \in x)\right) \]
+\end{zf}
+
+\begin{zf}{Comprehension scheme\marginnote{also known as the subset axiom scheme or the separation scheme}}{5}
+  Let $x$ be a set and $\phi(z, w_1, \dots, w_k)$ be a formula in $\LL$, with free variables among $z, w_1, \dots, w_k$. Then, for any sets $w_1, \dots, w_k$, there is a set $y$ consisting of the elements $z$ of $x$ for which $\phi(z, w_1, \dots, w_k)$ holds.
+  \[ \forall x \forall w_1 \cdots \forall w_k \exists y \forall z \left(z \in y \iff \left(z \in x \,\land\, \phi(z, w_1, \dots, w_k)\right)\!\right) \]
+\end{zf}
+
+The above is an axiom scheme, meaning for each formula $\phi$, there is an instantiation of an axiom. Note that this scheme provides a way to define sets of the form $\set{z \in x: \phi(z, w_1, \dots, w_k)}$, as compared to the much less restricted version $\set{z: \phi(z, w_1, \dots, w_k)}$ (naive comprehension). A problem which arises from the latter is that it allows $z$ to quantify over a domain that includes $y$ (the set being defined). This gives rise to the (in)famous Russell's paradox. Therefore, with \cref{zf5}, we only allow comprehension of subsets of a set.
+
+\begin{theorem}{}{}
+  Let $x, y$ be sets. Then their intersection $x \cap y$ and their difference $x \setminus y$ are both sets.
+\end{theorem}
+\begin{proof}
+  Considering $\phi(z, w) = z \in w$ and $\phi(z, w) = \neg(z \in w)$ respectively, the result follows by comprehension.
+\end{proof}
+
+\begin{theorem}{Intersections}{}
+  Let $x$ be a non-empty set. Then the intersection $\bigcap x$ of all elements of $x$ is a set.\marginnote{We avoid the case where $x = \emptyset$. As we will see in the proof below, it will lead to an invalidity.}
+\end{theorem}
+\begin{proof}
+  By \cref{zf4}, we are able to construct $\bigcup x$. The set of interest here is a subset of $\bigcup x$. Hence, we can construct it by comprehension:
+  \[ \bigcap x = \set{z \in \bigcup x: \forall y (y \in x \,\implies\, z \in y)} \qedhere \]
+\end{proof}
+
+\begin{proposition}{}{}
+  Let $x$ be a set. There is no set whose elements are all those sets which are not elements of $x$.\marginnote{i.e. there is no `absolute complement' of a set}
+\end{proposition}
+\begin{proof}
+  
+\end{proof}
+
+\begin{theorem}{}{}
+  There is no set of all sets.
+\end{theorem}
+\begin{proof}
+  ASFOC $x$ is the set of all sets, then by comprehension, we can define $y = \set{z \in x: z \notin z}$. Then, as $y \in x$ we have $y \notin y \,\iff\, y \in x$, which is the Russell's paradox, a contradiction \contradiction.
+\end{proof}
+
+
+\subsection{Classes}
+  
+  Classes are an \em{informal} notion (i.e.~not part of the formal language) which can be useful when we want to refer to a collection of sets (e.g.~the collection of all sets). Classes are defined by naive comprehension.
+  
+  \begin{definition}{}{}
+    Let $\phi(x)$ be a formula in $\LL$ where $x$ is any set (it is allowed for $\phi(x)$ to contain other free variables). Then a \term{class} $\class{X}$ can be defined as
+    \[ \class{X} = \set{x: \phi(x)} \]
+  \end{definition}
+
+
+
+\section{The Power Set Axiom}
+
+\begin{zf}{Power Set Axiom}{6}
+  Let $x$ be a set, then there exists a set whose elements are precisely the subsets of $x$.\marginnote{This (unique) set is the \term{power set} of $x$, denoted $\power(x)$.}
+\end{zf}
+
+\begin{theorem}{}{}
+  The power set of $x$ is uniquely determined by $x$.
+\end{theorem}
+
+\begin{proposition}{Cartesian products}{}
+  Let $X, Y$ be sets, then there exists a set whose elements are precisely the ordered pairs $\opair{x, y}$ for all $x \in X$ and $y \in Y$.\marginnote{In fact, as we know, this set is also uniquely determined by $X$ and $Y$. It is the \term{Cartesian product} of $X$ and $Y$, denoted $X \times Y$.}
+\end{proposition}
+\begin{proof}
+  Let $x \in X$ and $y \in Y$. Then $\set{x}, \set{x, y}$ are both subsets of $X \cup Y$, so $\set{x}, \set{x, y} \in \power(X \cup Y)$. Now let $Z = \power(\power(X \cup Y))$. Then $\set{\set{x}, \set*{x, y}}$ is a subset of $\power(X \cup Y)$, so $\opair{x, y} = \set{\set{x}, \set*{x, y}} \in Z$.
+  
+  So $P$ contains all the desired ordered pairs. Next we use comprehension to pick out exactly those ordered pairs. Construct the set
+  \[ P = \set{z \in Z: \exists x \exists y \left(x \in X \,\land\, y \in Y \,\land\, z = \opair{x, y}\right)} \]
+  By definition, all elements of $P$ are ordered pairs of the form $\opair{x, y}$ where $x \in X$ and $y \in Y$. Vice versa, all the ordered pairs $\opair{x, y}$ are in $Z$ and satisfies the comprehension condition, and so are also in $P$.
+\end{proof}
+
+
+\subsection{Relations and Functions}
+  
+  \begin{definition}{Relation}{}
+    Let $X, Y$ be sets. A \term{relation} between $X$ and $Y$ is any subset $R$ of $X \times Y$.
+    
+    If $\opair{x, y} \in R$, then we write $xRy$.
+  \end{definition}
+  
+  \begin{definition}{Function}{}
+    A relation $f \subseteq X \times Y$ is a \term{function} (or \term{map}) from $X$ to $Y$ if, for all $x \in X$, there exists a unique $y \in Y$ such that $\opair{x, y} \in R$. Symbolically,
+    \[ (f \subseteq X \times Y) \land \forall x \left(x \in X \implies \exists y \left(y \in Y \,\land \opair{x, y} \in f \,\land \forall z \left(\opair{x, z} \in f \implies z = y\right)\right)\!\right) \]
+    
+    If $\opair{x, y} \in f$, then we write $y = f(x)$.
+    
+    The set of all functions from $X$ to $Y$ is denoted $Y^X$ or $^X Y$.\marginnote{Intuitively, for finite sets $X, Y$, a function has to choose from $\abs{Y}$ elements for each of the $\abs{X}$ elements, so the set has $\abs{Y}^{\abs{X}}$ elements, and hence the notation.}
+  \end{definition}
+  
+  Note that since $f \subseteq X \times Y \subseteq \power(\power(X \cup Y))$, we can `recover' parts of $X \cup Y$ from $f$ by $\bigcup\bigcup f$. Namely, $\bigcup\bigcup f = X \cup f[X] \subseteq X \cup Y$.
+  
+  In fact, $\bigcup \power(X) = X$ always holds, but not vice versa.
+  
+  \begin{definition}{Domain}{}
+    The \term{domain} of a function $f$ is a set defined using comprehension by
+    \[ \domain(f) = \set{x \in \bigcup\bigcup f: \exists y \left(y \in \bigcup\bigcup f \,\land \opair{x, y} \in f\right)} \]
+  \end{definition}
+  
+  \begin{definition}{Range}{}
+    The \term{range} of a function $f$ is a set defined using comprehension by
+    \[ \range(f) = \set{y \in \bigcup\bigcup f: \exists x \left(x \in \bigcup\bigcup f \,\land \opair{x, y} \in f\right)} \]
+  \end{definition}
+  
+  Specifically, note that $\emptyset$ is itself a function on $\emptyset$ (definition holds vacuously), which is known as the \term{empty function}. In fact, $\emptyset$ is also both injective and surjective as a function, hence $\emptyset^\emptyset = \set{\emptyset}$.
+
+
+\subsection{Equivalence Relations and Order Relations}
+
+  We now introduce two specific relations.
+  
+  \begin{definition}{Equivalence relation}{}
+    A relation $E$ on a set $X$ is an \term{equivalence relation} if it is
+    \begin{romanenum}
+      \item reflexive: for all $x \in X$, $\opair{x, x} \in E$
+      \item transitive: for all $x, y, z \in X$, if $\opair{x, y}, \opair{y, z} \in E$, then $\opair{x, z} \in E$
+      \item symmetric: for all $x, y \in X$, if $\opair{x, y} \in E$, then $\opair{y, x} \in E$
+    \end{romanenum}
+  \end{definition}
+  
+  \begin{definition}{Weak partial order}{}
+    A relation $R$ on a set $X$ is a \term{weak partial order} if it is
+    \begin{romanenum}
+      \item reflexive: for all $x \in X$, $\opair{x, x} \in R$
+      \item transitive: for all $x, y, z \in X$, if $\opair{x, y}, \opair{y, z} \in R$, then $\opair{x, z} \in R$
+      \item anti-symmetric\marginnote{another way to formulate this is: if $\opair{x, y} \in R$ and $x \neq y$, then $\opair{y, x} \notin R$}: for all $x, y \in X$, if $\opair{x, y}, \opair{y, x} \in R$, then $x = y$
+    \end{romanenum}
+  \end{definition}
+  
+  \begin{definition}{Weak total order}{}
+    A weak partial order $R$ on a set $X$ is a \term{weak total order} if any two elements are comparable, i.e.
+    \[ \forall x \forall y \left((x \in X \,\land\, y \in X) \implies \left(\opair{x, y} \in R \,\lor \opair{y, x} \in R\right)\right) \]
+  \end{definition}
+  
+  \begin{definition}{Strict partial order}{}
+    A relation $S$ on a set $X$ is a \term{strict partial order} if it is
+    \begin{romanenum}
+      \item irreflexive: for all $x \in X$, $\opair{x, x} \notin S$
+      \item transitive: for all $x, y, z \in X$, if $\opair{x, y}, \opair{y, z} \in S$, then $\opair{x, z} \in S$
+      \item *strictly anti-symmetric\marginnote{in fact, this property already follows from (i) and (ii) and therefore is only added for intuitive purposes}: for all $x, y \in X$, at most one of $\opair{x, y} \in S$ and $\opair{y, x} \in S$ holds
+    \end{romanenum}
+  \end{definition}
+  
+  \begin{definition}{Strict total order}{}
+    A strict partial order $S$ on a set $X$ is a \term{strict total order} if any two distinct elements are comparable, i.e.
+    \[ \forall x \forall y \left((x \in X \,\land\, y \in X \,\land\, x \neq y) \implies \left(\opair{x, y} \in S \,\lor \opair{y, x} \in S\right)\right) \]
+  \end{definition}
+  
+  Notation-wise, we often use $<, >$ for strict total orders, $\cls, \cgt$ for strict partial orders, $\leq, \geq$ for weak total orders, and $\cleq, \cgeq$ for weak partial orders; we often use $\sim, \simm$ for equivalence relations.
+
+
+
+\section{The Axiom of Infinity and The Natural Numbers}
+
+We first give one of the many (set-theoretical) constructions of the natural numbers. We informally define the following symbols:\marginnote{This construction has 2 advantages: the set representing $n$ has $n$ elements, and $m < n$ iff $m \in n$.}
+\[ 0 = \emptyset, \quad 1 = 0^+ = \set{0} = \set{\emptyset}, \quad 2 = 1^+ = \set{0, 1} = \set{\emptyset, \set{\emptyset}}, \quad\dots \]
+Given a natural number\marginnote{let's pretend we know what this is for now!} $n$, we can further construct
+\[ n + 1 = n^+ = \set{0, \dots, n - 1, n} = n \cup \set{n} \]
+
+\begin{definition}{Successor}{}
+  Let $x$ be a set. Then the \term{successor} of $x$ is the set $x \cup \set{x}$, denoted by $x^+$.
+\end{definition}
+
+We see immediately from \cref{zf3} (unordered pairs) and \cref{zf4} (unions) that every set has a successor set.
+
+\begin{definition}{Inductive set}{}
+  A set $x$ is an \term{inductive set} (also \term{successor set}) if $\emptyset \in x$ and whenever $y \in x$, then $y^+ \in x$ as well (in other words, $x$ is closed under successor).
+\end{definition}
+
+From the axioms we have so far, each individual natural number does exist as a set, however the infinite collection of all natural numbers does not. This is why we need to introduce the following axiom.
+
+\begin{zf}{Axiom of infinity}{7}
+  There is an inductive set.
+  \[ \exists x (\exists y (y \in x \,\land\, \forall z \neg(z \in y)) \land \forall z (z \in x \,\implies\, z^+\! \in x)) \]
+\end{zf}
+
+\begin{theorem}{Natural numbers}{}
+  \vspace{-0.25em}
+  There is a unique inductive set which is a subset of any inductive set.\marginnote{This set is called the set of \term{natural numbers}, denoted $\NN$ or $\omega$.}\marginnote{QUESTION: Which set exactly is this? Can we construct it? Since there are multiple interpretations of the natural numbers, are these in any way related?}
+\end{theorem}
+\begin{proof}
+  Let $\phi(x)$ denote the formula expressing ``$x$ is an inductive set''. Let $X$ be any inductive set. Now define
+  \[ \NN \defeq \set{x \in X: \forall y \left(\phi(y) \implies x \in y\right)} \]
+  We claim $\NN$ is the set with the desired property. It is immediate from definition that $\NN$ is a subset of every inductive set. To show $\NN$ is inductive, suppose $x \in \NN$, then $x \in X$ so $x^+ \in X$. Also, by definition, $x$ is an element of any inductive set $y$, hence, $x^+$ is also an element of any inductive set. So $x^+ \in \NN$. Therefore $\NN$ is inductive.
+  
+  It remains to prove the uniqueness of $\NN$. Suppose $N$ is also an inductive set which is a subset of any inductive set. Then $N \subseteq \NN$ and $\NN \subseteq N$, so $N = \NN$.
+\end{proof}
+
+\begin{theorem}{Proof by induction}{}
+  Let $\phi(x)$ be a property of any natural number $x$. If $\phi(0)$ holds and, for any $x \in \NN$, if $\phi(x)$ holds then $\phi(x^+)$ holds, then $\phi(x)$ holds for every $x \in \NN$.
+\end{theorem}
+\begin{proof}
+  Let $X = \set{x \in \NN: \phi(x)}$ by comprehension. By assumption, $X$ is an inductive set. Therefore $\NN \subseteq X$ so $X = \NN$.
+\end{proof}
+
+\begin{definition}{Usual ordering on $\NN$}{}
+  Define the relation $R_\leq$ on $\NN$ by
+  \[ R_\leq = \set{\opair{m, n} \in \NN \times \NN: m \in n \,\lor\, m = n} \]
+  We will write $m \leq n$ if $\opair{m, n} \in R_\leq$.
+\end{definition}
+
+\begin{proposition}{}{}
+  Let $m, n \in \NN$. Then $m \leq n$ if and only if $m \subseteq n$.
+\end{proposition}
+\begin{proof}
+  ($\Rightarrow$) Suppose $m \leqslant n$. There are two cases:
+  \begin{description}
+    \item{Case 1.} $m \in n$. n = {0, 1, 2, 3, ..., m, m+1, ..., n-1}
+    \item{Case 2.} $m = n$. Then $m \subseteq n$ follows immediately.
+  \end{description}
+  
+  ($\Leftarrow$) Suppose $m \subseteq n$.
+\end{proof}
+
+\begin{proposition}{}{}
+  The relation $R_\leq$ on $\NN$ is a weak total order.
+\end{proposition}
+\begin{proof}
+  We will first show $R_\leq$ is a partial order.
+\end{proof}
+
+
+\subsection[Recursion on $\omega$]{Recursion on $\bm{\omega}$}
+
+  \begin{theorem}{}{}
+    Let $X$ be a set, $x_0 \in X$, and $g: X \to X$ be a function. Then there exists a unique function $f: \omega \to X$ such that $f(0) = x_0$ and $f(n^+) = g(f(n))$ for all $n \in \omega$.
+  \end{theorem}
+
+
+\subsection[Arithmetic on $\omega$]{Arithmetic on $\bm{\omega}$}
+
+
+
+
+\section{Replacement and Foundation Axioms}
+  
+The above axioms were proposed by Zermelo and they already allow us to construct $\NN, \ZZ, \QQ, \RR, \CC$. The following axioms were proposed by others such as Fraenkel. These complete the Zermelo-Fraenkel Set Theory (ZF).
+
+\begin{definition}{}{}
+  A formula $\phi(x, y)$ is a \term{class function} if, for all sets $x$, there exists a unique set $y$ such that $\phi(x, y)$ holds.
+\end{definition}
+
+Intuitively, a class function is a function-like object (hence the name) from $\universe$ to $\universe$.\marginnote{$\universe$ is the class of all sets} But since $\universe$ is not a set, it is therefore not a function.
+
+\begin{zf}{Replacement scheme}{8}
+  Let $\phi(x, y)$ be a class function. If $X$ is a set, then the collection $Y$ of sets $y$ such that $\phi(x, y)$ holds for some $x \in X$ is a set.\marginnote{Essentially, the image of a set under a class function is also a set.}
+\end{zf}
+
+\begin{zf}{Foundation}{9}
+  Every non-empty set has an $\in$-minimal element.
+  \[ \forall x \left(x \neq \emptyset \implies \exists y (y \in x \,\land\, x \cap y = \emptyset)\right) \]
+\end{zf}
+
+\cref{zf9} provides a method to restrict certain strange sets such as the universe of sets $\universe$.
+
+\begin{theorem}{}{}
+  Let $x$ be a set, then $x \notin x$.
+\end{theorem}
+\begin{proof}
+  AFSOC there is a set $x$ with $x \in x$. Then let $X = \set{x}$. $X$ is non-empty, so by \cref{zf9}, there exists $y \in X$ such that $X \cap y = \emptyset$. The only possible choice for $y$ is $x$, but $x \in X$ and $x \in x$, so $X \cap x = \set{x} \neq \emptyset$, a contradiction.
+\end{proof}
+
+
+
+\section{Cardinality}
+
+Numbers are used in two ways: 1.~to assign sizes to sets, and 2.~to order elements of a set. These ideas generalize to cardinal and ordinal numbers in the context of infinite sets.
+
+\begin{definition}{Comparing cardinalities}{}
+  Let $X, Y$ be sets. We say $X$ and $Y$ have the \term{same cardinality} (or \term{equinumerous} or \term{equipotent}), denoted $X \sim Y$ or $\abs{X} = \abs{Y}$ or $\# X = \# Y$, if there is a bijection between them.
+  
+  We say $X$ has \term{cardinality less than or equal to} $Y$, denoted $X \cleq Y$ or $\abs{X} \leq \abs{Y}$ or $\# X \leq \# Y$, if there is an injection from $X$ to $Y$.
+  
+  We say $X$ has \term{cardinality less than} $Y$, denoted $X \cls Y$ or $\abs{X} < \abs{Y}$ or $\# X < \# Y$, if $X \cleq Y$ and $X \not\sim Y$.
+\end{definition}
+
+\begin{lemma}{Tarski's fixed point theorem}{}
+  Suppose $X$ is a set and $H: \power(X) \to \power(X)$
+\end{lemma}
+
+
+
+
+
+
+
+\end{document}

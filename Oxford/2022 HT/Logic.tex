@@ -1,0 +1,345 @@
+\documentclass{styles/tufte}
+\usepackage{styles/logic}
+
+\course{B$\bm{1.1}$ Logic}
+\courseterm{HT 2022}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+\part{Propositional Calculus}
+
+\section{Syntax of Propositional Calculus}
+
+\begin{definition}{Alphabet of propositional calculus}{}
+  The alphabet of propositional calculus, denoted by $\Lprop$, consists of the following symbols:
+  \begin{itemize}
+    \item propositional variables: $p_0, p_1, \dots$
+    \item negation: $\neg$
+    \item binary connectives: $\land$, $\lor$, $\implies$, $\iff$
+    \item punctuation marks: $($ and $)$
+  \end{itemize}
+\end{definition}
+
+Once we have the alphabet, we introduce the notion of strings, then formulas (which are the `grammatical' strings).
+
+\begin{definition}{String}{}
+  A \term{string} (of $\Lprop$) is any finite sequence of symbols from $\Lprop$.\marginnote{There must be no gaps between the symbols.} The \term{length} of a string is the number of symbols it has.
+\end{definition}
+
+\begin{definition}{Formula}{}
+  A \term{formula} (of $\Lprop$) is defined recursively by the following rules:
+  \begin{enumerate}
+    \item Every propositional variable is a formula
+    \item If the string $\phi$ is a formula, then so is $\neg \phi$
+    \item If the strings $\phi, \chi$ are both formulas, then so are the following:\marginnote{Note the parentheses!}
+    \[ (\phi \land \chi) \qquad
+       (\phi \lor \chi) \qquad
+       (\phi \implies \chi) \qquad
+       (\phi \iff \chi) \]
+    \item Nothing else is a formula
+  \end{enumerate}
+  We denote the set of all formulas of $\Lprop$ by $\formulas(\Lprop)$.
+\end{definition}
+
+When we want to prove a result about a formula, it often is useful to use induction, as demonstrated by the following lemma.
+
+\begin{lemma}{}{}
+  If $\phi$ is a formula, then exactly one of the following statements is true:
+  \begin{itemize}
+    \item $\phi$ is a propositional variable
+    \item the first symbol of $\phi$ is $\neg$
+    \item the first symbol of $\phi$ is $($
+  \end{itemize}
+\end{lemma}
+
+
+\begin{theorem}{Unique readability theorem}{}
+  A formula can be constructed in only one way. In other words, if $\phi$ is a formula, then, exactly one of the following holds:
+  \begin{romanenum}
+    \item $\phi$ is $p_i$ for some $i$
+    \item $\phi$ is $\neg \psi$ for some unique formula $\psi$
+    \item $\phi$ is $(\psi * \chi)$ for some unique formulas $\psi, \chi$ and a unique binary connective $* \in \set{\land, \lor, \implies, \iff}$.
+  \end{romanenum}
+\end{theorem}
+
+
+
+\section{Valuations}
+
+Valuation concerns the determination of truth values of formulas.
+\begin{definition}{Valuation}{}
+  A \term{valuation} $v$ is a function $v: \set{p_0, p_1, \dots} \to \settf$.
+\end{definition}
+
+However, a valuation alone does not provide much power, as we can only determine the truth value of variables and not of complex formulas. To achieve the latter, we need to extend a valuation to all formulas.
+
+
+\subsection{Truth Tables}
+  
+  Given a valuation $v$, we can extend it uniquely to a function $\val: \formulas(\Lprop) \to \settf$.
+    
+  \begin{table}[h]
+  \centering
+  \begin{tabular}{c||c}
+  $\psi$ & $\neg\psi$ \\\hline
+  \true & \false \\
+  \false & \true 
+  \end{tabular}
+  \end{table}
+  
+  \begin{table}[h]
+  \centering
+  \begin{tabular}{cc||c|c|c|c}
+  $\psi$ & $\chi$ & $\psi \land \chi$ & $\psi \lor \chi$ & $\psi \implies \chi$ & $\psi \iff \chi$ \\\hline
+  \true & \true & \true & \true & \true & \true \\
+  \true & \false & \false & \true & \false & \false \\
+  \false & \true & \false & \true & \true & \false \\
+  \false & \false & \false & \false & \true & \true \\
+  \end{tabular}
+  \end{table}
+
+
+\subsection{Logical Consequence and Logical Validity}
+
+  \begin{definition}{Satisfiability}{}
+    Let $\phi$ be a formula and $v$ be a valuation. If $\val(\phi) = \true$, we say $v$ \term{satisfies} $\phi$. If $\phi$ is satisfied by some valuation, then it is \term{satisfiable}.
+  \end{definition}
+  
+  \begin{definition}{Tautology}{}
+    Let $\phi$ be a formula. If $\phi$ is satisfied by every valuation, then we say $\phi$ is a \term{tautology} (or \term{logically valid}), denoted as $\models \phi$.
+  \end{definition}
+  
+  \begin{definition}{Logical consequence}{}
+    Let $\psi, \phi$ be formulas. Then we say $\phi$ is a \term{logical consequence} of $\psi$, denoted $\psi \models \phi$, if for every valuation $v$,
+    \[ \text{if $\val(\psi) = \true$ then $\val(\phi) = \true$} \]
+    
+    Let $\Gamma$ be a (possibly infinite) set of formulas and $\phi$ be a formula. Then we say $\phi$ is a \term{logical consequence} of $\Gamma$, denoted $\Gamma \models \phi$, if for every valuation $v$,
+    \[ \text{if $\val(\psi) = \true$ for all $\psi \in \Gamma$, then $\val(\phi) = \true$} \]
+  \end{definition}
+  
+  \begin{lemma}{}{}
+    Let $\psi, \phi$ be formulas. Then $\psi \models \phi$ if and only if $\models (\psi \implies \phi)$.
+  \end{lemma}
+  \begin{proof}
+    ($\Rightarrow$) Assume $\psi \models \phi$. Let $v$ be any valuation. Whenever $\val(\psi) = \true$, we have $\val(\phi) = \true$ by definition. Hence, $\val((\psi \implies \phi)) = \true$ by truth table\marginnote{We often abbreviate `the truth table of the connective $*$' by `TT $*$'}. On the other hand, if $\val(\psi) = \false$ then $\val((\psi \implies \phi)) = \true$ by TT $\implies$. Therefore, $(\psi \implies \phi)$ is satisfied by every valuation, so $\models (\psi \implies \phi)$.
+    
+    ($\Leftarrow$) Assume $\models (\psi \implies \phi)$. Let $v$ be any valuation such that $\val(\psi) = \true$. We also have $\val((\psi \implies \phi)) = \true$, so $\val(\phi) = \true$ by TT $\implies$. Therefore, $\psi \models \phi$.
+  \end{proof}
+  
+  \begin{lemma}{}{}
+    Let $\Gamma$ be a set of formulas and $\psi, \phi$ be formulas. Then $\Gamma \cup \set{\psi} \models \phi$ if and only if $\Gamma \models (\psi \implies \phi)$.
+  \end{lemma}
+
+
+
+\section{Logical Equivalence and Adequacy}
+
+\begin{definition}{Logical equivalence}{}
+  Two formulas $\phi$ and $\psi$ are \term{logically equivalent}, denoted as $\phi \lequiv \psi$, if $\phi \models \psi$ and $\psi \models \phi$.\marginnote{Logical equivalence is what permits us to drop parentheses in some cases, for example chaining $\land$ or $\lor$.}
+\end{definition}
+
+\begin{lemma}{}{}
+  Let $\phi, \psi$ be formulas, then $(\phi \lor \psi) \lequiv \neg(\neg\phi \land \neg\psi)$.
+\end{lemma}
+\begin{proof}
+  Let $v$ be a valuation. Then,
+  \begin{center}
+  \begin{tabular}{lll}
+    & $\val(\neg(\neg\phi \land \neg\psi)) = \false$ & \\
+    iff & $\val((\neg\phi \land \neg\psi)) = \true$ & by TT $\neg$ \\
+    iff & $\val(\neg\phi) = \val(\neg\psi) = \true$ & by TT $\land$ \\
+    iff & $\val(\phi) = \val(\psi) = \false$ & by TT $\neg$ \\
+    iff & $\val((\phi \lor \psi)) = \false$ & by TT $\lor$
+  \end{tabular}
+  \end{center}
+  The result then follows.
+\end{proof}
+
+Below are some more logical equivalences:
+\begin{proposition}{}{logical-equivs}
+  \vspace{-1em}
+  \begin{itemize}
+    \item $\displaystyle \neg\disj_{i=1}^n \phi_i \lequiv \conj_{i=1}^n \neg\phi_i$ \quad and \quad $\displaystyle \neg\conj_{i=1}^n \phi_i \lequiv \disj_{i=1}^n \neg\phi_i$ \hfill (De Morgan's)
+    \item $(\phi \implies \psi) \lequiv (\neg\phi \lor \psi)$
+    \item $(\phi \lor \psi) \lequiv ((\phi \implies \psi) \implies \psi)$
+  \end{itemize}
+\end{proposition}
+
+
+\subsection{Adequacy}
+
+  \begin{definition}{Truth function}{}
+    The set of partial valuations $V_n$ contains all functions $v: \set{p_0, \dots, p_{n-1}} \to \settf$. Then, an \term{$n$-ary truth function} is a function $J: V_n \to \settf$.\marginnote{Intuitively, a truth function `evaluates' a certain valuation of variables, similar to how a row in a truth table evaluates the input truth values.}
+  \end{definition}
+  
+  Note that by definition, $V_n$ contains $2^n$ functions, and thus the number of all $n$-ary truth functions is $2^{2^n}$.
+  
+  We write $\formulas_n(\Lprop) \subset \formulas(\Lprop)$ for the set of formulas of $\Lprop$ which only contain variables from $\set{p_0, \dots, p_{n-1}}$. Let $\phi \in \formulas_n(\Lprop)$, then it uniquely determines an $n$-ary truth function $J_\phi$ by
+  \begin{align*}
+    J_\phi:\ &V_n \to \settf \\
+    &v \mapsto \val(\phi)
+  \end{align*}
+  Intuitively, the evaluation of $\phi$ on a valuation is essentially a truth function. Hence, $J_\phi$ is given by the truth table for $\phi$.
+  
+  \begin{definition}{Adequacy}{}
+    A language $\Lprop$ is \term{adequate} if for every $n \geq 1$ and every truth function $J: V_n \to \settf$, there is some $\phi \in \formulas_n(\Lprop)$ such that $J_\phi = J$.\marginnote{As a counterexample, if a language only contains $\land$, then no formulas can `replicate' the case where $v(p_0) = \false$, but $J(v) = \true$.}
+  \end{definition}
+  
+  \begin{theorem}{}{l-adequate}
+    The language $\Lprop$ is adequate. Moreover, the subset of $\Lprop$ which only uses the connectives $\neg, \land, \lor$ is already adequate (i.e. $\implies$ and $\iff$ does not add to the expressive power of $\Lprop$).
+  \end{theorem}
+  \begin{proof}
+    We will prove the stronger statement, as the weaker one follows trivially. The idea of the proof is to construct a formula to explicitly describe each `true' row of the truth table as a possible case, and connect the cases with disjunction.
+    
+    Let $n \in \NN$ and $J: V_n \to \settf$ be any $n$-ary truth function.
+    
+    If $J(v) = \false$ for all $v \in V_n$ (a contradiction), then take $\phi \defeq (p_0 \land \neg p_0)$. Then for each $n \in V_n$ we have $J_\phi(v) = \val(p_0 \land \neg p_0) = \false = J(v)$.
+    
+    Otherwise, define $U \defeq \set{v \in V_n: J(v) = \true}$ which is nonempty. For each $v \in U$ and $i < n$, define $\psi^v_i$ as follows:
+    \[ \psi^v_i \defeq \begin{cases} p_i &\text{if } v(p_i) = \true \\ \neg p_i &\text{if } v(p_i) = \false  \end{cases} \]
+    Finally, let $\psi^v \defeq \conj_{i=0}^{n-1} \psi^v_i$ and $\phi \defeq \disj_{v \in U} \psi_v$.
+    
+    Note, for any valuation $w \in V_n$, the following equivalence holds
+    \begin{center}
+    \begin{tabular}{lll}
+      & $\val[w](\psi^v) = \true$ & \\
+      iff & $\val[w](\psi^v_i) = \true$ for all $i < n$ & by TT $\land$ \\
+      iff & $w = v$ & by definition of $\psi^v_i$
+    \end{tabular}
+    \end{center}
+    Therefore,
+    \begin{center}
+    \begin{tabular}{lll}
+      & $\val[w](\phi) = J_\phi(w) = \true$ & \\
+      iff & $\val[w](\psi^v) = \true$ for some $v \in U$ & by TT $\lor$ \\
+      iff & $w = v$ for some $v \in U$ & by the above \\
+      iff & $w \in U$ & as $v \in U$ \\
+      iff & $J(w) = T$ & by def. of $U$
+    \end{tabular}
+    \end{center}
+    We have now shown that $J_\phi(w) = J(w)$ for any $w \in V_n$, so $J_\phi = J$.
+  \end{proof}
+  
+  In this proof, we come across a useful concept.
+  \begin{definition}{Disjunctive normal form}{}
+    A \term{conjunctive clause} is a conjunction of only atoms (i.e. $p_i$'s and $\neg p_i$'s).
+    
+    A formula is in \term{disjunctive normal form} (DNF) if it is the disjunction of conjunctive clauses.
+  \end{definition}
+  
+  \begin{corollary}{}{}
+    Every formula in $\Lprop$ is logically equivalent to one in DNF.
+  \end{corollary}
+  
+  \begin{definition}{Connective adequacy}{}
+    \vspace{-0.3em}
+    Let $S$ be a set of (truth-functional\marginnote{each is given by some truth table}) connectives. We write $\Lprop[S]$ for the language with connectives $S$ (all else is equal). We say $S$ is \term{adequate} (or \term{truth-functionally complete}) if $\Lprop[S]$ is adequate.
+  \end{definition}
+  
+  We have shown $\set{\neg, \land, \lor}$ is adequate in \cref{thm:l-adequate}. Hence by De Morgan's, both $\set{\neg, \land}$ and $\set{\neg, \lor}$ are adequate. But $\lor$ can be expressed with $\implies$ (\cref{prop:logical-equivs}), so $\set{\neg, \implies}$ is also adequate.
+
+
+
+\section{Deductive System for Propositional Calculus}
+
+In this section, we aim to prove any logical consequences.
+
+\begin{definition}{Proof}{}
+  A \term{proof} of $\phi$ from a set of premises $\Gamma$ is a finite sequence of statements $\phi_1, \dots, \phi_n$ such that $\phi_n = \phi$ and for each $\phi_i$, one of the following holds:
+  \begin{itemize}
+    \item $\phi_i \in \Gamma$; or
+    \item $\phi_i$ is an axiom; or
+    \item $\phi_i$ follows from previous statements by some rule of inference
+  \end{itemize}
+\end{definition}
+
+\begin{definition}{The deductive language $\LL_0$}{}
+  Define the language $\LL_0 \defeq \Lprop[\set{\neg, \implies}]$.
+  
+  The axioms for $\LL_0$ are, for any $\alpha, \beta, \gamma \in \formulas(\LL_0)$:
+  \begin{enumerate}
+    \item $(\alpha \implies (\beta \implies \alpha))$
+    \item $\big( \big(\alpha \implies (\beta \implies \gamma)\big) \implies \big((\alpha \implies \beta) \implies (\alpha \implies \gamma)\big) \big)$
+    \item $((\neg\beta \implies \neg\alpha) \implies (\alpha \implies \beta))$
+  \end{enumerate}
+  
+  The single rule of inference for $\LL_0$ is \term{modus ponens}:
+  
+  MP From $\alpha$ and $(\alpha \implies \beta)$ infer $\beta$.
+\end{definition}
+
+
+\subsection[The Deduction Theorem for $\LL_0$]{The Deduction Theorem for $\bm{\LL_0}$}
+  
+  \begin{theorem}{Deduction theorem for $\LL_0$}{}
+    For any $\Gamma \subseteq \formulas(\LL_0)$ and $\alpha, \beta \in \formulas(\LL_0)$, if $\Gamma \cup \set{\alpha} \proves \beta$, then $\Gamma \proves (\alpha \implies \beta)$.
+  \end{theorem}
+
+
+
+\section{Consistency, Completeness, and Compactness}
+
+\subsection{Consistency}
+  
+  \begin{definition}{Consistency}{}
+    Let $\Gamma \subseteq \formulas(\LL_0)$. $\Gamma$ is \term{consistent} (specifically, $\LL_0$-consistent) if there does not exist a formula $\alpha$ such that $\Gamma \proves \alpha$ and $\Gamma \proves \neg\alpha$. $\Gamma$ is \term{inconsistent} otherwise.
+  \end{definition}
+  
+  \begin{definition}{Maximal consistency}{}
+    Let $\Gamma \subseteq \formulas(\LL_0)$. $\Gamma$ is \term{maximal consistent} if $\Gamma$ is consistent, and for each $\phi \in \formulas(\LL_0)$, either $\Gamma \proves \phi$ or $\Gamma \proves \neg\phi$. Equivalently, $\Gamma$ is maximal consistent if for each $\phi \in \formulas(\LL_0)$, if $\Gamma \cup \set{\phi}$ is consistent, then $\Gamma \proves \phi$.\marginnote{$\Gamma$ is maximal in the sense that any formula which is not inconsistent with $\Gamma$ is provable from $\Gamma$.}
+  \end{definition}
+
+
+\subsection{Completeness}
+  
+  \begin{theorem}{The completeness theorem}{}
+    Let $\Gamma \subseteq \formulas(\LL_0)$ and $\phi \in \formulas(\LL_0)$. If $\Gamma \models \phi$ then $\Gamma \proves \phi$.
+  \end{theorem}
+
+
+\subsection{Compactness}
+  
+  \begin{theorem}{The compactness theorem for $\LL_0$}{}
+    Let $\Gamma \subseteq \formulas(\LL_0)$. $\Gamma$ is satisfiable if and only if every finite subset of $\Gamma$ is also satisfiable.
+  \end{theorem}
+
+
+
+
+\newpage
+\part{Predicate Calculus}
+
+
+\section{Substitution}
+
+\begin{definition}{}{}
+  For any formula $\phi \in \formulas(\Lprop)$, variable $x_i$ (not necessarily free in $\phi$), and term $t \in \terms(\Lprop)$, we say $t$ is \term{free for $x_i$ in $\phi$} if any of the following holds: % according to what $\phi$ is:
+  \begin{romanenum}
+    \item $\phi$ is atomic; or
+    \item $\phi = \neg\psi$, and $t$ is free for $x_i$ in $\psi$; or
+    \item $\phi = (\psi \implies \chi)$, and $t$ is free for $x_i$ in both $\psi$ and $\chi$; or
+    \item $\phi = \forall x_i \psi$; or
+    \item $\phi = \forall x_j \psi$, $j \neq i$, and $x_j$ does not occur in $t$, and $t$ is free for $x_i$ in $\psi$.
+  \end{romanenum}
+\end{definition}
+
+\begin{definition}{}{}
+  For any formula $\phi \in \formulas(\Lprop)$, variable $x_i$, and term $t \in \terms(\Lprop)$
+\end{definition}
+
+
+  
+
+  
+
+
+\end{document}

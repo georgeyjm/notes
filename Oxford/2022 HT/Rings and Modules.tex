@@ -1,0 +1,505 @@
+\documentclass{styles/tufte}
+\usepackage{styles/ringsmodules}
+
+\course{A3: Rings and Modules}
+\courseterm{HT 2022}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+\part{Rings}
+
+\section{Rings}
+
+\subsection{Units}
+
+First recall the definition of a ring.
+
+\begin{definition}{Rings}{}
+  A set $R$, together with two binary operations $+$ (addition) and $\times$ (multiplication), is a \term{ring} if $(R, +)$ is an Abelian group, $(R, \times)$ is a monoid\marginnote{a group without invertibility}, and that $\times$ distributes over $+$. Denote the additive identity as $0$ and the multiplicative identity as $1$.\marginnote{It is not necessarily the case that $1 \neq 0$}
+  
+  For any such ring, $(R, +)$ is its \term{additive group}, and we say $R$ is a \term{commutative ring} if $\times$ is commutative.
+\end{definition}
+
+\begin{definition}{}{}
+  Let $R, S$ be rings and $\phi: R \to S$ be a map. We say $\phi$ is \term{additive} if it is a homomorphism of the additive groups of $R, S$, and \term{multiplicative} if it is a homomorphism of the multiplicative monoids of $R, S$.
+  
+  If $\phi$ is both additive and multiplicative, and it preserves the identity, i.e. $\phi(1_R) = 1_S$, then we call it a \term{ring homomorphism}.
+\end{definition}
+
+Now we introduce units.
+
+\begin{definition}{Units}{}
+  Let $R$ be a ring, and let $x \in R$. We say $x$ is a \term{unit} if there is some $x^{-1} \in R$ s.t. $xx^{-1} = x^{-1}x = 1$; in other words, if $x$ is invertible w.r.t. multiplication.
+  
+  We write $U(R)$ for the set of all units in $R$.\marginnote{Contrast this with $R^*$, the set of all non-zero elements of $R$.}
+\end{definition}
+
+It is easy to show that $U(R)$ forms a group --- the group of units --- under $\times$ restricted to $U(R)$.
+
+\begin{definition}{Trivial Ring}{}
+  Let $R = \set{0}$, with $1 = 0$, and $0 + 0 = 0 \times 0 = 0$. $R$ is the (unique) \term{trivial ring} or \term{zero ring}. A ring with $1 \neq 0$ is a \term{non-trivial ring}.
+\end{definition}
+
+\begin{example}{}{}
+  The integers $\ZZ$ form a non-trivial commutative ring with $U(\ZZ) = \set{-1, 1}$.
+\end{example}
+
+\begin{theorem}{}{}
+  Let $R$ be a ring. There exists a unique ring homomorphism $\chi_R: \ZZ \to R$, where
+  \[ \chi_R(n - m) = \underbrace{(1_R + \dots + 1_R)}_{n\ \mathrm{times}} - \underbrace{(1_R + \dots + 1_R)}_{m\ \mathrm{times}} \]
+\end{theorem}
+
+\begin{definition}{Characteristic of Ring}{}
+  Let $R$ be a ring. If there is some $n \in \NN^*$ with $\chi_R(n) = 0_R$, then we call the smallest such $n$ the \term{characteristic} of $R$. If there are no such $n$, then $R$ has a characteristic of $0$.
+\end{definition}
+
+
+\subsection{Ring Isomorphisms and Subrings}
+
+\begin{definition}{Ring Isomorphisms}{}
+  A \term{ring isomorphism} is a ring homomorphism $\phi: R \to S$ with an inverse $\phi^{-1}: S \to R$ that is also a ring homomorphism.
+\end{definition}
+
+\begin{definition}{Subrings}{}
+  Let $R$ be a ring. A subset $S \subseteq R$ is a \term{subring} of $R$ if $S$ is a ring with $+_R, \times_R$ restricted to $S$ (this implies that $0, 1 \in S$).
+\end{definition}
+
+%Remark that since $0$ and $1$ are preserved in subrings, the following are true: 1. subrings of a non-trivial ring are non-trivial; 2. the trivial ring is not a subring of any non-trivial ring; 3. characteristic of a ring remains unchanged for subrings.
+Remark that since $0$ and $1$ are preserved in subrings, this implies that:
+\begin{itemize}
+  \item subrings of a non-trivial ring are non-trivial
+  \item the trivial ring is not a subring of any non-trivial ring
+  \item characteristic of a ring remains unchanged for subrings
+\end{itemize}
+
+\begin{proposition}{Subring Test}{}
+  Let $R$ be a ring and $S \subseteq R$. If $1 \in S$ and $\forall x, y \in S: x - y, xy \in S$, then $S$ is a subring of $R$.
+\end{proposition}
+
+\begin{definition}{}{}
+  Let $d \in \NN^*$. Define $\ZZ[\sqrt{-d}] := \set{z + w\sqrt{-d}: z, w \in \ZZ}$. For the special case of $d = 1$, the set $\ZZ[i]$ is the \term{Gaussian integers}. Each $\ZZ[\sqrt{-d}]$ is a subring of $\CC$.
+\end{definition}
+
+
+\subsection{Integral Domains}
+
+\begin{definition}{Zero Divisors}{}
+  Let $R$ be a ring and $x \in R$. We say $x$ is a \term{left} (resp. \term{right}) \term{zero divisor} if there is some $y \in R^*$ such that $xy = 0$ (resp. $yx = 0$). In other words, if the left (resp. right) multiplication by $x$ map has a non-trivial kernel.
+\end{definition}
+
+One can show that a unit is never a zero divisor.
+
+\begin{definition}{Integral Domains}{}
+  A non-trivial and commutative ring $R$ is an \term{integral domain} (ID) if it has no non-zero zero divisors (i.e. the only zero divisor is $0$).
+\end{definition}
+
+The prototypical example for an integral domain is $\ZZ$. Other important examples include $\ZZ[\sqrt{-d}]$ and the set of algebraic integers.
+
+\begin{definition}{Algebraic Integers}{}
+  Define $\overline{\ZZ} \subset \CC$ to be the set of all \term{algebraic integers}, where each $\alpha \in \overline{\ZZ}$ is a (complex) root of some monic\marginnote{leading coefficient is $1$} polynomial with integer coefficients. In other words, there exists some $d \in \NN^*$ and $a_0, \dots, a_{d-1} \in \ZZ$ such that $\alpha^d + a_{d-1} \alpha^{d-1} + \dots + a_1 \alpha + a_0 = 0$.
+\end{definition}
+
+
+\subsection{Polynomial Rings}
+
+\begin{definition}{}{}
+  Let $R$ be a non-trivial ring. Define $R[X]$, the \term{polynomial ring} over $R$ with variable $X$, as
+  \[ R[X] := \set{a_0 + a_1 X + \dots + a_n X^n: n \in \NN, a_0, \dots, a_n \in R} \]
+  where $X \in R$ is a distinguished element which commutes with every element of $R[X]$. We also require that if $a_0 + a_1 X + \dots + a_n X^n = 0_R$, then $a_0 = \dots = a_n = 0_R$.
+  
+  For multiple variables $X_1, \dots, X_k$, we define recursively:
+  \[ R[X_1, \dots, X_k] := R[X_1, \dots, X_{k-1}][X_k]  \]
+\end{definition}
+
+Note that $R$ is a subring of $R[X]$.
+
+
+
+\section{Ideals and Quotients}
+
+\begin{definition}{Ideals}{}
+  Let $R$ be a ring. An \term{ideal} in $R$ is a subgroup $I$ of the additive group of $R$ that is closed under multiplication by all elements of $R$. In other words, $\forall x \in I, r \in R: rx, xr \in I$. For non-commutative rings, we distinguish between \term{left ideals} and \term{right ideals}.
+\end{definition}
+
+\begin{definition}{Ideal Generation}{}
+  Let $R$ be a ring and $x \in R$. Define the ideal \term{generated by $x$} as
+  \[ \abrak{x} := \set{r_1 x s_1 + \dots + r_n x s_n: n \in \NN, r_1, \dots, r_n, s_1, \dots, s_n \in R} \]
+  and for $x_1, \dots, x_n \in R$, define the ideal\marginnote{We will later show why these are indeed ideals.} \term{generated by $x_1, \dots, x_n$} as
+  \[ \abrak{x_1, \dots, x_n} := \abrak{x_1} + \dots + \abrak{x_n} \]
+  
+  For an ideal $I$ in $R$, we say $I$ is \term{principal} if $\exists x \in R: I = \abrak{x}$, and we say $I$ is \term{finitely generated} if $\exists x_1, \dots, x_n \in R: I = \abrak{x_1, \dots, x_n}$.
+\end{definition}
+
+For any ring $R$, we have that $\set{0}$ and $R$ are ideals, and we name them the \term{zero ideal} and \term{unit ideal} respectively.\marginnote{Since they are generated by zero and a unit respectively --- observe: $r = rx^{-1}x = xx^{-1}r$.} Since any non-zero element of a field is a unit, a field only has two ideals.
+
+\begin{example}{}{}
+  Let $R$ be a ring and $x \in R$. $Rx$ is a left ideal, $xR$ is a right ideal, and $\abrak{x}$ is an ideal.
+  
+  \em{TODO:} why this is not equal to $RxR$ and is that an ideal or not.
+\end{example}
+
+\begin{example}{}{}
+  Let $R$ be a ring and $I_1, \dots, I_n$ be (resp. left, right) ideals in $R$. Then $I_1 + \dots + I_n$ and $\cap_{j=1}^n I_j$ are both (resp. left, right) ideals in $R$.
+\end{example}
+
+\begin{definition}{}{}
+  An ideal $I$ is \term{proper} if $1 \notin I$, or equivalently, $I \neq R$.
+  
+  An ideal $I$ is \term{prime} if it is proper and whenever $ab \in I$ we have either $a \in I$ or $b \in I$.
+  
+  An ideal $I$ is \term{maximal} if it is proper and whenever $I \subseteq J \subseteq R$ for some ideal $J$, we have $I = J$ or $J = R$.
+\end{definition}
+
+
+\subsection{Quotient Rings}
+  
+  \begin{theorem}{}{}
+    Let $R$ be a ring and $I \subseteq R$ be an ideal. Then the commutative group $R/I$, endowed with a multiplication
+  \end{theorem}
+  
+  \begin{proposition}{}{}
+    Let $R$ be a commutative ring and $I$ an ideal in $R$. Then $I$ is prime iff $R/I$ is an integral domain. In particular, $R$ is an integral domain iff $\set{0_R}$ is prime.
+  \end{proposition}
+  
+  \begin{proposition}{}{}
+    Let $R$ be a commutative ring and $I$ an ideal in $R$. Then $I$ is maximal iff $R/I$ is a field.
+  \end{proposition}
+
+
+\subsection{The Chinese Remainder Theorem}
+
+
+\subsection{First Isomorphism Theorem}
+
+
+\subsection{Field Extensions}
+
+  \begin{definition}{}{}
+    We say $\mathbb{K}$ is a \term{field extension} of $\FF$ if $\mathbb{K}$ is a field and $\FF$ is its subfield.
+    
+    The \term{degree} of such a field extension, denoted by $\abs{K:F}$, is the dimension of $K/F$.
+  \end{definition}
+  
+  \begin{definition}{}{}
+    Given a field extension $\mathbb{K}$ of $\FF$ and let $\alpha \in \mathbb{K}$. We say $\alpha$ is \term{$\FF$-algebraic} if it is the root to some $p \in \FF[X]^*$, otherwise we say $\alpha$ is \term{$\FF$-transcendental}.
+  \end{definition}
+  
+  \begin{theorem}{Tower law}{}
+    Suppose $\mathbb{L}$ is a field extension of $\mathbb{K}$, and $\mathbb{K}$ is a field extension of $\FF$. Then $\mathbb{L}$ is a field extension of $\FF$, and $\abs{L:F} = \abs{L:K} \abs{K:F}$, provided the degrees are finite.
+  \end{theorem}
+
+
+
+\section{Divisibility}
+
+\begin{definition}{Divisor}{}
+  For a commutative ring $R$ and some $a, b \in R$, we say $a$ is a \term{divisor} of $b$, or $a$ \term{divides} $b$, or $b$ is a \term{multiple} of $a$, and write $a \divides b$, if any of the following:
+  \begin{romanenum}
+    \item $\exists x \in R: b = xa$
+    \item $b \in \abrak{a}$
+    \item $\abrak{b} \subseteq \abrak{a}$
+  \end{romanenum}
+  
+  We say $a$ and $b$ are \term{associates}, and write $a \sim b$, if $a \divides b$ and $b \divides a$.
+\end{definition}
+
+The relation $\divides$ is a preorder since it is both reflexive and transitive. The relation $\sim$ is an equivalence relation
+
+In a field, every non-zero element divides every other non-zero element (guaranteed by invertibility and closeness of multiplication), so all non-zero elements are associates of each other.
+
+
+\subsection{Factorization}
+  
+  \begin{definition}{Irreducibles}{}
+    Let $R$ be a ring. We say a non-zero element $x \in R$ is \term{irreducible} if $x \not\sim 1$ and $\forall a \in R: a \divides x \implies (a \sim x) \lor (a \sim 1)$. 
+  \end{definition}
+  
+  Irreducibility is preserved within $\sim$ equivalence classes.
+  
+  \begin{definition}{Primes}{}
+    Let $R$ be a ring. We say $x \in R$ is \term{prime} if $x \not\sim 1$ and $\forall a, b \in R: x \divides ab \implies (x \divides a) \lor (x \divides b)$.
+  \end{definition}
+  
+%  $0$ is prime but we explicitly exclude it from the irreducibles.
+
+  Primes are what ensures uniqueness of factorization.
+  
+  In an integral domain, every prime is an irreducible, but the converse is not true.
+  
+
+\subsection{Euclidean Domains}
+  
+  \begin{definition}{Euclidean Functions}{}
+    A \term{Euclidean function} on an integral domain $R$ is a function $f: R^* \to \NN$ such that for any $a, b \in R^*$,
+    \begin{romanenum}
+      \item $a \divides b \implies f(a) \leqslant f(b)$
+      \item $\exists q, r \in R: a = bq + r$ and either $r = 0$ or $f(r) < f(b)$
+    \end{romanenum}
+  \end{definition}
+  
+  \begin{definition}{Euclidean Domains}{}
+    An integral domain $R$ is a \term{Euclidean domain} (ED) if $R$ can be equipped with a Euclidean function.
+  \end{definition}
+
+
+\subsection{Unique Factorization Domains}
+
+  Another property of the integers that ensures factorization into primes is that we cannot divide an integer indefinitely. We will formalize and generalize this intuition.
+  
+  \begin{definition}{}{}
+    An integral domain $R$ has the \term{ascending chain condition on principal ideals} (ACCP) if for every sequence $(d_n)_{n=0}^\infty$ where $\forall n \in \NN: d_{n+1} \divides d_n$, there exists some $N \in \NN$ such that $\forall n \geqslant N: d_n \sim d_N$. In other words, every ascending chain is eventually constant.
+  \end{definition}
+  
+  \begin{proposition}{}{}
+    Let $R$ be a B\'ezout domain. Then $R$ has the ACCP iff $R$ is a PID.
+  \end{proposition}
+  \begin{proof}
+    ($\Rightarrow$) Suppose $R$ has the ACCP. AFSOC that $I$ is an non-principal ideal in $R$. Let $d_0 \in I$, we can then construct a chain of elements of $I$ iteratively as follows: suppose we have $d_0, \dots, d_n \in I$, then there exists $d \in I \setminus \abrak{d_n}$ since $I$ is not principal. Since $R$ is B\'ezout, there exists $d_{n+1}$ such that $\abrak{d_{n+1}} = \abrak{d, d_n} \subset I$
+    
+    ($\Leftarrow$) Suppose $R$ is a PID.
+  \end{proof}
+  
+  \begin{lemma}{}{id-accp-factor}
+    Suppose $R$ is an integral domain with the ACCP. Then every $x \in R^*$ has a factorization into irreducibles.
+  \end{lemma}
+  
+  \begin{definition}{}{}
+    A \term{unique factorization domain} (UFD) is an integral domain in which every $x \in R^*$ has a unique factorization into irreducibles.
+  \end{definition}
+  
+  \begin{theorem}{}{}
+    Every PID is a UFD.
+  \end{theorem}
+  \begin{proof}
+    Let $R$ be a PID. Then $R$ has the ACCP, and by \cref{lem:id-accp-factor}, we know that every $x \in R^*$ has a factorization into irreducibles. XXXX
+  \end{proof}
+  
+  Finally, we summarize the relationships between a few key concepts in the graph below.
+  
+  \begin{center}
+  \begin{tikzpicture}
+    \node (FF) at (-1.75,0) {field};
+    \node (ED) at (0,0) {ED};
+    \node (PID) at (1.75,0) {PID};
+    \node (UFD) at (3.5,0) {UFD};
+    \node (ID) at (5.25,0) {ID};
+    %%%
+    \draw[-implies,double equal sign distance] (FF) -- (ED);
+    \draw[-implies,double equal sign distance] (ED) -- (PID);
+    \draw[-implies,double equal sign distance] (PID) -- (UFD);
+    \draw[-implies,double equal sign distance] (UFD) -- (ID);
+    
+    \node (Bezout) at (1.75,1.75) {B\'ezout};
+    %%%
+    \draw[-implies,double equal sign distance] (PID) to[bend right=15] (Bezout);
+    \draw[-implies,double equal sign distance] (Bezout) to[bend right=15] node[left] {$+$ACCP} (PID);
+    
+    \node (irreducible) at (3.75,-1.75) {\phantom{prime}};
+    \node at (3.45,-1.75) {irreducible\phantom{p}};
+    \node (prime) at (6.75,-1.75) {prime};
+    %%%
+    \draw[-implies,double equal sign distance] (prime) to[bend right=15] node (p2r){}(irreducible);
+    \draw[-implies,double equal sign distance] (irreducible) to[bend right=15] node[below] {$+$ACCP} (prime);
+    \draw[-implies,double equal sign distance] (ID) -- (p2r);
+  \end{tikzpicture}
+  \end{center}
+
+
+
+
+
+
+
+\newpage
+\part{Modules}
+
+\section{Modules}
+
+Modules can be seen as a generalization of vector spaces. Modules are to rings as vector spaces are to fields. Over the course of this part of the note, we will revisit many familiar concepts from vector spaces and apply them to modules.
+
+\begin{definition}{Modules}{module}
+  Let $R$ be a ring. An \term{$R$-module} is an Abelian group $(M, +)$ with a binary operation $\cdot: R \times M \to M$ called the \term{scalar multiplication} of $R$ on $M$, it satisfies the following for any $r, s \in R$ and $x, y \in M$:
+  \begin{romanenum}
+    \item $1 \cdot x = x$
+    \item $r \cdot (s \cdot x) = (rs) \cdot x$
+    \item $(r + s) \cdot x = (r \cdot x) + (s \cdot x)$
+    \item $r \cdot (x + y) = (r \cdot x) + (r \cdot y)$
+  \end{romanenum}
+\end{definition}
+
+
+\subsection{Linear Maps}
+
+  \begin{definition}{Linear Maps}{}
+    Let $M, N$ be $R$-modules. A map $\phi: M \to N$ is an \term{$R$-linear map} if it is a group homomorphism\marginnote{Recall: $\phi(x + y) = \phi(x) + \phi(y)$. This implies it maps $0_M$ to $0_N$ and maps inverses to inverses.} with $\forall x \in M, r \in R: \phi(r \cdot x) = r \cdot \phi(x)$.
+  \end{definition}
+  
+  \begin{definition}{Submodules}{}
+    Let $M$ be an $R$-module. An $R$-module $N$ is a \term{submodule} of $M$, written as $N \leqslant M$, if the inclusion map $\iota: N \to M; x \mapsto x$ is a well-defined $R$-linear map. Further, if $N \neq M$, we say $N$ is a \term{proper submodule}.
+  \end{definition}
+  
+  \begin{proposition}{Submodule Test}{}
+    Let $M$ be an $R$-module, and let $N \subseteq M$ be non-empty. If for any $x, y \in N$ and $r \in R$ there is $x + y \in N$ and $rx \in N$, then $N$ is a submodule of $M$ (with addition on $M$ and scalar multiplication of $R$ on $M$ restricted to well-defined operations on $N$).
+  \end{proposition}
+
+  
+
+\subsection{Isomorphisms}
+  
+  \begin{definition}{Linear Isomorphism}{}
+    Let $M, N$ be $R$-modules. A map $\phi: M \to N$ is an \term{$R$-linear isomorphism} if it is $R$-linear and has an $R$-linear inverse.
+  \end{definition}
+  
+  \begin{theorem}{First isomorphism theorem for modules}{}
+    Let $M, N$ be $R$-modules and $\phi: M \to N$ be $R$-linear. Then $\ker\phi \leqslant M$ and $\image\phi \leqslant N$, and the map
+    \[ \tilde{\phi}: M/\ker\phi \to N;\ x + \ker\phi \mapsto \phi(x) \]
+    is an injective $R$-linear map. In particular, $\image\phi \cong M/\ker\phi$.
+  \end{theorem}
+
+
+
+
+\section{Free Modules}
+
+\begin{definition}{Generated Modules}{}
+  For an $R$-module $M$ and some $\Lambda \subseteq M$, define the \term{module generated by $\Lambda$} as
+  \[ \abrak{\Lambda} := \set{r_1 \cdot x_1 + \dots + r_n \cdot x_n: n \in \NN, x_1, \dots, x_n \in \Lambda, r_1, \dots, r_n \in R} \]
+  Similarly, for $x_1, \dots, x_n \in M$, define
+  \[ \abrak{x_1, \dots, x_n} = \set{r_1 \cdot x_1 + \dots + r_n \cdot x_n: r_1, \dots, r_n \in R} = \abrak{\set{x_1, \dots, x_n}} \]
+  Both $\abrak{\Lambda}$ and $\abrak{x_1, \dots, x_n}$ are submodules of $M$.
+\end{definition}
+
+We can again refer to vector spaces for analogy. For any $\FF$-module $V$, the submodule generated by $\Lambda \subseteq V$ is just the subspace spanned by $\Lambda$. Note also that any $R$-module $M$ is generated by $M$.
+
+\begin{definition}{}{}
+  Let $M$ be an $R$-module. We say $M$ is \term{finitely generated} if $M$ can be generated by some finite set $\Lambda$. We say $M$ is \term{cyclic} if $M$ can be generated by a set of size $1$.
+  
+  If $\mathcal{E} \subset M$ generates $M$ and no proper subset of $\mathcal{E}$ generates $M$, then $\mathcal{E}$ is a \term{minimal generating set}.
+\end{definition}
+
+We have that for any ring $R$, the $R$-module $R$ is cyclic (generated by $1$), and for any submodule $K \leqslant R$, the quotient module $R/K$ is also cyclic (generated by $1 + K$). In fact, every cyclic $R$-module is isomorphic to $R/K$ for some submodule $K$.\marginnote{To see this, consider the map $\phi: R \to M;\ r \mapsto rx$, it is surjective and $R$-linear, hence by the first isomorphism theorem, such a submodule $K$ exists.}
+
+\begin{proposition}{}{}
+  A commutative group $M$ is cyclic if and only if the $\ZZ$-module $M$ is cyclic.
+\end{proposition}
+
+\begin{definition}{}{}
+  For an $R$-module $M$, a set $\mathcal{E} \subseteq M$ is a \term{minimal generating set} if $\mathcal{E}$ generates $M$ and no proper subsets of $\mathcal{E}$ generates $M$.
+\end{definition}
+
+Importantly, minimal generating sets need not exist, but a finitely generated module must contain a minimal generating set. An example is the $\ZZ$-module $\QQ$, which is not finitely generated and does not have a minimal generating set. Additionally, minimal generating sets need not be the \em{smallest} generating sets. For example, both $\set{1}$ and $\set{2, 3}$ are minimal generating sets for the $\ZZ$-module $\ZZ$, but $\set{2, 3}$ is larger in size.
+
+
+\subsection{Linear Independence}
+  
+  \begin{definition}{}{}
+    For an $R$-module $M$ and $r_1 \dots, r_n \in R$, we say $x_1, \dots, x_n \in M$ are \term{$R$-linearly independent} if $r_1 \cdot x_1 + \dots + r_n \cdot x_n = 0_M$ implies $r_1 = \dots = r_n = 0_R$.
+  \end{definition}
+  
+  \begin{definition}{}{}
+    Let $M$ be an $R$-module, then $\mathcal{E}$ is a \term{basis} of $M$ if it is a linearly independent generating set for $M$. A module with a basis is \term{free}. In particular, all bases are minimal generating sets.\marginnote{The converse is not true! $\set{2, 3}$ is minimal generating, but not a basis for the $\ZZ$-module $\ZZ$.}
+  \end{definition}
+
+
+
+\section{Presentations}
+
+Note that for a finitely generated module, its quotient is also finitely generated, but it is not true for submodules. As an example, $\overline{Z}$ is finitely generated (by ???) but
+
+\begin{definition}{}{}
+  An $R$-module $M$ has a \term{finite presentation} with \term{presentation matrix} $A \in M_{m,n}(R)$ if there is an $R$-linear isomorphism $\Phi: R^n/R^nA \to M$.
+\end{definition}
+
+
+
+\section{Smith Normal Form}
+
+\subsection{Elementary Operations}
+  
+  There are 3 kinds of elementary operations that can be applied to matrices in $M_{n,m}(R)$, they are transvections, dilations, and interchanges.
+  
+  Note we write $I_n$ for the identity matrix of size $n$, and write $E_n(i, j)$ for the $n \times n$ matrix with all $0$'s except $e_{i,j} = 1$. Additionally, for $A \in M_{n,m}(R)$, we write $c_1, \dots c_m$ for its columns and $r_1, \dots, r_n$ for its rows.
+  
+  \begin{definition}{Transvections}{}
+    Let $\lambda \in R$ and $1 \leqslant i,j \leqslant m$ with $i \neq j$. Define
+    \[ T_m(i, j; \lambda) := I_m + \lambda \cdot E_m(i, j) \]
+    Given $A \in M_{n,m}(R)$, the effect of $A T_m(i, j; \lambda)$ is $\lambda$ times the $i$\tsp{th} column added to the $j$\tsp{th} column, written as
+    \[ A \xrightarrow{\ c_j \mapsto c_j + c_i \lambda\ } A T_m(i, j; \lambda) \]
+    and the effect of $T_n(i, j; \lambda) A$ is $\lambda$ times the $j$\tsp{th} row added to the $i$\tsp{th} row, written as
+    \[ A \xrightarrow{\ r_i \mapsto r_i + \lambda r_j\ } T_n(i, j; \lambda) A \]
+  \end{definition}
+  
+  \begin{definition}{Dilations}{}
+     Let $u \in U(R)$ and $1 \leqslant i \leqslant m$. Define
+    \[ D_m(i; u) := I_m + (u - 1) \cdot E_m(i, i) \]
+  \end{definition}
+  
+  \begin{definition}{Interchanges}{}
+    Let $1 \leqslant i, j \leqslant m$. Define
+    \[ S_m(i, j) := I_m - E_m(i, i) - E_m(j, j) + E_m(i, j) + E_m(j, i) \]
+  \end{definition}
+  
+  \begin{definition}{}{}
+    Let $A, B \in M_{n,m}(R)$. We say $A$ and $B$ are \term{equivalent by elementary operations} and write $A \eqeo B$ if there exists some $A = A_0 \to \dots \to A_k = B$ generated by subsequently applying only elementary row or column operations.
+    
+    We say $A$ and $B$ are \term{equivalent} and write $A \sim B$ if there exists matrices $S \in \GL_n(R), T \in \GL_m(R)$ such that $A = SBT$.
+    
+    In a field $\FF$, we say $A, B \in M_n(\FF)$ are \term{similar} if there exists $P \in \GL_n(\FF)$ such that $A = P^{-1}BP$.
+  \end{definition}
+  
+  We have that $\eqeo$ implies $\sim$, and similar also implies $\sim$. In general, the group generated by elementary operations is a proper subgroup of the general linear group.
+  
+%  \begin{definition}{Diagonal Matrices}{}
+%    We say that a (not necessarily square) matrix $A \in M_{n,m}(R)$ is \term{diagonal} if $A_{i,j} = 0$ whenever $i \neq j$.
+%  \end{definition}
+  
+  \begin{example}{}{}
+    Let $A, B \in M_{n,m}(R)$. TODO similar matrices
+  \end{example}
+  
+  \begin{theorem}{}{euclidean-diagonal}
+    Let $R$ be a Euclidean domain. Then every $A \in M_{n,m}(R)$ is equivalent by elementary operations to a diagonal matrix.
+  \end{theorem}
+
+
+\subsection{Smith Normal Form}
+
+  \begin{definition}{}{}
+    We say that $A \in M_{n,m}(R)$ is in \term{Smith normal form} over $R$ if it is diagonal and for all $1 \leqslant i < \min(n, m)$ we have $A_{i,i} \divides A_{i+1, i+1}$.
+  \end{definition}
+  
+  \begin{lemma}{}{bezout-diagonal-snf}
+    Let $R$ be a B\'ezout domain. Then every diagonal matrix $A \in M_{n,m}(R)$ is equivalent by elementary operations to a matrix in Smith normal form.
+  \end{lemma}
+  
+  \begin{theorem}{}{}
+    Let $R$ be a Euclidean domain. Then every matrix $A \in M_{n,m}(R)$ is equivalent by elementary operations to a matrix in Smith normal form.
+  \end{theorem}
+  \begin{proof}
+    This follows directly from \cref{thm:euclidean-diagonal} and \cref{lem:bezout-diagonal-snf}.
+  \end{proof}
+
+
+\subsection{Applications}
+
+  \begin{theorem}{}{}
+    Let $R$ be an Euclidean domain and suppose $M$ is generated by $x_1, \dots, x_n$. Then there exists $a_1 \divides \dots \divides a_n \in R$ and matrix $Q \in \GL_n(R)$ such that
+    \begin{align*}
+      \frac{R}{\abrak{a_1}} \oplus \cdots \oplus \frac{R}{\abrak{a_n}} & \to M \\
+      \left(r_1 + \abrak{a_1}, \dots, r_n + \abrak{a_n}\right) & \mapsto (rQ).x_1 + \dots + (rQ).x_n
+    \end{align*}
+    gives a well-defined $R$-linear isomorphism.
+  \end{theorem}
+
+
+
+\end{document}

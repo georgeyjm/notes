@@ -1,0 +1,775 @@
+\documentclass{styles/tufte}
+\usepackage{styles/linalg}
+
+\course{A0: Linear Algebra}
+\courseterm{MT 2022}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+\setcounter{section}{-1}
+\section{Vector Spaces and Linear Maps}
+
+We quickly recap some basic definitions.
+
+\begin{definition}{Field}{}
+  A set $\FF$ with two binary operations $+$ and $\times$ is a \term{field} if both $(\FF, +, 0)$ and $(\FF \setminus \set{0}, \times, 1)$ are abelian groups, and $\times$ distributes over $+$:
+  \[ \forall a, b, c \in \FF: (a + b)c = ac + bc \]
+\end{definition}
+
+\begin{definition}{Characteristic of field}{}
+  Let $V$ be a field. If there exists an integer\marginnote{In fact, if such an integer exists, it is necessarily prime} $p$ such that $\overbrace{1 + 1 + \dots + 1}^{p \text{ times}} = 0$, we call the smallest such $p$ the \term{characteristic} of $\FF$. If no such $p$ exist, we define the characteristic to be 0.
+\end{definition}
+
+\begin{definition}{Vector space}{}
+  A \term{vector space} over a field $\FF$ is an abelian group $(V, +, 0)$ together with a scalar multiplication $\cdot: \FF \times V \to V$ such that for any $\lambda, \mu \in \FF, v, w \in V$,
+  \begin{romanenum}
+    \item $1_\FF \cdot v = v$
+    \item $\lambda(v + w) = \lambda v + \lambda w$
+    \item $(\lambda + \mu) v = \lambda v + \mu v$
+    \item $(\lambda \mu) v = \lambda (\mu v)$
+  \end{romanenum}
+\end{definition}
+
+\begin{proposition}{Subspace test}{}
+  Let $V$ be a vector space over $\FF$ and $U \subseteq V$. Then $U \leqslant V$ if and only if $0_V \in U$ and $\lambda v + w \in U$ for any $v, w \in V, \lambda \in \FF$.
+\end{proposition}
+
+\begin{definition}{Basis}{}
+  Let $V$ be a vector space over $\FF$ and $S \subseteq V$.
+  \begin{itemize}
+    \item $S$ is \term{linearly independent} if for any $\lambda_1, \dots, \lambda_n \in \FF$ and $s_1, \dots, s_n \in S$,
+      \[ \lambda_1 s_1 + \dots + \lambda_n s_n = 0 \implies \lambda_1 = \dots = \lambda_n = 0 \]
+    \item $S$ is \term{spanning} if for any $v \in V$, there exists some $\lambda_1, \dots, \lambda_n \in \FF$ and $s_1, \dots, s_n \in S$ such that
+      \[ v = \lambda_1 s_1 + \dots + \lambda_n s_n \]
+    \item $S$ is a \term{basis} of $V$ (usually denoted by $\BB$ rather than $S$) if $S$ is spanning and linearly independent. We call the size of any such $S$ the \term{dimension} of $V$, denoted by $\dim V$.\marginnote{It can be shown that $\dim V$ is well-defined}
+  \end{itemize}
+\end{definition}
+
+\begin{definition}{Linear map}{}
+  Let $V, W$ be vector spaces over $\FF$. A map $T: V \to W$ is a \term{linear map} if for all $\lambda \in \FF, v, w \in V$,
+  \[ T(\lambda v + w) = \lambda T(v) + T(w) \]
+  If $T$ is also bijective, then it is a \term{isomorphism} of $V$ and $W$.
+\end{definition}
+
+Any linear map $T: V \to W$ is determined by its image of a basis $\BB$ of $V$. On the other hand, any map $T: \BB \to W$ can be extended to a well-defined linear map $T': V \to W$.
+
+\begin{definition}{}{}
+  Let $V, W$ be vector spaces with bases $\BB = \set{e_1, \dots, e_n}$ and $\BB' = \set{f_1, \dots, f_m}$ respectively, and let $T \in \Hom(V, W)$. Define $\changeofbasis{\BB'}{T}{\BB}$ to be the \term{change of basis} matrix
+  \[ T(e_j) = \sum_{i = 1}^m ??? \]
+\end{definition}
+
+
+
+\section{Rings}
+
+Rings are a natural extension of fields.
+
+\begin{definition}{Ring}{}
+  A \term{ring} is a non-empty set $R$ equipped with binary operations $+, \times$ such that the following holds:
+  \begin{romanenum}
+    \item $(R, +, 0)$ is an abelian group
+    \item $(R, \times, 1)$ is a monoid\marginnote{Apart from requiring $1 \in R$, we also require $\times$ to be associative. Alternatively, a monoid is a group without invertibility}
+    \item $\times$ distributes over $+$ (in both directions)
+  \end{romanenum}
+  If $\forall a, b \in R : ab = ba$ then we also say $R$ is \term{commutative}.
+\end{definition}
+
+\begin{definition}{Ring homomorphism}{}
+  For rings $R, S$, a map $\phi : R \to S$ is a \term{ring homomorphism} if for any $r, r' \in R$,
+  \[ \phi(r + r') = \phi(r) + \phi(r'), \quad \phi(rr') = \phi(r) \phi(r') \]
+  If $\phi$ is also bijective, then it is a \term{ring isomorphism}.
+\end{definition}
+
+\begin{definition}{Ideal}{}
+  For a ring $R$, a non-empty subset $I \subseteq R$ is an \term{ideal} if $(I, +)$ is a subgroup of $(R, +)$ and that for any $s \in I$, $r \in R$, we have $sr, rs \in I$.
+\end{definition}
+
+We remark on the relationship between ideals and subrings. Any ideal which contains $1$ is the whole ring. Therefore, if we require $1 \in R$, then
+
+Ideals are to rings what normal subgroups are to subgroups in that, $I$ is an ideal exactly when then $R/I$ inherits a ring structure from $R$.\marginnote{This is just like $H \nseq G$ exactly when $G/H$ inherits a group structure from $G$}
+
+\begin{theorem}{First Isomorphism Theorem}{1st-iso-rings}
+  Let $\phi: R \to S$ be a ring homomorphism. Then $\ker\phi \defeq \phi^{-1}(0)$ is an ideal, and $\image\phi$ is a subring of $S$, and $\phi$ induces the following isomorphism:
+  \[ R/\ker\phi \cong \image\phi \]
+\end{theorem}
+
+\begin{proof}
+
+  [Show that the underlying isomorphisms of abelian groups is compatible with the multiplication, i.e. is a ring homomorphism.]
+\end{proof}
+
+
+\subsection{Polynomial Rings}
+
+  \begin{theorem}{Division algorithm for polynomials}{division-alg}
+    Let $f, g \in \FF[x]$ be polynomials with $g \neq 0$. Then there exists $q, r \in \FF[x]$ with $\deg r < \deg g$ such that
+    \[ f(x) = q(x) g(x) + r(x) \]
+  \end{theorem}
+  
+  We now formalize evaluation of polynomials on matrices. Given $A \in M_n(\FF)$ and $f(x) = a_n x^n + \dots + a_0 \in \FF[x]$, we define
+  \[ f(A) = a_n A^n + \dots + a_0 I \in M_n(\FF) \]
+  For any polynomials $f, g \in \FF[x]$, we have $f(A) g(A) = g(A) f(A)$. For any $v \in \FF^n$ and $\lambda \in \FF$, we have $Av = \lambda v \implies f(A) v = f(\lambda) v$.
+  
+  \begin{lemma}{}{}
+    For any $A \in M_n(\FF)$, there exists a non-zero polynomial $f \in \FF[x]$ such that $f(A) = 0$.
+    
+    In other words, the group homomorphism $E_A: \FF[x] \to M_n(\FF), f(x) \mapsto f(A)$ has a non-zero kernel.
+  \end{lemma}
+  \begin{proof}
+    Since $\dim M_n(\FF) = n^2$ is finite, we have that for any $k \geqslant n^2$, the set $\set{I, A, \dots, A^k} \subseteq M_n(\FF)$ must be linearly dependent. Therefore there are scalars $a_0, \dots, a_k$ which are not all zero such that
+    \[ a_k A^k + \dots + a_0 I = 0 \qedhere \]
+  \end{proof}
+  
+  Since all kernels are ideals, and that all ideals in $\FF[x]$ can be generated by a single element, we are now interested in the unique polynomial that generates $\ker E_A$.
+  
+  \begin{definition}{Algebraically closed field}{}
+    A field $\FF$ is \term{algebraically closed} if every non-constant polynomial in $\FF[x]$ has a root in $\FF$.
+  \end{definition}
+  
+  \begin{definition}{Algebraic closure}{}
+    An algebraically closed field $\overline{\FF}$ is an \term{algebraic closure} of a field $\FF$ if $\overline{\FF}$ is the smallest algebraically closed field containing $\FF$ --- in other words, there doesn't exist a smaller algebraically closed field $L$ with $\FF \subseteq L \subset \overline{\FF}$.
+  \end{definition}
+  
+  Indeed, $\CC$ is algebraically closed but $\RR$ is not. Also, every field has an algebraic closure $\overline{\FF}$; and no finite field is algebraically closed.
+
+
+\subsection{Minimal and Characteristic Polynomials}
+
+  \begin{definition}{Minimal polynomial}{}
+    Let $A \in M_n(\FF)$. The \term{minimal polynomial} $m_A(x)$ of $A$ is the monic polynomial $p$ of least degree such that $p(A) = 0$.
+  \end{definition}
+  
+  \begin{theorem}{}{}
+    Let $A \in M_n(\FF)$ and $f \in \FF[x]$. If $f(A) = 0$ (that is, $f \in \ker E_A$), then $m_A \divides f$. Furthermore, $m_A$ is unique.
+  \end{theorem}
+  \begin{proof}
+    By \cref{thm:division-alg} (division algorithm), there exists $q, r \in \FF[x]$ with $\deg r < \deg m_A$ such that $f = q m_A + r$. Since $f(A) = m_A(A) = 0$, we have $r(A) = 0$. If $r \neq 0$ it would contradict the minimality of $m_A$ (since $\deg r < \deg m_A$), so $r = 0$, and $m_A \divides f$ follows.
+    
+    To show uniqueness, let $n_A$ be another minimal polynomial. Then $\deg m_A = \deg n_A$ by definition, and $m_A \divides n_A$ by the above, so $n_A = \lambda m_A$ for some $\lambda \in \FF$, but both polynomials are monic by definition, so $\lambda = 1$ and $n_A = m_A$.
+  \end{proof}
+  
+  \begin{definition}{Characteristic polynomial}{}
+    Let $A \in M_n(\FF)$. The \term{characteristic polynomial} $\chi_A(x)$ of $A$ is defined as
+    \[ \chi_A(x) = \det(A - xI) \]
+  \end{definition}
+  
+  \begin{lemma}{}{}
+    Let $A \in M_n(\FF)$. Then
+    \[ \chi_A(x) = (-1)^n x^n + (-1)^{n-1} \tr(A) x^{n-1} + \dots + \det(A) \]
+  \end{lemma}
+  
+  \begin{theorem}{}{}
+    Let $A \in M_n(\FF)$ and $\lambda \in \FF$. Then the following claims are equivalent.
+    \begin{romanenum}
+      \item $\lambda$ is an eigenvalue of $A$
+      \item $\lambda$ is a root of $\chi_A(x)$
+      \item $\lambda$ is a root of $m_A(x)$
+    \end{romanenum}
+  \end{theorem}
+  \begin{proof}
+    First we show (i) $\iff$ (ii).
+    \begin{align*}
+      \chi_A(\lambda) = 0
+      &\iff \det(A - \lambda I) = 0 \\
+      &\iff A - \lambda I \text{ is singular} \\
+      &\iff \exists v \neq 0: (A - \lambda I) v = 0 \\
+      &\iff \exists v \neq 0: Av = \lambda v
+    \end{align*}
+    The last statement implies $\exists v \neq 0: m_A(A) v = m_A(\lambda) v = 0$, so we can conclude $m_A(\lambda) = 0$, which is (iii). Conversely, suppose $\lambda$ is a root of $m_A$, then $(x - \lambda) \divides m_A$, so there exists a polynomial $g$ such that $m_A(x) = g(x) (x - \lambda)$. Furthermore, we know $g(A) \neq 0$ since $\deg g < \deg m_A$. So we can find $v = g(A) w \neq 0$ for some $w \in \FF^n$, and we will have $(A - \lambda I) v = m_A(A) w = 0$, so $v$ is an eigenvalue of $A$.
+  \end{proof}
+
+
+
+
+
+\section{Quotient Spaces}
+
+\begin{definition}{}{}
+  Let $V$ be a vector space over $\FF$ and $U$ be a subspace of $V$. The set of cosets $\set{v + U \mid v \in V}$, denoted by $V/U$, with operations
+  \begin{romanenum}
+    \item $(v + U) + (w + U) = (v + w) + U$
+    \item $\lambda (v + U) = (\lambda v) + U$
+  \end{romanenum}
+  is called a \term{quotient space}, and is a vector space.
+\end{definition}
+
+%To show that a quotient space is indeed a vector space,
+
+\begin{proposition}{}{}
+  Let $V$ be a vector space and $U \leqslant V$. Let $\mathscr{E}$ be a basis of $U$, assuming we can extend this to a basis $\BB$ of $V$, we can then define
+  \[ \overline{\BB} = \set{e + U: e \in \BB \setminus \mathscr{E}} \subseteq V/U \]
+  Then $\overline{\BB}$ is a basis of $V/U$.
+\end{proposition}
+\begin{proof}
+  Suppose $\mathscr{E} = \set{e_1, \dots, e_n}$ and $\BB = \set{e_1, \dots, e_m}$ with $m \geqslant n$. Therefore $\overline{\BB} = \set{e_{n+1}, \dots, e_m}$.
+  
+  (Spanning) Let $v + U \in V/U$ with $v = \sum_{i=1}^m a_i e_i$ for $a_i \in \FF$. Then $v + U = \sum_{i=1}^m a_i(e_i + U)$. But for any $1 \leqslant i \leqslant n$, $e_i \in \mathscr{E}$ and hence $e_i + U = U$. So we have $v + U = U + \sum_{i=n+1}^m a_i (e_i + U)$.
+  
+  (Linear independence) Suppose for some $a_{n+1}, \dots, a_m \in \FF$ we have that $\sum_{i=n+1}^m a_i(e_i + U) = 0 + U = U$. Then we must have $\sum_{i=n+1}^m a_i e_i \in U$, so there are some $b_1, \dots, b_n$ such that $\sum_{i=n+1}^m a_i e_i = \sum_{j=1}^n b_i e_i$ which implies $\sum_{i=n+1}^m a_i e_i + \sum_{j=1}^n (-b_i) e_i = 0$. Since $\BB$ is linearly independent and each $e_i \in \BB$, we conclude that $b_1 = \dots = b_n = a_{n+1} = \dots = a_{m} = 0$ and hence $\overline{\BB}$ is linearly independent.	
+\end{proof}
+
+Conversely, we also have the following result.
+
+\begin{proposition}{}{}
+  Let $V$ be a vector space and $U \leqslant V$. Let $\mathscr{E}$ be a basis of $U$ and $\mathscr{F} \subseteq V$ be such that $\set{v + U: v \in \mathscr{F}} \subseteq V/U$ forms a basis of $V/U$. Then $\mathscr{E} \cup \mathscr{F}$ forms a basis of $V$.
+\end{proposition}
+
+From these, we can easily arrive
+
+\begin{corollary}{}{}
+  Let $V$ be a finite-dimensional vector space and $U \leqslant V$. Then
+  \[ \dim V = \dim U + \dim(V/U) \]
+\end{corollary}
+
+We now provide the First Isomorphism Theorem for vector spaces.
+
+\begin{theorem}{First Isomorphism Theorem for vector spaces}{1st-iso-vecspaces}
+  Let $V, W$ be vector spaces over $\FF$ and $T: V \to W$ be a linear map. Then $T$ induces the following isomorphism:
+  \begin{align*}
+    \overline{T}:\ &V/\ker T \to \image T \\
+    &v + \ker T \mapsto T(v)
+  \end{align*}
+\end{theorem}
+
+Recall also the rank-nullity theorem.
+
+\begin{theorem}{First Isomorphism Theorem for vector spaces}{1st-iso-vecspaces}
+  Let $V, W$ be vector spaces over $\FF$ where $V$ is finite-dimensional and let $T: V \to W$ be a linear map. Then
+  \[ \dim V = \dim(\ker T) + \dim(\image T) \]
+\end{theorem}
+
+
+
+\section{The Cayley--Hamilton Theorem and Triangularization}
+
+Previously we have shown that the minimal polynomial is annihilating and divides any annihilating polynomial. We now want to show that the characteristic polynomial is also annihilating.
+
+\begin{definition}{}{}
+  Let $V$ be a vector space and $T: V \to V$ a linear map. A subspace $U \leqslant V$ is called \term{$T$-invariant} if $T(U) \subseteq U$.
+\end{definition}
+
+\begin{proposition}{}{}
+  Let $V$ be a vector space under $\FF$ and $U \leqslant V$, and let $T, S: V \to V$ be distinct linear maps. If $U$ is both $T$- and $S$-invariant, then $U$ is also invariant under the following maps:
+  \begin{itemize}
+    \item the zero map
+    \item the identity map
+    \item $aT$ for any $a \in \FF$
+    \item $S + T$
+    \item $S \circ T$
+    \item (from the above) any polynomial $p(x)$ evaluated at $T$
+  \end{itemize}
+\end{proposition}
+
+\begin{definition}{}{}
+  A matrix $A = (a_{i,j})$ is \term{upper triangular} if $a_{i,j} = 0$ for all $i > j$.
+\end{definition}
+
+\begin{theorem}{}{}
+  Let $V$ be a finite-dimensional vector space and $T: V \to V$ be a linear map. If $\chi_T$ is a product of linear factors\marginnote{Note that in an algebraically closed field, this condition is always satisfied.}, then there exists a basis $\BB$ of $V$ such that $\changeofbasis{\BB}{V}{\BB}$ is upper-triangular.
+\end{theorem}
+\begin{proof}
+  
+\end{proof}
+
+\begin{lemma}{}{}
+  Let $A$ be an upper triangular $n \times n$ matrix with diagonal entries $\lambda_1, \dots, \lambda_n$, then
+  \[ \prod_{i=1}^n (A - \lambda_i I) = 0 \]
+\end{lemma}
+\begin{proof}
+  Let $e_1, \dots, e_n$ be the canonical basis for $\FF^n$. Then by definition, for all $v \in \FF^n$, we have
+  \[ (A - \lambda_n I)v \in \abrak{e_1, \dots, e_{n-1}} \]
+\end{proof}
+
+\begin{theorem}{Cayley--Hamilton}{c-h}
+  Let $V$ be a finite-dimensional vector space over $\FF$ and $T: V \to V$ be a linear map. Then $\chi_T(T) = 0$. As a consequence, $m_T(x) \divides \chi_T(x)$.
+\end{theorem}
+\begin{proof}
+  Let $A$ be the matrix of $T$ w.r.t. some basis of $V$. We assume that $\FF$ can be embedded in an algebraically closed field $\overline{\FF}$. In $\overline{\FF}[x]$, every polynomial factors into linear terms. Thus, (by a previous result), there exists a matrix $P \in M_n(\overline{\FF})$ such that $P^{-1}AP$ is upper-triangular with diagonal entries $\lambda_1, \dots, \lambda_n$. Therefore, we now have
+  \[ \chi_{P^{-1}AP}(x) = (-1)^{\dim V} \prod_{k=1}^n (x - \lambda_k) \]
+  
+  Now we want to show the product above evaluates to $0$. Let $e_1, \dots, e_n$ be the standard basis vectors for $\overline{\FF}^n$. Then,
+  \[ (P^{-1}AP - \lambda_i I) v \in \abrak{e_1, \dots, e_{i-1}} \text{ for any $v \in \overline{\FF}^n$} \]
+  So, this means that
+  \[ \image(P^{-1}AP - \lambda_n I) \subseteq \abrak{e_1, \dots, e_{n-1}} \]
+  
+  
+  Then we have
+  \[ \chi_{P^{-1}AP}(P^{-1}AP) = 0 \]
+\end{proof}
+
+
+
+\section{The Primary Decomposition Theorem}
+
+With the knowledge now equipped, we are able to decompose a vector space into $T$-invariant subspaces. We will focus our discussion on finite-dimensional vector spaces.
+
+
+\subsection{Direct Sums}
+
+  First recall that for a vector space $V$ and subspaces $W_1, \dots, W_r$, if any $v \in V$ can be \em{uniquely} written as a sum $v = w_1 + \dots + w_r$ where $w_i \in W_i$, then $V$ is the direct sum $W_1 \oplus \dots \oplus W_r$.
+  
+  \begin{proposition}{}{}
+    Suppose $V = W_1 \oplus \dots \oplus W_r$, then
+    \begin{romanenum}
+      \item let $\BB_i$ be a basis of $W_i$, then $\BB = \cup_i \BB_i$ is a basis of $V$.
+      \item let $T: V \to V$ be a linear map such that each $W_i$ is $T$-invariant, then
+        \[ \changeofbasis{\BB}{T}{\BB} = \begin{bmatrix}
+          A_1 & & \\
+          & \ddots & \\
+          & & A_r
+        \end{bmatrix} \]
+        where each $A_i \defeq \changeofbasis{\BB_i}{T \restrictto{W_i}}{\BB_i}$ is a block matrix.
+      \item $\chi_T(x) = \chi_{T\restrictto{W_1}}(x) \cdots \chi_{T\restrictto{W_r}}(x)$
+    \end{romanenum}
+  \end{proposition}
+  
+  \begin{proposition}{}{}
+    Let $T: V \to V$ be a linear map. If $f$ is a polynomial such that $f(T) = 0$ and $f(x) = a(x) b(x)$ for coprime polynomials $a, b$, then
+    \[ V = \ker a(T) \oplus \ker b(T) \]
+    gives a $T$-invariant direct sum (that is, both $\ker a(T)$ and $\ker b(T)$ are $T$-invariant). Furthermore, if $f = m_T$ and $a, b$ are monic, then $a = m_{T\restrictto{\ker a(T)}}$ and $b = m_{T\restrictto{\ker b(T)}}$.
+  \end{proposition}
+
+
+\subsection{Primary decomposition theorem}
+
+  Primary decomposition theorem provides a generalization of the above proposition.
+  
+  \begin{theorem}{Primary decomposition theorem}{primary-decomposition}
+    Let $m_T$ be the minimal polynomial in the form
+    \[ m_T(x) = f_1^{q_1}(x) \cdots f_r^{q_r}(x) \]
+    where each $f_i$ is a \em{distinct monic irreducible} polynomial. Write $W_i \defeq \ker\left(f_i^{q_i}(T)\right)$, then
+    \begin{romanenum}
+      \item $V = W_1 \oplus \dots \oplus W_r$
+      \item each $W_i$ is $T$-invariant
+      \item $m_{T\mid_{W_i}} = f_i^{q_i}$
+    \end{romanenum}
+  \end{theorem}
+  \begin{proof}
+    We will prove for the case $m_T(x) = f^n(x) g^m(x)$
+  \end{proof}
+  
+  \begin{corollary}{}{}
+    Let $T: V \to V$ be a linear map, then:
+    \begin{align*}
+      &\text{$T$ is triangularizable (over $\FF$)} \\
+      \iff\ &\text{$\chi_T$ factors into a product of linear polynomials (over $\FF$)} \\
+      \iff\ &\text{each $f_i$ is linear} \\
+      \iff\ &\text{$m_T$ factors into a product of linear polynomials}
+    \end{align*}
+  \end{corollary}
+  
+  \begin{theorem}{}{}
+    $T$ is diagonalizable if and only if $m_T$ factors into a product of \em{distinct} linear polynomials.
+  \end{theorem}
+  \begin{proof}
+    ($\Rightarrow$) Suppose $T$ is diagonalizable. Then there exists a basis $\BB$ of eigenvectors of $V$ such that $\changeofbasis{\BB}{T}{\BB}$ is diagonal with eigenvalues $\lambda_1, \dots, \lambda_n$ as entries. So,
+    \[ m(x) = (x - \lambda_1) \dots (x - \lambda_r) \]
+    is annilhating as $m(T)v = 0$ for any $v \in \BB$ and hence for any $v \in V$. Furthermore, $m$ is minimal as every eigenvalue must be a root of the minimal polynomial. Therefore $m = m_T$ factors into a product of distinct linear polynomials.
+    
+    ($\Leftarrow$) Suppose $m_T(x) = (x - \lambda_1) \dots (x - \lambda_r)$. By \namedcref{thm:primary-decomposition}, we can decompose $V$ into eigenspaces:
+    \[ V = E_{\lambda_1} \oplus \dots \oplus E_{\lambda_r} \]
+    where each $E_{\lambda_i} \defeq \ker(T - \lambda_i I)$. Let $\BB_i$ be a basis of $E_{\lambda_i}$, then $\BB \defeq \bigcup_{i=1}^r \BB_i$ gives a basis of eigenvectors such that $\changeofbasis{\BB}{T}{\BB}$ is diagonal.
+  \end{proof}
+
+
+
+\section{Jordan Normal Form}
+
+\begin{definition}{Nilpotent}{}
+  Let $V$ be a finite-dimensional vector space and $T: V \to V$ a linear map. We say $T$ is \term{nilpotent} if $T^n = 0$ for some $n > 0$.
+\end{definition}
+
+\begin{theorem}{}{}
+  Let $T: V \to V$ be a nilpotent linear map. Then the minimal polynomial of $T$ has the form $m_T(x) = x^m$ for some $m$, and there exists a basis $\BB$ of $V$ such that
+  \[ \changeofbasis{\BB}{T}{\BB} = \begin{pmatrix}
+    0 & * & & \\
+    & \ddots & \ddots & \\
+    & & \ddots & \raisebox{0.25em}{$*$} \\
+    & & & 0
+  \end{pmatrix} \text{ where each $*$ is either $0$ or $1$} \]
+\end{theorem}
+
+\begin{corollary}{}{}
+  Let $V$ be a finite-dimensional vector space and $T: V \to V$ be a linear map. If $m_T(x) = (x - \lambda)^m$ for some $m$, then there exists a basis $\BB$ of $V$ such that $\changeofbasis{\BB}{T}{\BB}$ is block diagonal and each block $J_i$ for $i = 1, \dots, m$ is of the form
+  \[ J_i = \begin{pmatrix}
+    \lambda & 1 & & \\
+    & \ddots & \ddots & \\
+    & & \ddots & 1 \\
+    & & & \lambda
+  \end{pmatrix} \]
+\end{corollary}
+
+\begin{theorem}{}{}
+  
+\end{theorem}
+
+
+
+\section{Dual Spaces}
+
+\begin{definition}{Dual space}{}
+  Let $V$ be a vector space over $\FF$. The \term{dual space} of $V$ is the vector space $V'$ of linear maps from $V$ to $\FF$, these maps are called \term{linear functionals}. In other words, $V' = \Hom(V, \FF)$.
+\end{definition}
+
+\begin{definition}{Dual basis}{}
+  Let $V$ be a vector space with a basis $\BB = \set{e_1, \dots, e_n}$. The \term{dual basis} of $\BB$ is a basis $\BB' = \set{f_1, \dots, f_n}$ of $V'$, where each $f_i$ is a linear functional such that
+  \[ f_i(e_j) = \delta_{ij} = \begin{cases} 1 & \text{if $i = j$} \\ 0 & \text{if $i \neq j$} \end{cases} \]
+\end{definition}
+
+\begin{definition}{Dual map}{}
+  Let $V, W$ be vector spaces and $T: V \to W$ a linear map. The \term{dual map} of $T$ is the linear map $T': W' \to V'$ defined by $f \mapsto f \circ T$.
+\end{definition}
+
+%\begin{center}
+%\begin{tikzpicture}
+%  \node (FF) at (-1.75,0) {field};
+%  \node (ED) at (0,0) {ED};
+%  \node (PID) at (1.75,0) {PID};
+%  \node (UFD) at (3.5,0) {UFD};
+%  \node (ID) at (5.25,0) {ID};
+%  %%%
+%  \draw[-implies,double equal sign distance] (FF) -- (ED);
+%  \draw[-implies,double equal sign distance] (ED) -- (PID);
+%  \draw[-implies,double equal sign distance] (PID) -- (UFD);
+%  \draw[-implies,double equal sign distance] (UFD) -- (ID);
+%  
+%  \node (Bezout) at (1.75,1.75) {B\'ezout};
+%  %%%
+%  \draw[-implies,double equal sign distance] (PID) to[bend right=15] (Bezout);
+%  \draw[-implies,double equal sign distance] (Bezout) to[bend right=15] node[left] {$+$ACCP} (PID);
+%  
+%  \node (irreducible) at (3.75,-1.75) {\phantom{prime}};
+%  \node at (3.45,-1.75) {irreducible\phantom{p}};
+%  \node (prime) at (6.75,-1.75) {prime};
+%  %%%
+%  \draw[-implies,double equal sign distance] (prime) to[bend right=15] node (p2r){}(irreducible);
+%  \draw[-implies,double equal sign distance] (irreducible) to[bend right=15] node[below] {$+$ACCP} (prime);
+%  \draw[-implies,double equal sign distance] (ID) -- (p2r);
+%\end{tikzpicture}
+%\end{center}
+
+We will now justify a few assumptions made in the definitions above.
+
+\begin{proposition}{}{}
+  A dual basis $\BB' = \set{f_1, \dots, f_n}$ is a basis of $V'$.
+\end{proposition}
+\begin{proof}
+  (Linear independence) Suppose for some $a_1, \dots, a_n \in \FF$ we have $a_1 f_1 + \dots a_n f_n = 0$, where $0$ is the zero map. For each $i = 1, \dots, n$, we have that $(a_1 f_1 + \dots + a_n f_n)(e_i) = a_i = 0$ since $f_j(e_i) = 0$ for any $j \neq i$. Therefore $a_1 = \dots = a_n = 0$.
+  
+  (Spanning) Let $f \in V'$. For each $i = 1, \dots, n$, write $a_i \defeq f(e_i)$. Then, since any linear map is determined by its values on any basis, we have that $f = \sum_i a_i f_i$.
+\end{proof}
+
+\begin{proposition}{}{}
+  A dual map $T': W' \to V'$ is a linear map.
+\end{proposition}
+\begin{proof}
+  Let $f, g \in W'$ and $\lambda \in \FF$. Since $T$ is linear, then,
+  \begin{align*}
+    T'(f + \lambda g)
+    &= (f + \lambda g) \circ T \\
+    &= (f \circ T) + (\lambda g \circ T) \\
+    &= (f \circ T) + \lambda (g \circ T) \\
+    &= T'(f) + \lambda T'(g) \qedhere
+  \end{align*}
+\end{proof}
+
+\begin{proposition}{}{}
+  Let $V$ be a finite-dimensional vector space. Then $E: V \to V'',\ v \mapsto E_v$ defines a natural linear isomorphism, where $E_v: V' \to \FF,\ f \mapsto f(v)$ is the evaluation map at $v$. This isomorphism is natural in that it is independent of a choice of basis.
+\end{proposition}
+
+
+\subsection{Annihilators}
+  
+  \begin{definition}{Annihilator}{}
+    Let $V$ be a vector space and $U \leqslant V$. The \term{annihilator} $U^0$ of $U$ is
+    \[ U^0 = \set{f \in V': f(u) = 0 \text{ for all $u \in U$}} \]
+  \end{definition}
+  
+  \begin{proposition}{}{}
+    Let $V$ be a finite-dimensional vector space and $U \leqslant V$. Then,
+    \[ \dim(U^0) = \dim V - \dim U \]
+  \end{proposition}
+  \begin{proof}
+    Let $\set{e_1, \dots, e_m}$ be a basis of $U$, which can be extended to a basis $\set{e_1, \dots, e_n}$ of $V$. Let $\set{f_1, \dots, f_n}$ be a corresponding dual basis. For any $i = 1, \dots, m$ and $j = m + 1, \dots, n$, we have $j > i$ and hence $f_j(e_i) = 0$. Therefore $f_j \in U^0$. So we have $\abrak{f_{m+1}, \dots, f_n} \subseteq U^0$.
+    
+    Conversely, let $f \in U^0$.
+    
+    We conclude that $U^0 = \abrak{f_{m+1}, \dots, f_n}$, thus $\dim(U^0) = n - m = \dim V - \dim U$.
+  \end{proof}
+  
+  \begin{proposition}{}{}
+    Let $V$ be a vector space and $U, W \leqslant V$. Then,
+    \begin{romanenum}
+      \item $U \subseteq W \implies W^0 \subseteq U^0$
+      \item $(U + W)^0 = U^0 \cap W^0$
+      \item $U^0 + W^0 \subseteq (U \cap W)^0$ where equality holds if $\dim V$ is finite.
+    \end{romanenum}
+  \end{proposition}
+  \begin{proof}
+    
+  \end{proof}
+  
+  \begin{proposition}{}{}
+    Let $V$ be a finite-dimensional vector space and $U \leqslant V$. Then the natural map $E: V \to V'',\ v \mapsto E_v$ maps $U$ isomorphically to $U^{00}$.
+  \end{proposition}
+  \begin{proof}
+    Let $u \in U$, then $E(u) = E_u$. The elements of $U^{00}$ maps all linear functionals in $U^0 \leqslant V'$ to $0$.\marginnote{Note that dual spaces always map to $\FF$, e.g. $V'': V' \to \FF$, so $0$ here is in $\FF$ and not the zero function.} Let $f \in U^0$, then $E_u(f) = f(u) = 0$ for all $u \in U$, hence $E_u \in U^{00}$.
+  \end{proof}
+  
+  \begin{proposition}{}{}
+    Let $V$ be a vector space and $U \leqslant U$. Then there exists a natural isomorphism $U^0 \cong (V/U)'$ given by $f \mapsto \overline{f}$ where $\overline{f}: V/U \to V,\ v + U \mapsto v$.
+  \end{proposition}
+  \begin{proof}
+    
+  \end{proof}
+  
+  
+\subsection{Dual Maps}
+  
+  \begin{definition}{Dual map}{}
+    Let $T: V \to W$ be a linear map. The \term{dual map} of $T$ is the linear map\marginnote{This requires proof! Also linearity implies that $T'(f) \in V'$.} $T': W' \to V'$ defined by $T'(f) = f \circ T$.
+  \end{definition}
+  
+  \begin{proposition}{}{}
+    Let $V, W$ be finite-dimensional vector spaces. Then $T \mapsto T'$ defines a natural isomorphism from $\Hom(V, W)$ to $\Hom(W', V')$.
+  \end{proposition}
+  \begin{proof}
+    
+  \end{proof}
+  
+  \begin{proposition}{}{}
+    Let $V, W$ be finite-dimensional vector spaces. Let $\BB_V, \BB_W$ be bases for $V$ and $W$ respectively, and $\BB_V', \BB_W'$ be the corresponding dual bases. Then, for any linear map $T: V \to W$,
+    \[ (\changeofbasis{\BB_W}{T}{\BB_V})^T = \changeofbasis{\BB_V'}{T'}{\BB_W'} \]
+  \end{proposition}
+  \begin{proof}
+    
+  \end{proof}
+  
+  In summary, we have the following isomorphisms:
+  \begin{itemize}
+    \item $V \cong V''$ by $v \mapsto E_v$
+    \item $U \cong U^{00}$ by $u \mapsto E_u$
+    \item $U^0 \cong (V/U)'$ by $f \mapsto \overline{f}$ where $\overline{f}(v + U) = v$ (not necessarily finite-dimensional)
+    \item $\Hom(V, W) \cong \Hom(W', V')$ by $T \mapsto T'$
+    \item $(U^0)' \cong V/U$ by
+  \end{itemize}
+
+
+
+\section{Inner Product Spaces}
+
+Recall that on $\RR^n$, we define the inner product as $\abrak{v, w} \defeq v^T w$, and on $\CC^n$, we define it as $\abrak{v, w} \defeq \overline{v}^T w$. These are the usual inner products on their respective spaces, and they endow the spaces with notions of length and distance (and for $\RR^n$, also angles), we shall study other inner products which behave similarly.
+
+\begin{definition}{Bilinear form}{}
+  Let $V$ be a vector space over $\FF$. A \term{bilinear form} on $V$ is a map $F: V \times V \to \FF$ such that for all $u, v, w \in V$ and $\lambda \in \FF$,
+  \begin{romanenum}
+    \item $F(u + v, w) = F(u, w) + F(v, w)$
+    \item $F(u, v + w) = F(u, v) + F(u, w)$
+    \item $F(\lambda v, w) = F(v, \lambda w) = \lambda F(v, w)$
+  \end{romanenum}
+  For such a map $F$, we say it is \term{symmetric} if $\forall v, w \in V: F(v, w) = F(w, v)$; and we say it is \term{non-degenerate} if $\forall v \in V: F(v, w) = 0 \implies w = 0$.
+  
+  When $\FF = \RR$, we say $F$ is \term{positive definite} if $\forall v \in V \setminus \set{0}: F(v, v) > 0$. A positive definite bilinear form is always non-degenerate.
+\end{definition}
+
+\begin{definition}{Sesquilinear form}{}
+  Let $V$ be a vector space over $\CC$. A \term{sesquilinear form} on $V$ is a map $F: V \times V \to \CC$ such that for all $u, v, w \in V$ and $\lambda \in \CC$,
+  \begin{romanenum}
+    \item $F(u + v, w) = F(u, w) + F(v, w)$
+    \item $F(u, v + w) = F(u, v) + F(u, w)$
+    \item $F(\hspace{-0.2em}\conj{\hphantom{.}\lambda} v, w) = F(v, \lambda w) = \lambda F(v, w)$
+  \end{romanenum}
+  For such a map $F$, we say it is \term{conjugate symmetric} if $\forall v, w \in V: F(v, w) = \conj{F(w, v)}$. If so, then $F(v, v) \in \RR$ and we further say it is \term{positive definite} if $\forall v \in V \setminus \set{0}: F(v, v) > 0$.
+\end{definition}
+
+Note that the ``bi'' in bilinear form suggests $F$ is linear (w.r.t.~scaling) on both arguments, while sesquilinear is linear on one argument, but anti-linear (hence the conjugate) on the other argument.
+
+\begin{definition}{Inner product space}{}
+  A real vector space $V$ endowed with a \em{bilinear}, \em{symmetric}, and \em{positive definite} (and hence non-degenerate) form $\abrak{\funcarg, \funcarg}$ is an \term{inner product space}.
+  
+  A complex vector space $V$ endowed with a \em{sesquilinear}, \em{conjugate symmetric} (and hence non-degenerate) form $\abrak{\funcarg, \funcarg}$ is an \term{inner product space}.
+\end{definition}
+
+\begin{definition}{Orthogonality}{}
+  Given a (real or complex) inner product space $V$, the elements $\set{w_1, \dots, w_n} \subset V$ are mutually \term{orthogonal} if $\abrak{w_i, w_j} = 0$ whenever $i \neq j$. Furthermore, if $\abrak{w_i, w_i} = 1$ for all $i$, then it is also \term{orthonormal}.
+\end{definition}
+
+\begin{proposition}{}{orthogonal2independence}
+  A set of non-zero, orthogonal elements of an inner product space is also linearly independent.
+\end{proposition}
+\begin{proof}
+  Let $V$ be an inner product space over $\FF$ (which is $\RR$ or $\CC$), and $\set{w_1, \dots, w_n} \subset V$ be non-zero and mutually orthogonal. Suppose there exists some $a_1, \dots, a_n \in \FF$ such that $a_1 w_1 + \dots a_n w_n = 0$.
+  
+  We have that for each $j$,
+  \[ \abrak{w_j, \sum_i a_i w_i} = \sum_i a_i \abrak{w_j, w_i} = a_j \abrak{w_j, w_j} \]
+  But each $\abrak{w_j, \sum_i a_i w_i} = 0$\marginnote{WHY?}, and $w_j \neq 0$ so by non-degeneracy $\abrak{w_j, w_j} \neq 0$, hence $a_j = 0$ for all $j$. Therefore $\set{w_1, \dots, w_n}$ are linearly independent.
+\end{proof}
+
+
+\subsection{Gram--Schmidt Orthonormalization}
+
+  We aim to find an orthonormal basis for some inner product space $\FF^n$ where $\FF$ is $\RR$ or $\CC$.
+  
+  \begin{theorem}{Gram--Schmidt process}{}
+    Let $V$ be an inner product space over $\RR$ or $\CC$ and $\BB = \set{v_1, \dots, v_n}$ be a basis of $V$. Compute
+    \begin{align*}
+      &w_1 = v_1 \\
+      &w_2 = v_2 - \frac{\abrak{w_1, v_2}}{\abrak{w_1, w_1}} w_1 \\[-0.5em]
+      &\vdots \\[-0.75em]
+      &w_k = v_k - \sum_{i=1}^{k-1} \frac{\abrak{w_i, v_k}}{\abrak{w_i, w_i}} w_i \\[-1em]
+      &\vdots
+    \end{align*}
+    Then, compute $u_i = \frac{w_i}{\norm{w_i}}$. Then $\set{u_1, \dots, u_n}$ is an orthonormal basis of $V$.
+  \end{theorem}
+  \begin{proof}
+    We first want to show $\set{w_1, \dots, w_n}$ is orthogonal. $\set{w_1}$ is certainly orthogonal. Now assume $\set{w_1, \dots, w_k}$ is orthogonal, then for any $j \leqslant k$,
+    \[ \abrak{w_j, w_{k+1}} = \abrak{w_j, v_{k+1}} - \abrak[\Big]{w_j, \sum_{i=1}^k \frac{\abrak{w_i, v_{k+1}}}{\abrak{w_i, w_i}} w_i} = \abrak{w_j, v_{k+1}} - \frac{\abrak{w_j, v_{k+1}}}{\abrak{w_j, w_j}} \abrak{w_j, w_j} = 0 \]
+    
+    Similarly, for spanning, first we certainly have $\abrak{w_1} = \abrak{v_1}$. Now assume $\abrak{w_1, \dots, w_k} = \abrak{v_1, \dots, v_k}$ spans the same set. Then
+    \[ \abrak{w_1, \dots, w_k, w_{k+1}} = \abrak{w_1, \dots, w_k, v_{k+1}} = \abrak{v_1, \dots, v_k, v_{k+1}} \]
+    So $\set{w_1, \dots, w_n}$ is both orthogonal and spanning. They are all non-zero as we started from a basis, so by \cref{prop:orthogonal2independence}, it is also linearly independent, and hence forms a orthogonal basis. Finally,
+    \[ \abrak{u_i, u_i} = \abrak[\Big]{\frac{w_i}{\norm{w_i}}, \frac{w_i}{\norm{w_i}}} = \frac{1}{\sqrt{\abrak{w_i ,w_i}}^2} \abrak{w_i, w_i} = 1 \]
+    Therefore $\set{u_1, \dots, u_n}$ is an orthonormal basis.
+  \end{proof}
+
+
+\subsection{Complements and Duals}
+  
+  Note that in both bilinear and sesquilinear forms, the second argument is always linear, so $\abrak{v, \funcarg}$ is a linear map.
+  
+  \begin{theorem}{}{}
+    The map $\phi: V \to V',\ v \mapsto \abrak{v, \funcarg}$ is a natural injective $\RR$-linear map. When $V$ is finite-dimensional, it is an isomorphism.
+  \end{theorem}
+  
+  \begin{definition}{}{}
+    Let $V$ be an inner product space and $U \leqslant V$. The \term{orthogonal complement} of $U$ is
+    \[ U^\bot \defeq \set{v \in V: \abrak{u, v} = 0 \text{ for all $u \in U$}} \]
+  \end{definition}
+  
+  \begin{proposition}{}{}
+    Let $V$ be an inner product space and $U, W \leqslant V$. Then,
+    \begin{romanenum}
+      \item $U \cap U^\bot = \set{0}$
+      \item $U \oplus U^\bot = V$ if $V$ is finite-dimensional
+      \item $(U \cap W)^\bot \supseteq U^\bot + W^\bot$ with equality if $V$ is finite-dimensional
+      \item $U \subseteq (U^\bot)^\bot$ with equality if $V$ is finite-dimensional
+    \end{romanenum}
+  \end{proposition}
+  
+  \begin{proposition}{}{}
+    
+  \end{proposition}
+
+
+\subsection{Adjoint of Maps}
+  
+  \begin{definition}{}{}
+    Given a linear map $T: V \to W$, another linear map $T^*: V \to V$ is its \term{adjoint} if for all $v, w \in V$,
+    \[ \abrak{v, T(w)} = \abrak{T^*(v), w} \]
+    Adjoint maps are unique.
+    
+    If $T^* = T$, then we say $T$ is \term{self-adjoint}.
+    
+    If $T^* = -T$, then we say $T$ is \term{skew-adjoint}.
+  \end{definition}
+  
+  \begin{proposition}{}{}
+    Let $V$ be finite-dimensional over $\FF$ ($\RR$ or $\CC$). For any $S, T: V \to V$ linear maps and $\lambda \in \FF$,
+    \begin{romanenum}
+      \item $(S + T)^* = S^* + T^*$
+      \item $(\lambda T)^* = \overline{\lambda} T^*$
+      \item $(ST)^* = T^* S^*$
+      \item $T^{**} = T$
+      \item $m_{T^*} = \overline{m_T}$ where $m_T$ is the minimal polynomial of $T$
+    \end{romanenum}
+  \end{proposition}
+  
+  \begin{theorem}{}{}
+    Let $V$ be finite-dimensional and $T: V \to V$ be linear. Then the adjoint of $T$ exists, is unique, and is linear.
+  \end{theorem}
+  \begin{proof}
+    
+  \end{proof}
+  
+  \begin{proposition}{}{}
+    Let $V$ be finite-dimensional and $T: V \to V$ be linear, and let $\BB$ be an orthonormal basis for $V$. Then,
+    \[ \changeofbasis{\BB}{T^*}{\BB} = (\overline{\changeofbasis{\BB}{T}{\BB}})^T \]
+  \end{proposition}
+  \begin{proof}
+    
+  \end{proof}
+  
+  \begin{proposition}{}{}
+    If $T$ is self-adjoint and $U \leqslant V$ is $T$-invariant, then $U^\bot$ is also $T$-invariant.
+  \end{proposition}
+  
+  \begin{theorem}{}{}
+    Let $V$ be finite-dimensional and $T: V \to V$ be self-adjoint. Then there exists an orthonormal basis of eigenvectors of $T$.
+  \end{theorem}
+
+
+\subsection{Orthogonal and Unitary Transformations}
+  
+  \begin{definition}{}{}
+    Let $V$ be a finite-dimensional inner product space over $\FF$ and $T: V \to V$ be a linear map. If $T^* = T^{-1}$, then $T$ is \term{orthogonal} when $\FF = \RR$ and is \term{unitary} when $\FF = \CC$.
+  \end{definition}
+  
+  \begin{theorem}{}{}
+    \begin{romanenum}
+      \item $T^* = T^{-1}$
+      \item $T$ preserves inner products: $\forall v, w \in V: \abrak{v, w} = \abrak{Tv, Tw}$
+      \item $T$ preserves lengths: $\forall v \in V: \norm{v} = \norm{Tv}$
+    \end{romanenum}
+  \end{theorem}
+  
+  In fact, the norm determines the inner product.
+  
+  \begin{definition}{}{}
+    \begin{itemize}
+      \item \term{Orthogonal group} $O(n) \defeq \set{A \in \matspace{n}{n}{\RR}: A^TA = I}$
+      \item \term{Special orthogonal group} $SO(n) \defeq \set{A \in O(n): \det A = 1}$
+      \item \term{Unitary group} $U(n) \defeq \set{A \in \matspace{n}{n}{\CC}: \overline{A}^TA = I}$
+      \item \term{Special unitary group} $SU(n) \defeq \set{A \in U(n): \det A = 1}$
+    \end{itemize}
+  \end{definition}
+  
+  \begin{lemma}{}{}
+    If $\lambda$ is an eigenvalue of an orthogonal or unitary linear map $T: V \to V$, then $\abs{\lambda} = 1$.
+    
+    This implies that an orthogonal or unitary matrix $A$ has $\det A = 1$.
+  \end{lemma}
+  
+  \begin{lemma}{}{}
+    Let $V$ be finite-dimensional and $T: V \to V$ is such that $T^* T = I$. If $U$ is $T$-invariant, then $U^\bot$ is also $T$-invariant.
+  \end{lemma}
+  
+  \begin{theorem}{}{}
+    Let $V$ be finite-dimensional and $T: V \to V$ be unitary. Then there exists an orthonormal basis of eigenvectors of $T$.
+  \end{theorem}
+  
+  The above theorem tells us that all unitary (orthogonal doesn't suffice!) matrices are diagonalizable.
+  
+  \begin{theorem}{}{}
+    Let $T: V \to V$ be orthogonal and $V$ be a finite dimensional real vector space. Then there exists an orthonormal basis $\BB$ such that
+    \[ \changeofbasis{\BB}{T}{\BB} = \begin{bmatrix}
+      I &&&& \\
+      & -I &&& \\
+      && R_{\theta_1} && \\
+      &&& \ddots & \\
+      &&&& R_{\theta_\ell}
+    \end{bmatrix},\ \theta_i \notin \set{0, \pi} \]
+    where $\displaystyle R_\theta = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}$.
+  \end{theorem}
+
+
+
+\end{document}
