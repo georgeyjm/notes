@@ -1,0 +1,835 @@
+\documentclass{styles/tufte}
+\usepackage{styles/analysis}
+
+\course{Analysis I}
+\courseterm{MT 2020}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+\section{Real Numbers}
+
+  In this course, we assume real numbers' existence and investigate their properties and operations we can perform on them. Below are the arithmetics of real numbers.
+  \begin{enumerate}
+    \item $\forall a, b \in \RR : \exists! (a + b) \in \RR$ \hfill \term{sum}
+    \item $\forall a, b \in \RR : \exists! (a \cdot b) \in \RR$ \hfill \term{product}
+    \item $\forall a \in \RR : \exists! (-a) \in \RR$ \hfill \term{negative} / \term{additive inverse}
+    \item $\forall a \in \RR, a \neq 0 : \exists! (\frac{1}{a}) \in \RR$ \hfill \term{reciprocal} / \term{multiplicative inverse}
+    \item $\exists 0 \in \RR$ \hfill \term{zero} / \term{additive identity}
+    \item $\exists 1 \in \RR$ \hfill \term{one} / \term{multiplicative identity}
+  \end{enumerate}
+  
+  Next, we introduce the key arithmetic properties of the real numbers:
+  \begin{axiom}{}{field}
+    $\forall a, b, c \in \RR :$
+    \begin{romanenum}
+      \item $a + b = b + a$ \hfill ($+$ is commutative)
+      \item $a + (b + c) = (a + b) + c$ \hfill ($+$ is associative)
+      \item $a + 0 = a$
+      \item $a + (-a) = 0$
+      \item $a \cdot b = b \cdot a$ \hfill ($\cdot$ is commutative)
+      \item $a \cdot (b \cdot c) = (a \cdot b) \cdot c$ \hfill ($\cdot$ is associative)
+      \item $a \cdot 1 = a$
+      \item $a \cdot \frac{1}{a} = 1$ given that $a \neq 0$
+      \item $a \cdot (b + c) = a \cdot b + a \cdot c$ \hfill($\cdot$ distributes over $+$)
+      \item $0 \neq 1$
+    \end{romanenum}
+  \end{axiom}
+  
+  \begin{definition}{}{}
+    Let $\mathbb{F}$ be a set with operations $+$ and $\cdot$ satisfying \cref{axm:field}. Then we say $\mathbb{F}$ is a \term{field}.
+  \end{definition}
+  Sets such as $\RR$, $\QQ$, and $\CC$ are fields.\marginnote{Note that $\ZZ$ does not form a field}
+  
+  From the axioms of arithmetics, we can derive the following properties:
+  \begin{proposition}{}{}
+    $\forall a, b, c, x, y \in \RR :$
+    \begin{romanenum}
+      \item $a + x = a \implies x = 0$ \hfill (uniqueness of 0)
+      \item $a + x = a + y \implies x = y$ \hfill (cancellation for $+$)
+      \item $-0 = 0$
+      \item $-(-a) = a$
+      \item $-(a + b) = (-a) + (-b)$
+      \item $a \cdot x = a,\ a \neq 0 \implies x = 1$ \hfill (uniqueness of 1)
+      \item $a \cdot x = a \cdot y,\ a \neq 0 \implies x = y$ \hfill (cancellation for $\cdot$)
+      \item $a \neq 0 \implies \dfrac{1}{\frac{1}{a}} = a$
+      \item $(a + b) \cdot c = a \cdot c + b \cdot c$
+      \item $a \cdot 0 = 0$
+      \item $a \cdot (-b) = -(a \cdot b)$. In particular, $(-1) \cdot a = -a$
+      \item $(-1) \cdot (-1) = 1$
+      \item $a \cdot b = 0 \implies a = 0 \vee b = 0$. Also, $a \neq 0 \wedge b \neq 0 \implies \frac{1}{a \cdot b} = \frac{1}{a} \cdot \frac{1}{b}$
+    \end{romanenum}
+  \end{proposition}
+  
+  We can also now define integer exponentiation: take $a \in \RR \setminus \set{0}$; we define $a^0 = 1$ and then inductively, for integers $k \geqslant 0$, we define positive powers of $a$ as $a^{k+1} = a^k \cdot a$; lastly, for integers $l \leqslant -1$, we define $a^l = \frac{1}{a^{-l}}$.
+  
+  
+  \subsection{Ordering the Real Numbers}
+    
+    The key property of the real numbers which differs them from complex numbers is that they can be ordered. The following are the axioms for the usual ordering on $\RR$.
+    \begin{axiom}{}{}
+      There exists a subset $\mathbb{P}$ of $\RR$ such that $\forall a, b \in \RR :$
+      \begin{romanenum}
+        \item $a, b \in \mathbb{P} \implies a + b \in \mathbb{P}$ \hfill ($+$ and ordering)
+        \item $a, b \in \mathbb{P} \implies a \cdot b \in \mathbb{P}$ \hfill ($\cdot$ and ordering)
+        \item exactly one of $a \in \mathbb{P}$, $a = 0$, and $-a \in \mathbb{P}$ holds
+      \end{romanenum}
+      The elements of $\mathbb{P}$ are the \term{positive numbers}; the elements of $\mathbb{P} \cup \set{0}$ are the \term{non-negative numbers}.
+    \end{axiom}
+    
+    Importantly, we write $a < b$ or $b > a$ exactly when $b - a \in \mathbb{P}$; and we write $a \leqslant b$ or $b \geqslant a$ exactly when $b - a \in \mathbb{P} \cup \set{0}$.
+    
+    With these axioms of ordering, we can deduce the following properties:
+    \begin{proposition}{}{}
+      $\forall a, b, c \in \RR :$
+      \begin{romanenum}
+        \item $a \leqslant a$ \hfill (reflexivity)
+        \item $a \leqslant b \wedge b \leqslant a \implies a = b$ \hfill (antisymmetry)
+        \item $a \leqslant b \wedge b \leqslant c \implies a \leqslant c$ \hfill (transitivity\marginnote{Similarly for $<$})
+        \item exactly one of $a < b$, $a = b$, and $a > b$ holds \hfill (trichotomy)
+      \end{romanenum}
+    \end{proposition}
+    
+    Combining inequalities and arithmetics, we have the following:
+    \begin{proposition}{}{}
+      $\forall a, b, c \in \RR :$
+      \begin{romanenum}
+        \item $0 < 1$
+        \item $a < b \iff -b < -a$. In particular, $a > 0 \iff -a < 0$
+        \item $a < b \implies a + c < b + c$
+        \item $a < b \wedge 0 < c \implies ac < bc$
+        \item $a^2 \geqslant 0$ with equality if and only if $a = 0$
+        \item $a > 0 \iff \frac{1}{a} > 0$
+        \item $a, b > 0 \wedge a < b \implies \frac{1}{b} < \frac{1}{a}$
+      \end{romanenum}
+    \end{proposition}
+    
+    \begin{theorem}{Bernoulli's Inequality}{}
+      Let $x \in \RR$ be such that $x > -1$ and $n$ be a positive integer. Then $(1 + x)^n \geqslant 1 + nx$.
+    \end{theorem}
+    \begin{proof}
+      Fix $x > -1$. We will perform induction on $n$.
+      
+      When $n = 1$, $1 + x \geqslant 1 + x$ trivially.
+      
+      Suppose the result holds for some $n \geqslant 1$, so $(1 + x)^n \geqslant 1 + nx$. Then,
+      \begin{align*}
+        (1 + x)^{n+1} &= (1 + x)^n (1 + x) \\
+        &\geqslant (1 + nx) (1 + x) \\
+        &= 1 + (n + 1)x + nx^2 \\
+        &\geqslant 1 + (n + 1)x
+      \end{align*}
+      So the result is proved by induction.
+    \end{proof}
+  
+  
+  \subsection{The Modulus of a Real Number}
+    
+    \begin{definition}{}{}
+      Let $a \in \RR$. The \term{modulus}, or \term{absolute value}, $\abs{a}$ of $a$ is defined to be
+      \[ \abs{a} = \begin{cases}
+        a, & a > 0 \\
+        0, & a = 0 \\
+        -a, & a < 0
+      \end{cases} \]
+    \end{definition}
+    
+    Note that the trichotomy properties makes this the modulus well-defined.
+    
+    Again, we look at the properties of the modulus of real numbers:
+    \begin{proposition}{}{}
+      $\forall a, b, c \in \RR :$
+      \begin{romanenum}
+        \item $\abs{-a} = \abs{a}$
+        \item $\abs{a} \geqslant 0$
+        \item $\abs{a}^2 = a^2$
+        \item $\abs{ab} = \abs{a} \abs{b}$
+        \item $-\abs{a} \leqslant a \leqslant \abs{a}$
+        \item $c \geqslant 0 \implies \left(\abs{a} \leqslant c \iff -c \leqslant a \leqslant c\right)$ and similarly for strict inequalities
+      \end{romanenum}
+    \end{proposition}
+    
+    With these properties in mind, we can arrive at an important theorem:
+    
+    \begin{theorem}{Triangle Inequality}{triangle-inequality}
+      Let $a, b \in \RR$. Then $\abs{a + b} \leqslant \abs{a} + \abs{b}$.
+    \end{theorem}
+    \begin{proof}
+      Let $a, b \in \RR$, we have that $-\abs{a} \leqslant a \leqslant \abs{a}$ and $-\abs{b} \leqslant b \leqslant \abs{b}$. Since addition preserves inequalities\marginnote{a result that is not proved here}, we have
+      \[ -\left(\abs{a} + \abs{b}\right) \leqslant a + b \leqslant \abs{a} + \abs{b} \]
+      Since $\abs{a} + \abs{b} \geqslant 0$, by property (vi), we have $\abs{a + b} \leqslant \abs{a} + \abs{b}$.
+    \end{proof}
+    
+    \begin{theorem}{Reverse Triangle Inequality}{}
+      Let $a, b \in \RR$. Then $\abs{a - b} \geqslant \abs{\abs{a} - \abs{b}}$.
+    \end{theorem}
+    \begin{proof}
+      By \cref{thm:triangle-inequality}, we have
+      \[ \abs{a} = \abs{a - b + b} \leqslant \abs{a - b} + \abs{b} \]
+      So $\abs{a - b} \geqslant \abs{a} - \abs{b}$. However, the above argument also works if we swap $a$ and $b$, resulting in $\abs{a - b} \geqslant \abs{b} - \abs{a}$. And we know that $\abs{\abs{a} - \abs{b}}$ is one of $\abs{a} - \abs{b}$ or $\abs{b} - \abs{a}$, so we can conclude that $\abs{a - b} \geqslant \abs{\abs{a} - \abs{b}}$.
+    \end{proof}
+  
+  
+  \subsection{Completeness}
+    
+    Informally, we view rational numbers as having `gaps' between them while real numbers don't. We will try to formalize this idea.
+    
+    \subsubsection{Upper and Lower Bounds}
+      
+      \begin{definition}{}{}
+        Let $S \subseteq \RR$. Take $b \in \RR$. We say that
+        \begin{itemize}
+          \item $b$ is an \term{upper bound} of $S$ if $\forall s \in S : s \leqslant b$
+          \item $b$ is a \term{lower bound} of $S$ if $\forall s \in S : s \geqslant b$
+          \item $S$ is \term{bounded above} if $S$ has an upper bound
+          \item $S$ is \term{bounded below} if $S$ has a lower bound
+          \item $S$ is \term{bounded} if $S$ is bounded above or below
+        \end{itemize}
+      \end{definition}
+      
+      While a set might have an infinite number of bounds, there are certain bounds that are more interesting than others.
+      
+      \begin{definition}{}{}
+        Let $S \subseteq \RR$. We say that $\alpha \in \RR$ is the \term{supremum} of $S$, written $\sup S$, if $\alpha$ is an upper bound of $S$ and $\alpha$ is the least upper bound of $S$. That is, concretely, if
+        \begin{romanenum}
+          \item $\forall s \in S : s \leqslant \alpha$
+          \item $(\forall s \in S : s \leqslant b) \implies \alpha \leqslant b$
+        \end{romanenum}
+      \end{definition}
+      
+      Importantly, remark that if a set $S$ has a supremum, then it is unique.
+      
+      \begin{axiom}{Completeness Axiom of Real Numbers}{}
+        Let $S$ be a non-empty subset of $\RR$ that is bounded above. Then $S$ has a supremum.
+      \end{axiom}
+      
+      Note that the non-empty condition is crucial as every real number is an upper bound to the empty set, hence no supremum.
+      
+      Similarly, we have the analogous definition for lower bounds:
+      
+      \begin{definition}{}{}
+        Let $S \subseteq \RR$. We say that $\alpha \in \RR$ is the \term{infimum} of $S$, written $\inf S$, if $\alpha$ is a lower bound of $S$ and $\alpha$ is the greatest lower bound of $S$. That is, concretely, if
+        \begin{romanenum}
+          \item $\forall s \in S : s \geqslant \alpha$
+          \item $(\forall s \in S : s \geqslant b) \implies \alpha \geqslant b$
+        \end{romanenum}
+      \end{definition}
+      
+      We have the following properties of suprema and infima of real numbers:
+      \begin{proposition}{}{}
+        Let $S, T \subseteq \RR$ be non-empty,
+        \begin{romanenum}
+          \item if $S \subseteq T$ and $T$ is bounded above, then $S$ is bounded above, and $\sup S \leqslant \sup T$
+          \item if $T$ is bounded below and we let $S = \set{-t : t \in T}$, then $S$ is bounded above; furthermore, $\inf T$ exists, and $\inf T = -\sup S$.
+        \end{romanenum}
+      \end{proposition}
+      
+      Note how the completeness axiom is phrased in terms of the supremum, but part (ii) of the above proposition tells us that infimum also works.
+      
+      We can define some more familiar concepts:
+      
+      \begin{definition}{}{}
+        Let $S \subseteq \RR$ be non-empty. Take $M \in \RR$. We say that $M$ is the \term{maximum} of $S$ if $M \in S$ and $M$ is an upper bound for $S$.
+      \end{definition}
+      
+      \begin{definition}{}{}
+        Let $S \subseteq \RR$ be non-empty. Take $m \in \RR$. We say that $m$ is the \term{minimum} of $S$ if $m \in S$ and $m$ is a lower bound for $S$.
+      \end{definition}
+      
+      Remark that if $S$ is empty or $S$ is not bounded above, then $S$ does not have a maximum. Also, for a non-empty, bounded above set $S \subseteq \RR$, $S$ has a maximum if and only if $\sup S \in S$; also, if $S$ has a maximum, then $\max S = \sup S$.
+      
+      \begin{proposition}{Approximation Property}{}
+        Let $S \subseteq \RR$ be non-empty and bounded above. For any $\epsilon > 0$, there is some $s_\epsilon \in S$ such that $\sup S - \epsilon < s_\epsilon \leqslant \sup S$.
+      \end{proposition}
+      \begin{proof}
+        Let $\epsilon > 0$. By the definition of supremum, we know that $s \leqslant \sup S$ holds for all $s \in S$. For the first part of the inequality, AFSOC that $\forall s \in S : \sup S - \epsilon \geqslant s$. So $\sup S - \epsilon$ is an upper bound by definition, but we also have $\sup S - \epsilon < \sup S$, which is a contradiction. Hence $\exists s_\epsilon \in S : \sup S - \epsilon < s_\epsilon \leqslant \sup S$.
+      \end{proof}
+    
+    \subsubsection{Existence of Roots}
+      
+      We can use the ideas of supremum and completeness to prove the existence of roots.
+      
+      \begin{theorem}{}{sqrt-2-exists}
+        There exists a unique positive real number $\alpha$ such that $\alpha^2 = 2$.
+      \end{theorem}
+      \begin{proof}
+        We will split the proof into two parts.
+
+        {\flushleft\underline{Existence}}
+        
+        Define a set $S = \set{s \in \RR : s^2 < 2}$. Note that $1 \in S$ hence $S$ is non-empty. Also, 2 is an upper bound of $S$ since $s > 2 \implies s^2 > 4 \implies s \notin S$. Hence, by completeness, $S$ has a supremum and we can let $\alpha = \sup S$. By definition, $\alpha \geqslant 1$ hence $\alpha$ is positive.
+        
+        We consider the following cases for $\alpha^2$:
+        
+        \begin{description}
+          \item[Case 1:] $\alpha^2 < 2$. Then we can write $\alpha^2 = 2 - \epsilon$ for some $\epsilon > 0$. Consider for some $h \in (0, 1)$,
+          \begin{align*}
+            (\alpha + h)^2 &= \alpha^2 + 2\alpha h + h^2 \\
+            &\leqslant 2 - \epsilon + 4h + h \\
+            &= 2 - \epsilon + 5h
+          \end{align*}
+          We want this quantity to be strictly less than 2 \comment{(so $\alpha + h \in S$ which creates a contradiction)}, so let $h = \min\left(\frac{\epsilon}{10}, \frac{1}{2}\right)$ \comment{(this is to ensure $h < 1$)}. Then $(\alpha + h)^2 \leqslant 2 - \frac{\epsilon}{2} < 2$ and hence $\alpha + h \in S$. But $h > 0$ so $\alpha + h > \alpha$, which is a contradiction since $\alpha$ is an upper bound.
+          
+          \item[Case 2:] $\alpha^2 > 2$. Then we can write $\alpha^2 = 2 + \epsilon$ for some $\epsilon > 0$. Consider for some $h \in (0, 1)$,
+          \begin{align*}
+            (\alpha - h)^2 &= \alpha^2 - 2\alpha h + h^2 \\
+            &\geqslant 2 + \epsilon - 4h
+          \end{align*}
+          We want this quantity to be strictly greater than 2, so let $h = \min\left(\frac{\epsilon}{8}, \frac{1}{2}, \frac{\alpha}{2}\right)$ \comment{(this is to ensure $h < 1$ and $\alpha - h > 0$)}. Also, by approximation, $\exists s \in S : \sup S - h = \alpha - h < s$. Then $2 < 2 + \frac{\epsilon}{2} \leqslant (\alpha - h)^2 < s^2 < 2$, a contradiction.
+        \end{description}
+        
+        Thus, by trichotomy, we conclude that $\alpha^2 = 2$. Hence such an $\alpha$ exists.
+        
+        {\flushleft\underline{Uniqueness}}
+        
+        Let $\beta$ be a positive real number with $\beta^2 = 2$. Then $a^2 = 2 = \beta^2$, so
+        \begin{align*}
+          \alpha^2 - \beta^2 &= 0 \\
+          (\alpha + \beta) (\alpha - \beta) &= 0
+        \end{align*}
+        Hence $\alpha + \beta = 0$ or $\alpha - \beta = 0$, but $\alpha, \beta > 0$, so $\alpha + \beta > 0$; hence $\alpha - \beta = 0 \implies \alpha = \beta$.
+      \end{proof}
+      
+      With this theorem proved, we have a rather interesting way of proving the non-completeness of the rational numbers.
+      
+      \begin{theorem}{}{}
+        $\QQ$ is not complete (with the ordering inherited from $\RR$).
+      \end{theorem}
+      \begin{proof}
+        If $\QQ$ were complete, then the proof of \cref{thm:sqrt-2-exists} would work as well in $\QQ$. But we know that there is not an element of $\QQ$ which squares to 2. So $\QQ$ is not complete by contradiction.
+      \end{proof}
+      
+      Additionally, we can generalize \cref{thm:sqrt-2-exists}.
+      
+      \begin{theorem}{}{}
+        Let $n$ be an integer with $n \geqslant 2$, and let $r$ be a positive real number. Then $r$ has a real $n^\textsuperscript{th}$ root.
+      \end{theorem}
+    
+    \subsubsection{Further Consequences of Completeness}
+      
+      There is also an important property of the natural numbers, which is a consequence of the completeness of real numbers.
+      
+      \begin{theorem}{Archimedean Property of $\NN$}{archimedean}
+        $\NN$ is not bounded above.
+      \end{theorem}
+      \begin{proof}
+        AFSOC that $\NN$ is bounded above. Then $\NN$ is non-empty and bounded above, so, by completeness, $\NN$ has a supremum. Also, by approximation with $\epsilon = \frac{1}{2}$, we have that
+        \[ \exists n \in \NN : \sup\NN - \frac{1}{2} < n \leqslant \sup\NN \]
+        Now $n + 1 \in \NN$ and $n + 1 > \sup\NN$, a contraction.
+      \end{proof}
+      
+      \begin{corollary}{}{}
+        Let $\epsilon > 0$. Then there is some $n \in \NN$ such that $0 < \frac{1}{n} < \epsilon$.
+      \end{corollary}
+      \begin{proof}
+        Otherwise, $\frac{1}{\epsilon}$ would be an upper bound for $\NN$, which contradicts \cref{thm:archimedean}.
+      \end{proof}
+      
+      We also have the following useful theorem.
+      
+      \begin{theorem}{}{}
+        Let $S$ be a non-empty subset of $\ZZ$.
+        \begin{romanenum}
+          \item If $S$ is bounded below, then $S$ has a minimum.
+          \item If $S$ is bounded above, then $S$ has a maximum.
+        \end{romanenum}
+      \end{theorem}
+      
+      We will provide a proof for the first part of the theorem, as the second part is analogous to the first.
+      
+      \begin{proof}
+        Let $S$ be a non-empty subset of $\ZZ$ that is bounded below. So $\inf S$ exists by completeness.
+        
+        By approximation with $\epsilon = 1$, we have that
+        \[ \exists n \in S : \inf S \leqslant n < \inf S + 1 \]
+        AFSOC that $\inf S < n$. Then we can write $n = \inf S + \delta$ for some $\delta > 0$. Again by approximation with $\epsilon = \delta$, we have that
+        \[ \exists m \in S : \inf S \leqslant m < \inf S + \delta = n \]
+        Then $n - m > 0$, but also $n - m \in \ZZ$ as $\ZZ$ is closed under subtraction. So $n - m \geqslant 1$. Then $n \geqslant m + 1 \geqslant \inf S + 1$, which is a contraction.
+        
+        Hence $n = \inf S$ by contraction, so $\inf S \in S$, and $\min S = \inf S$.
+      \end{proof}
+      
+      Furthermore, we can also show the following result to be true.
+      
+      \begin{proposition}{}{}
+        Take $a, b \in \RR$ with $a < b$. Then
+        \begin{romanenum}
+          \item $\exists x \in \QQ : a < x < b$ \hfill (the rationals are dense in the reals)
+          \item $\exists y \in \RR \setminus \QQ : a < y < b$ \hfill (the irrationals are dense in the reals)
+        \end{romanenum}
+      \end{proposition}
+      
+      To summarize, up until now, we have shown that $\RR$ is a complete ordered field.
+  
+  
+  \subsection{Countability}
+    
+    \begin{definition}{}{}
+      A set $A$ is \term{finite} if $A = \emptyset$ or there exists some $n \in \NN$ such that there is a bijection $f : A \to \set{1, 2, \dots, n}$. Otherwise, the set is \term{infinite}.
+    \end{definition}
+    
+    \begin{definition}{}{}
+      Let $A$ be a set. We say that $A$ is
+      \begin{itemize}
+        \item \term{countably infinite} if there is a bijection $f : A \to \NN$
+        \item \term{countable} if there is an injection $f : A \to \NN$
+        \item \term{uncountable} if $A$ is not countable
+      \end{itemize}
+    \end{definition}
+    
+    Note that a set is countable if and only if it is countable infinite or finite.
+    
+    \begin{proposition}{}{}
+      Let $A, B$ be sets. If there is an injection $f : A \to B$ and an injection $g : B \to A$, then there is a bijection $h : A \to B$.
+    \end{proposition}
+    
+    We also have the following proposition:
+    
+    \begin{proposition}{}{}
+      Let $A, B$ be countable sets.
+      \begin{romanenum}
+        \item If $A$ and $B$ are disjoint\marginnote{this condition is actually not necessary, but just makes the proof easier}, then $A \cup B$ is countable
+        \item $A \times B$ is countable
+      \end{romanenum}
+    \end{proposition}
+    \begin{proof}
+      Since $A, B$ are both countable, there are some injections $f : A \to \NN$ and $g : B \to \NN$.
+      \begin{romanenum}
+        \item Define a mapping $h : A \cup B \to \NN$ given by
+          \[ h(x) = \begin{cases} 2f(x) - 1 & x \in A \\ 2g(x) & x \in B \end{cases} \]
+          This is well-defined as $A$ and $B$ are disjoint. It can be shown that $h$ is injective. So $A \cup B$ is countable.
+        \item Define a mapping $h : A \times B \to \NN$ given by
+          \[ h(a, b) = 2^{f(a)} 3^{g(b)} \]
+          Since we don't need surjection, $h$ is injective and thus satisfies our need by the uniqueness of prime factorization. \qedhere
+      \end{romanenum}
+    \end{proof}
+    
+    Using the second part of the proposition, we can prove $\QQ^+$ is countable. And further with the first part of the proposition, we can prove $\QQ = \QQ^+ \cup \set{0} \cup \QQ^-$ is also countable.
+    
+    We can also show that the reals are uncountable by using Cantor's diagonal argument.
+
+
+
+
+
+\section{Sequences}
+  
+  \begin{definition}{}{}
+    A \term{real sequence}, or \term{sequence of real numbers}, is a function $\alpha : \NN \to \RR$. We call $\alpha(n)$, usually written as $a_n$, the $n^\textsuperscript{th}$ term of the sequence. We say that $\alpha$ defines the sequence $(a_n)$ with terms $a_1, a_2, a_3, \dots$.
+  \end{definition}
+  
+  Similarly, we can define \term{complex sequences} by swapping $\RR$ for $\CC$.
+  
+  
+  \subsection{Convergence of Sequences}
+    
+    \begin{definition}{}{}
+      Let $(a_n)$ be a real sequence, and let $L \in \RR$. We say that $(a_n)$ \term{converges to $L$ as $n \to \infty$} if
+      \[ \forall \epsilon > 0 : \exists N \in \NN : \forall n \geqslant N : \abs{a_n - L} < \epsilon \]
+      In this case we write $a_n \to L$ as $n \to \infty$ or $\displaystyle \lim_{n \to \infty} a_n = L$, and we say that $L$ is the limit of $(a_n)$.
+    \end{definition}
+    
+    \begin{definition}{}{}
+      Let $(a_n)$ be a real sequence. We say that $(a_n)$ \term{converges}, or is \term{convergent}, if there is some $L \in \RR$ such that $a_n \to L$ as $n \to \infty$. If $(a_n)$ does not converge, then we say it \term{diverges}, or is \term{divergent}.
+    \end{definition}
+    
+    \begin{definition}{}{}
+      Let $(a_n)$ be a sequence. A \term{tail} of $(a_n)$ is a sequence $(b_n)$, where for some natural number $k$ we have $b_n = a_{n+k}$ for $n \geqslant 1$. That is, $(b_n)$ is the sequence obtained by deleting the first $k$ terms of $(a_n)$.
+    \end{definition}
+    
+    Regarding tails, we have the following lemma:
+    
+    \begin{lemma}{Tails Lemma}{}
+      Let $(a_n)$ be a sequence.
+      \begin{romanenum}
+        \item If $(a_n)$ converges to a limit $L$, then every tail of $(a_n)$ also converges to the same limit $L$
+        \item If a tail $(b_n) = (a_{n+k})$ of $(a_n)$ converges, then $(a_n)$ converges.
+      \end{romanenum}
+    \end{lemma}
+    
+    To prove convergence of a sequence, we don't necessarily need to always use the definition of convergence. Below is a useful tool for showing convergence.
+    
+    \begin{proposition}{Sandwiching, A Special Case}{}
+      Let $(a_n)$ and $(b_n)$ be real sequences with $0 \leqslant a_n \leqslant b_n$ for all $n \geqslant 1$. If $b_n \to 0$ as $n \to \infty$, then $a_n \to 0$ as $n \to \infty$.
+    \end{proposition}
+    \begin{proof}
+      Let $(a_n)$ and $(b_n)$ be real sequences with $0 \leqslant a_n \leqslant b_n$ for all $n \geqslant 1$. Suppose $b_n \to 0$ as $n \to \infty$, then by definition, if we fix some $\epsilon > 0$, we know
+      \[ \exists N \in \NN : \forall n \geqslant N : \abs{a_n} \leqslant \abs{b_n} < \epsilon \]
+      Here, modulus preserves inequality because $a_n, b_n \geqslant 0$.
+      
+      Hence, by definition, $a_n \to 0$ as $n \to \infty$.
+    \end{proof}
+    
+    \begin{lemma}{}{}
+      We have the following convergent sequences:
+      \begin{romanenum}
+        \item For some $c \in \RR$ with $\abs{c} < 1$. Then $c^n \to 0$ as $n \to \infty$
+        \item Let $a_n = \frac{n}{2^n}$ for $n \geqslant 1$. Then $a_n \to 0$ as $n \to \infty$.
+      \end{romanenum}
+    \end{lemma}
+    \begin{proof}\
+      \begin{romanenum}
+        \item Write $\abs{c} = \frac{1}{1+y}$ for some $y > 0$. Fix $\epsilon > 0$. Let $N = \ceil{\frac{1}{\epsilon y}} + 1$. Also, for any $n \geqslant N$, we have, by Bernoulli's inequality (since $y > 0, n \geqslant 1$), that $(1 + y)^n \geqslant 1 + ny$. So
+          \[ \abs{c^n} \leqslant \abs{c}^n = \frac{1}{(1 + y)^n} \leqslant \frac{1}{1 + ny} \leqslant \frac{1}{ny} \leqslant \frac{1}{Ny} < \epsilon \]
+          So $c^n \to 0$ as $n \to \infty$.
+        \item If $n \geqslant 2$, then, by binomial theorem, $2^n = (1 + 1)^n \geqslant {n \choose 2}$. Take $N = \ceil{\frac{4}{\epsilon} + 1}$, then for any $n \geqslant N$, we have
+          \[ \abs{a_n} = \frac{n}{2^n} \leqslant \frac{n}{{n \choose 2}} = \frac{2n (n - 2)!}{n!} = \frac{2}{n - 1} \leqslant \frac{2}{N - 1} < \epsilon \]
+          So $a_n \to 0$ as $n \to \infty$. \qedhere
+      \end{romanenum}
+    \end{proof}
+    
+    We also have the important result.
+    
+    \begin{theorem}{Uniqueness of Limits}{}
+      Let $(a_n)$ be a convergent sequence. Then the limit is unique.
+    \end{theorem}
+    \begin{proof}
+      Suppose that $a_n \to L_1$ and $a_n \to L_2$ as $n \to \infty$. AFSOC that $L_1 \neq L_2$. Then, we can let $\epsilon = \frac{1}{2} \abs{L_1 - L_2} > 0$.
+      
+      Since $a_n \to L_1$ as $n \to \infty$, there is some $N_1$ such that for all $n \geqslant N_1$ there is $\abs{a_n - L_1} < \epsilon$. Also, since $a_n \to L_2$ as $n \to \infty$, there is also some $N_2$ such that for all $n \geqslant N_2$ there is $\abs{a_n - L_2} < \epsilon$.
+      
+      Then, for $n \geqslant \max(N_1, N_2)$, we have $\abs{a_n - L_1} < \epsilon$ and $\abs{a_n - L_2} < \epsilon$, so
+      \begin{align*}
+        \abs{L_1 - L_2} &= \abs{(L_1 - a_n) + (a_n - L_2)} \\
+        &\leqslant \abs{L_1 - a_n} + \abs{a_n - L_2} \\
+        &< 2\epsilon \\
+        &= \abs{L_1 - L_2}
+      \end{align*}
+      which is a contradiction. So $L_1 = L_2$.
+    \end{proof}
+    
+    \begin{proposition}{}{}
+      Let $(a_n)$ be a convergent sequence. Then $(\abs{a_n})$ also converges. Moreover, if $a_n \to L$ as $n \to \infty$, then $\abs{a_n} \to \abs{L}$ as $n \to \infty$.
+    \end{proposition}
+    
+    \begin{proposition}{Limits preserve weak inequalities}{}
+      Let $(a_n)$ and $(b_n)$ be real sequences with $\forall n \in \NN : a_n \leqslant b_n$, and assume that $a_n \to L$ and $b_n \to M$ as $n \to \infty$. Then $L \leqslant M$.
+    \end{proposition}
+    
+    Importantly, limits do not preserve strict inequalities (as a counterexample, consider the sequence $a_n = \frac{1}{n}$).
+    
+    \begin{proposition}{Sandwiching}{}
+      Let $(a_n), (b_n), (c_n)$ be real sequences with $a_n \leqslant b_n \leqslant c_n$ for all $n \geqslant 1$. If $a_n \to L$ and $c_n \to L$, then $b_n \to L$ as $n \to \infty$.
+    \end{proposition}
+    \begin{proof}
+      Let $(a_n), (b_n), (c_n)$ be real sequences with $a_n \leqslant b_n \leqslant c_n$ for all $n \geqslant 1$. Suppose $a_n \to L$ and $c_n \to L$ as $n \to \infty$ for some $L \in \RR$. We fix some $\epsilon > 0$.
+      
+      Then, by definition, we know that there are some $N_1$ and $N_2$ such that
+      \begin{gather*}
+        \forall n \geqslant N_1 : \abs{a_n - L} < \epsilon \\
+        \forall n \geqslant N_2 : \abs{c_n - L} < \epsilon
+      \end{gather*}
+      Take $N = \max(N_1, N_2)$. Then,
+      \[ \forall n \geqslant N : L - \epsilon \leqslant a_n \leqslant b_n \leqslant c_n \leqslant L + \epsilon \]
+      So $\abs{b_n - L} < \epsilon$. Hence $b_n \to L$ as $n \to \infty$.
+    \end{proof}
+    
+    Finally, we consider the conditions for convergence of a complex sequence.
+    
+    \begin{definition}{}{}
+      Let $(z_n)$ be a complex sequence, and let $L \in \CC$. We say that $(z_n)$ \term{converges} to $L$ as $n \to \infty$ if
+      \[ \forall \epsilon > 0 : \exists N \in \NN : \forall n \geqslant N : \abs{z_n - L} < \epsilon \]
+    \end{definition}
+    
+    Furthermore, we can use convergence of real sequences to determine that of a complex sequence.
+    
+    \begin{theorem}{Convergence of Complex Sequences}{}
+      Let $(z_n)$ be a complex sequence. Write $z_n = x_n + iy_n$ with $x_n, y_n \in \RR$, so that $(x_n)$ and $(y_n)$ are real sequences. Then $(z_n)$ converges if and only if both $(x_n)$ and $(y_n)$ converge. Moreover, $\displaystyle \lim_{n \to \infty} z_n = \lim_{n \to \infty} x_n + i \lim_{n \to \infty} y_n$.
+    \end{theorem}
+  
+  
+  \subsection{Bounded Sequences}
+    
+    \begin{definition}{}{}
+      Let $(a_n)$ be a sequence. We say that $(a_n)$ is \term{bounded} if the set $\set{a_n : n \geqslant 1}$ is bounded; that is, there is some $M$ such that $\abs{a_n} \leqslant M$ for all $n \geqslant 1$. Otherwise we say it is \term{unbounded}.
+    \end{definition}
+    
+    \begin{proposition}{Convergent sequences are bounded}{}
+      Let $(a_n)$ be a convergent sequence. Then $(a_n)$ is bounded.
+    \end{proposition}
+    \begin{proof}
+      Assume that $a_n \to L$ as $n \to \infty$. Then, by taking $\epsilon = 1$, we know $\exists N : \forall n \geqslant N : \abs{a_n - L} < 1$. So, for all $n \geqslant N$,
+      \begin{align*}
+        \abs{a_n} &= \abs{a_n - L + L} \\
+        &\leqslant \abs{a_n - L} + \abs{L} \\
+        &< 1 + \abs{L}
+      \end{align*}
+      This shows that a tail of the sequence is bounded. But since $N$ is finite, we can take the maximum of the first $N - 1$ terms, so let
+      \[ M = \max\left(\abs{a_1}, \abs{a_2}, \dots, \abs{a_{N - 1}}, 1 + \abs{L}\right) \]
+      This is an upper bound for all terms in the sequence. Hence the sequence is bounded.
+    \end{proof}
+    
+    \begin{definition}{}{}
+      Let $(a_n)$ be a real sequence. We say that $(a_n)$ \term{tends to infinity} as $n \to \infty$ if
+      \[ \forall M \in \mathbb{R} : \exists N \in \NN : \forall n \geqslant N : a_n > M \]
+      Similarly, we say $(a_n)$ \term{tends to negative infinity} as $n \to \infty$ if
+      \[ \forall M \in \mathbb{R} : \exists N \in \NN : \forall n \geqslant N : a_n < M \]
+      In each case, we write $a_n \to \infty$ and $a_n \to -\infty$ as $n \to \infty$ respectively.
+    \end{definition}
+    
+    \begin{lemma}{}{}
+      We have the following useful results regarding some $\alpha \in \RR$:
+      \begin{romanenum}
+        \item If $\alpha < 0$, then $n^\alpha \to 0$ as $n \to \infty$.
+        \item If $\alpha > 0$, then $n^\alpha \to \infty$ as $n \to \infty$.
+      \end{romanenum}
+    \end{lemma}
+    
+    \begin{lemma}{}{}
+      We also have the following useful results regarding some $c \in \RR^+$:
+      \begin{romanenum}
+        \item If $c < 1$, then $c^n \to 0$ as $n \to \infty$.
+        \item If $c = 1$, then $c^n \to 1$ as $n \to \infty$.
+        \item If $c > 1$, then $c^n \to \infty$ as $n \to \infty$.
+      \end{romanenum}
+    \end{lemma}
+
+  
+  
+  \subsection{Convergent Subsequences}
+    
+    \begin{theorem}{Scenic Viewpoints Theorem}{scenic-viewpoints}
+      Let $(a_n)$ be a real sequence. Then $(a_n)$ has a monotone subsequence.
+    \end{theorem}
+    \begin{proof}
+      Let $V = \set{k \in \NN : m > k \implies a_m < a_k}$ be the set of ``peaks'' (or ``scenic viewpoints'') of the sequence (i.e.~terms which are greater than all subsequent terms).
+      \begin{description}
+        \item[Case 1:] $V$ is infinite. Then say $V$ has elements $k_1 < k_2 < \cdots$. Then for all $r, s$, we have that $r > s \implies k_r > k_s \implies a_{k_r} < a_{k_s}$, so $(a_{k_r})_r$ is a monotonic decreasing subsequence of $(a_n)$.
+        \item[Case 2:] $V$ is finite. Then $\exists N : k > N \implies k \notin V$, so any term beyond $a_N$ is not a ``peak''. Let $m_1 = N + 1$, then $m_1 \notin V$ so $\exists m_2 > m_1 : a_{m_2} \geqslant a_{m_1}$ by definition of $V$. Similarly, we can inductively construct $m_1 < m_2 < \cdots$ with $a_{m_1} \leqslant a_{m_2} \leqslant \cdots$. So $(a_{m_r})_r$ is a monotonic increasing subsequence of $(a_n)$.
+      \end{description}
+      In either case, $(a_n)$ has a monotone subsequence.
+    \end{proof}
+    
+    \begin{theorem}{Bolzano--Weierstrass Theorem}{b-w}
+      Let $(a_n)$ be a bounded real sequence. Then $(a_n)$ has a convergent subsequence.
+    \end{theorem}
+    \begin{proof}
+      Let $(a_n)$ be a bounded real sequence. By the \nameref{thm:scenic-viewpoints}, $(a_n)$ has a monotone subsequence. Since $(a_n)$ is bounded, this subsequence is also bounded. Hence, by the \nameref{thm:monotone-sequences}, this subsequence converges  .
+    \end{proof}
+    
+    Note that the \nameref{thm:b-w} potentially could hold for complex sequences as well since it does not involve inequalities. And it turns out that this is true. The result can be obtained by viewing a complex sequence as a sequence of real parts and a sequence of complex parts, and finding a sub-subsequence within a subsequence of the real sequence to guarantee both the real and complex parts converge.
+    
+    \begin{corollary}
+      Let $(z_n)$ be a bounded complex sequence. Then $(z_n)$ has a convergent subsequence.
+    \end{corollary}
+  
+  
+  \subsection{Cauchy Sequences}
+    
+    To motivate the idea of a Cauchy sequence, note that given a real sequence $(a_n)$ with $a_{n+1} - a_n \to 0$ as $n \to \infty$, it is not necessarily the case that $(a_n)$ converges, as can be demonstrated when $a_n = \sqrt{n}$. Hence we need a stronger condition to assert convergence.
+    
+    \begin{definition}
+      We say that a sequence $(a_n)$ is a \term{Cauchy sequence} if
+      \[ \forall \epsilon > 0 : \exists N \in \NN : \forall m, n \geqslant N : \abs{a_n - a_m} < \epsilon \]
+    \end{definition}
+    
+    Note that the definition makes sense for both real and complex sequences.
+    
+    \begin{proposition}{}{convergent-cauchy}
+      Let $(a_n)$ be a convergent sequence. Then $(a_n)$ is Cauchy.
+    \end{proposition}
+    \begin{proof}
+      Let $(a_n)$ be a sequence which converges to $L$ as $n \to \infty$. Let $\epsilon > 0$, then $\exists N : n \geqslant N \implies \abs{a_n - L} < \frac{\epsilon}{2}$. Take any arbitrary $m, n \geqslant N$, then
+      \begin{align*}
+        \abs{a_m - a_n} &= \abs{(a_m - L) + (L - a_n)} \\
+        &\leqslant \abs{a_m - L} + \abs{a_n - L} \\
+        &< \frac{\epsilon}{2} + \frac{\epsilon}{2} \\
+        &= \epsilon \qedhere
+      \end{align*}
+    \end{proof}
+    
+    \begin{proposition}{}{}
+      Let $(a_n)$ be a Cauchy sequence. Then $(a_n)$ is bounded.
+    \end{proposition}
+    \begin{proof}
+      TODO
+    \end{proof}
+    
+    \begin{proposition}{}{}
+      Let $(a_n)$ be a Cauchy sequence. Suppose that a subsequence $(a_{n_r})_r$ converges. Then $(a_n)$ converges.
+    \end{proposition}
+    \begin{proof}
+      TODO
+    \end{proof}
+    
+    \begin{theorem}{Cauchy Convergence Criterion}{}
+      Let $(a_n)$ be a sequence. Then $(a_n)$ converges if and only if $(a_n)$ is Cauchy.
+    \end{theorem}
+    \begin{proof}
+      ($\Rightarrow$) This is shown in \cref{prop:convergent-cauchy}.
+      
+      ($\Leftarrow$) Assume that $(a_n)$ is Cauchy. Then $(a_n)$ is bounded by, so by the \nameref{thm:b-w}, we have that $(a_n)$ has a convergent subsequence. Then, by, $(a_n)$ converges.
+    \end{proof}
+
+
+
+
+\section{Series}
+  
+  \subsection{Convergence of Series}
+    
+    \begin{definition}{}{}
+      Let $(a_k)$ be a sequence. For $n \geqslant 1$, let
+      \[ s_n = a_1 + \cdots + a_n = \sum_{k=1}^n a_k \]
+      This is called a \term{partial sum} of the series $\sum_{k=1}^\infty a_k$.
+    \end{definition}
+    
+    \begin{definition}{}{}
+      Let $(a_k)$ be a sequence. The series $\sum_{k=1}^n a_k$ \term{converges} if the sequence $(s_n)$ of its partial sums converges. If $s_n \to s$ as $n \to \infty$, then we write
+      \[ \sum_{k=1}^\infty a_k = s \]
+    \end{definition}
+    
+    \begin{proposition}{}{}
+      Consider the series $\displaystyle \sum_{k=1}^\infty a_k$. If it converges, then $a_k \to 0$ as $k \to \infty$.
+    \end{proposition}
+    \begin{proof}
+      Let $s_n = \displaystyle \sum_{k=1}^\infty a_k$, then $(s_n)$ converges by definition. Say $s_n \to s$ as $n \to \infty$. Then we also have $s_{n-1} \to s$ as $n \to \infty$. So $a_n = s_n - s_{n-1} \to s - s = 0$ as $n \to \infty$.
+    \end{proof}
+    
+    SOME CONTENT IGNORED HERE.
+    
+    \begin{definition}{}{}
+      Let $(a_k)$ be a sequence. We say that $\sum_{k=1}^\infty a_k$ \term{converges absolutely} if $\sum_{k=1}^\infty \abs{a_k}$ converges.
+    \end{definition}
+    
+    Note that the idea of absolute convergence applies for both real and complex series.
+    
+    CONTENT MISSED HERE.
+    
+    \begin{theorem}{Alternating Series Test}{}
+      Let $(u_k)$ be a real sequence, and consider the series $\displaystyle \sum_{k=1}^\infty (-1)^{k-1} u_k$. If
+      \begin{itemize}
+        \item $u_k \geqslant 0$ for $k \geqslant 1$; and
+        \item $(u_k)$ is decreasing; and
+        \item $u_k \to 0$ as $k \to \infty$
+      \end{itemize}
+      then $\displaystyle \sum_{k=1}^\infty (-1)^{k-1} u_k$ converges.
+    \end{theorem}
+  
+  
+  \subsection{Power Series}
+    
+    \begin{definition}{}{}
+      A \term{real power series} is a series of the form $\displaystyle \sum_{k=0}^\infty c_k x^k$, where $\forall k \geqslant 0 : c_k \in \RR$ and $x$ is a real variable.
+    \end{definition}
+    
+    \begin{definition}{}{}
+      A \term{complex power series} is a series of the form $\displaystyle \sum_{k=0}^\infty c_k z^k$, where $\forall k \geqslant 0 : c_k \in \CC$ and $z$ is a complex variable.
+    \end{definition}
+    
+    Typically we take $x$ or $z$ to be non-zero as a power series always converges when $x = 0$ or $z = 0$.
+    
+    As an example, we define the following.
+    
+    \begin{definition}{}{}
+      Let the \term{exponential function} $\exp : \CC \to \CC$ be defined by
+      \[ \exp(z) = \sum_{k=0}^\infty \frac{z^k}{k!} \]
+      We also write $e^z$ for $\exp(z)$.
+    \end{definition}
+    
+    For the domain of this function to be $\CC$, we need to make sure that this power series converges for all complex numbers. This is indeed true and we can prove it by using the ratio test.
+    
+    Similarly, we can now define other familiar functions using power series.
+    
+    \begin{definition}{}{}
+      Let the \term{sine function} $\sin : \CC \to \CC$ be defined by
+      \[ \sin(z) = \sum_{k=0}^\infty (-1)^k \frac{z^{2k+1}}{(2k + 1)!}
+                 = \frac{z}{1!} - \frac{z^3}{3!} + \frac{z^5}{5!} - \frac{z^7}{7!} + \cdots \]
+    \end{definition}
+    
+    \begin{definition}{}{}
+      Let the \term{cosine function} $\cos : \CC \to \CC$ be defined by
+      \[ \cos(z) = \sum_{k=0}^\infty (-1)^k \frac{z^{2k}}{(2k)!}
+                 = 1 - \frac{z^2}{2!} + \frac{z^4}{4!} - \frac{z^6}{6!} + \cdots \]
+    \end{definition}
+    
+    \begin{definition}{}{}
+      Let the \term{hyperbolic sine function} $\sinh : \CC \to \CC$ be defined by
+      \[ \sinh(z) = \sum_{k=0}^\infty \frac{z^{2k+1}}{(2k + 1)!} \]
+    \end{definition}
+    
+    \begin{definition}{}{}
+      Let the \term{hyperbolic cosine function} $\cosh : \CC \to \CC$ be defined by
+      \[ \cosh(z) = \sum_{k=0}^\infty \frac{z^{2k}}{(2k)!} \]
+    \end{definition}
+    
+    Again, by the ratio test, we can show that all these power series converge for all complex numbers.
+    
+    Intuitively, we think that we can perform algebraic manipulations between convergent series in an expected way. This result can be proven by letting a sequence be the partial sums of a sequence, and applying AoL on that new sequence.
+    
+    Concretely, if two series $\sum a_k$ and $\sum b_k$ converges to $L$ and $M$ respectively, then the series $\sum (a_k + b_k)$ also converges, and to $L + M$.
+    
+    Note we can also use this to show the divergence of a series: if we know $\sum a_k$ converges and $\sum b_k$ diverges, then it must be the case that $\sum (a_k + b_k)$ diverges, since otherwise $\sum (a_k + b_k - a_k)$ also converges.
+    
+    Note also we cannot determine whether the sum of two divergent series diverges or not.
+    
+    Using this result, we can see that the following is true for some $z \in \CC$:
+    \begin{gather*}
+      \cos z = \frac{1}{2} \big( e^{iz} + e^{-iz} \big) \\
+      \sin z = \frac{1}{2i} \big( e^{iz} - e^{-iz} \big) \\
+      \cosh z = \frac{1}{2} \big( e^{z} + e^{-z} \big) \\
+      \sinh z = \frac{1}{2} \big( e^{z} - e^{-z} \big) \\
+      e^{iz} = \cos z + i \sin z \\
+      \cos (iz) = \cosh z \\
+      \sin (iz) = \sinh z
+    \end{gather*}
+  
+    \subsubsection{Radius of Convergence}
+      
+      \begin{definition}{}{}
+        Let $\sum c_k z^k$ be a power series. We define $R$, its \term{radius of convergence}, to be
+        \[ R := \begin{cases}
+          \sup\set{\abs{z} \in \RR : \sum \abs{c_k z^k} \ \textrm{converges}} & \textrm{if this exists} \\
+          \infty & \textrm{otherwise}
+        \end{cases} \]
+      \end{definition}
+      
+      \begin{definition}{}{}
+        Let $\sum c_k z^k$ be power series with radius of convergence $R$. We call the set $\set{z \in \CC : \abs{z} < R}$ the \term{disc of convergence}.
+      \end{definition}
+      
+      \begin{proposition}{Disc of Convergence}{}
+        Let $\sum c_k z^k$ be a power series with radius of convergence $R$.
+        \begin{romanenum}
+          \item If $R > 0$ and $\abs{z} < R$, then $\sum c_k z^k$ converges absolutely and hence converges
+          \item If $\abs{z} > R$, then $\sum c_k z^k$ diverges
+        \end{romanenum}
+      \end{proposition}
+      \begin{proof} Let $\sum c_k z^k$ be a power series with radius of convergence $R$.
+        \begin{romanenum}
+          \item We will consider two cases of $R$.
+            \begin{description}
+              \item[Case 1:] $R \in \RR$. Assume $R > 0$ and take $z \in \CC$ with $\abs{z} < R$. Then there is some $s$ with $\abs{z} < s < R$. Let $\epsilon = R - s > 0$. Then by approximation with $\epsilon$, there is some $\rho$ such that $s = R - \epsilon < \rho \leqslant R$ and $\sum \abs{c_k \rho^k}$ converges.
+                
+                Then $0 \leqslant \abs{z} < \rho$ and $\sum \abs{c_k \rho^k}$ converges, so by comparison test, $\sum \abs{c_k z^k}$ converges. Hence this absolute convergence implies convergence of the series $\sum c_k z^k$.
+              \item[Case 2:] $R = \infty$. Similar.
+            \end{description}
+          \item Take $z \in \CC$ with $\abs{z} > R$. AFSOC that $\sum c_k z^k$ converges. Then $c_k z^k \to 0$ as $k \to \infty$, so $(c_k z^k)$ is bounded, so $\exists M$ TODO
+        \end{romanenum}
+      \end{proof}
+      
+      Note that it is not clear what happens when $\abs{z} = R$---basically, anything can happen.
+    
+    \subsubsection{Differentiation Theorem}
+      
+      The differentiation theorem essentially states that within the disc of convergence, we can differentiate term-by-term. More formally,
+      
+      \begin{theorem}{Differentiation Theorem for real power series}{}
+        Let $\sum c_k x^k$ be a real power series with radius of convergence $R$. Assume that $0 < R \leqslant \infty$. For $\abs{x} < R$, define $f(x) = \sum_{k=0}^\infty c_k x^k$. Then $f(x)$ is well-defined for $\abs{x} < R$. Moreover, if $\abs{x} < R$, then the derivative $f'(x)$ exists, and
+        \[ f'(x) = \dv{x} \left( \sum_{k=0}^\infty c_k x^k \right) = \sum_{k=0}^\infty \dv{x}(c_k x^k) = \sum_{k=0}^\infty kc_k x^{k-1} \]
+      \end{theorem}
+      
+      It is worth noting that this result is not obvious, since it involves exchanging order of two limiting processes (namely, the series and differentiation).
+
+  
+
+
+\end{document}

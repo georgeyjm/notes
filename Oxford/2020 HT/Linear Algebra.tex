@@ -1,0 +1,152 @@
+\documentclass{styles/tufte}
+\usepackage{styles/linalg}
+
+\course{Elements of Deductive Logic}
+\courseterm{HT 2020}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+\section{Determinants}
+  
+  Geometrically, we can view the determinant of an $n \times n$ square matrix by the amount its corresponding linear map scales volumes in $n$-dimensional space. As an example, the absolute value of the determinant of a $3 \times 3$ matrix is the volume of the parallelepiped formed by the transformed unit vectors $\vb{e}_1, \vb{e}_2, \vb{e}_3$.
+  
+  We will then try to define the determinant in an algebraic way. For such a map $D: \matspace{n}{n}{\RR} \to \RR$, we want it have the following properties (deduced from our intuitive geometric understanding):
+  
+  \begin{enumerate}
+    \item Alternating\marginnote{the reason being, if two unit vectors get transformed onto the same vector by a linear map, then the image of that linear map is of a lower dimension, hence its volume becomes 0 in the original dimension}: $\vb{b} = \vb{c} \implies D([\dots, \vb{b}, \vb{c}, \dots]) = 0$
+    \item Homogeneous: $D([\dots, \lambda \vb{b}, \vb{c}, \dots]) = \lambda D([\dots, \vb{b}, \vb{c}, \dots])$
+    \item Linear: $D([\dots, \vb{b} + \vb{c}, \dots]) = D([\dots, \vb{b}, \dots]) + D([\dots, \vb{c}, \dots])$
+    \item Preserves identity: $D(I_n) = 1$
+  \end{enumerate}
+  
+  \begin{definition}{}{determinantal}
+    A map $D: \matspace{n}{n}{\RR} \to \RR$ is \term{determinantal} if it satisfies the above 4 properties.
+  \end{definition}
+  
+  From these basic properties, we can deduce the following proposition about determinantal maps:
+  \begin{proposition}{}{aa}
+    Let $D: \matspace{n}{n}{\RR} \to \RR$ be a determinantal map, then
+    \begin{romanenum}
+      \item $D([\dots, \vb{b}, \vb{c}, \dots]) = -D([\dots, \vb{c}, \vb{b}, \dots])$
+      \item $\vb{b} = \vb{c} \implies D([\dots, \vb{b}, \dots, \vb{c}, \dots]) = 0$
+      \item $D([\dots, \vb{b}, \dots, \vb{c}, \dots]) = -D([\dots, \vb{c}, \dots, \vb{b}, \dots])$
+    \end{romanenum}
+  \end{proposition}
+    
+  \begin{proof} We will prove one-by-one.
+    \begin{romanenum}
+      \item We have
+        \begin{align*}
+          0 &= D([\dots, \vb{b} + \vb{c}, \vb{b} + \vb{c}, \dots]) \\
+            &= D([\dots, \vb{b} + \vb{c}, \vb{b}, \dots]) + D([\dots, \vb{b} + \vb{c}, \vb{c}, \dots]) \\
+            &= D([\dots, \vb{b}, \vb{b} \dots]) + D([\dots, \vb{b}, \vb{c}, \dots]) \\ &\qquad\qquad + D([\dots, \vb{c}, \vb{b} \dots]) + D([\dots, \vb{c}, \vb{c} \dots])
+        \end{align*}
+        Then, by the alternating property, we get
+        \[ 0 = D([\dots, \vb{b}, \vb{c}, \dots]) + D([\dots, \vb{c}, \vb{b} \dots]) \]
+        and the result follows.
+      \item We can repeatedly apply (i) above to move the columns $\vb{b}$ and $\vb{c}$ adjacent to each other. Then,
+        \[ D([\dots, \vb{b}, \dots, \vb{c}, \dots]) = \pm D([\dots, \vb{b}, \vb{c}, \dots]) \]
+        Since $\vb{b} = \vb{c}$, we have, by alternating property,
+        \[ D([\dots, \vb{b}, \dots, \vb{c}, \dots]) = 0 \]
+      \item This proof is analogous to that of (i), but using (ii). \qedhere
+    \end{romanenum}
+  \end{proof}
+  
+  Given these properties, we can start finding examples of determinantal maps. For $n = 1$, we have that
+  \[ D([a]) = a D([1]) = a \]
+  For $n = 2$, we have that
+  \begin{align*}
+    D\left(\squaretwo{a}{b}{c}{d}\right)
+    &= D\left(a\coltwo{1}{0} + c\coltwo{0}{1},\ b\coltwo{1}{0} + d\coltwo{0}{1}\right) \\
+    &= ab \cdot D\left(\squaretwo{1}{1}{0}{0}\right) + ad \cdot D\left(\squaretwo{1}{0}{0}{1}\right) \\ &\qquad\qquad + cb \cdot D\left(\squaretwo{0}{1}{1}{0}\right) + cd \cdot D\left(\squaretwo{0}{1}{0}{1}\right) \\
+    &= ad - bc
+  \end{align*}
+  We see that in these two cases, we can explicitly write down the uniquely-defined determinant. We will show that this existence and uniqueness generalizes to all $n$.
+  
+  \begin{theorem}{}{det-existence}
+    A determinantal map exists for each $n \in \ZZ^+$.
+  \end{theorem}
+  
+  \begin{proof}
+    We will prove by induction on $n$. We have shown that the for the base case $n = 1$ there is a determinantal map.
+    
+    Assume that $D_{n-1}$ is a determinantal map for $(n - 1) \times (n - 1)$ matrices. Let $A$ be an $n \times n$ matrix. Let $A_{ij}$ be the $(n - 1) \times (n - 1)$ matrix formed by removing the $i\supth$ row and $j\supth$ column of $A$.
+    
+    Let $D_n(A) = a_{11} D_{n-1}(A_{11}) - a_{12} D_{n-1}(A_{12}) + \cdots + (-1)^{n-1} a_{1n} D_{n-1}(A_{1n})$. We will show that $D_n$ is determinantal.
+    
+    First note that if $A = I_n$, then $a_{1j} = 0$ for $j \neq 1$. So
+    \[ D_n(I_n) = D_{n-1}(I_{n-1}) + 0 = 1 \]
+    
+    For linearity (homogeneity and additivity), first note importantly that the sum of linear terms is also linear. View $D_n$ as a function of the $k\supth$ column, then consider the term $a_{1j} D_{n-1}(A_{1j})$: for $j \neq k$, $a_{1j}$ is independent of the $k\supth$ column and $A_{1j}$ depends linearly on the $k\supth$ column by induction hypothesis; for $j = k$, $A_{1j}$ is independent of and $a_{1j}$ depends linearly on the $k\supth$ column. So all such terms depend linearly on the $k\supth$ column, hence $D_n(A)$ is multilinear. \marginnote{hello hello}
+    
+    Lastly, to show $D_n$ is alternating, we suppose the $j\supth$ and $(j + 1)\supth$ columns of $A$ are the same, so $\vb{a}_j = \vb{a}_{j+1}$. Then for any $k \neq j, j + 1$, there will be two identical columns in $A_{1k}$, so $D_{n-1}(A_{1k}) = 0$. Now we can simply $D_n(A)$ to
+    \[ D_n(A) = (-1)^{j+1} a_{1j} D_{n-1}(A_{1j}) + (-1)^{j+2} a_{1(j+1)} D_{n-1}\left(A_{1(j+1)}\right) \]
+    But $\vb{a}_j = \vb{a}_{j+1}$ implies $a_{1j} = a_{1(j+1)}$ and $A_{1j} = A_{1(j+1)}$, so
+    \[ D_n(A) = (-1)^{j+1} a_{1j} D_{n-1}(A_{1j}) - (-1)^{j+1} a_{1j} D_{n-1}(A_{1j}) = 0 \]
+    
+    So $D_n$ is a determinantal map, and thus a determinantal map exists for each $n \in \ZZ^+$ by induction.
+  \end{proof}
+  
+  
+  Note that we have chosen the first row here to sum over, but we could equally have chosen any other row, and each summation obtained through this method is a \term{Laplace expansion} of the determinant of the matrix.\marginnote{hiasdfiou ihaushdfi uahsidf u asdf iauhsdifu hais udfi ausdifu aius dfiausid fuas idf uais difua siudf iaus dfiuahs diufh aisuhd fauis hdfiuah sdf} Importantly, we will also show that no matter which row you choose, you will end up with the same map---in other words, each determinantal map is unique, and there is a unique determinant to each matrix.\marginnote{hello and i can write really long ones like this its pretty cool}
+  
+  We first define the following:
+  \begin{definition}{}{permutation}
+    A \term{permutation} on a set $\set{1, 2, \dots, n}$ is a bijection from $\set{1, 2, \dots, n}$ to $\set{1, 2, \dots, n}$. We usually denote $S_n$ for the set of all permutations on $\set{1, 2, \dots, n}$.
+    
+    A \term{transposition} is a specific type of permutation which only switches two elements and maps everything else to themself.
+  \end{definition}
+  
+  \begin{theorem}{}{det-uniqueness}
+    There is a unique determinantal map $\det: \matspace{n}{n}{\RR} \to \RR$ for each $n \in \ZZ^+$.
+  \end{theorem}
+  
+  \begin{proof}
+    
+  \end{proof}
+  
+  From this, we can deduce a new formula for the determinant of a matrix. Let $A$ be an $n \times n$ dimensional matrix, and $S_n$ be the set of all permutations of $\set{1, \dots, n}$, then
+  \begin{equation}
+    \det(A) = \sum_{\sigma \in S_n} \sign(\sigma) a_{1\sigma(1)} a_{2\sigma(2)} \cdots a_{n\sigma(n)} = \sum_{\sigma \in S_n} \sign(\sigma) \prod_{k=1}^n a_{k\sigma(k)}
+  \end{equation}
+  
+  Also, we get the following results.
+  
+  \begin{lemma}{}{}
+    Let $\sigma \in S_n$, then $\sign(\sigma) = \sign(\sigma^{-1})$.
+  \end{lemma}
+  
+  \begin{proof}
+    First, we have that $\sigma \circ \sigma^{-1} = \iota$ is the identity permutation. Also, since $\sigma$ and $\sigma^{-1}$ are both products of transpositions, we simply multiply all those transpositions to get $\sigma \circ \sigma^{-1}$, so $\sign(\sigma \circ \sigma^{-1}) = \sign(\sigma) \sign(\sigma^{-1})$. Thus,
+    \[ 1 = \sign(\iota) = \sign(\sigma \circ \sigma^{-1}) = \sign(\sigma) \sign(\sigma^{-1}) \]
+    But $\sign$ only takes $\pm 1$ as values, so we conclude that $\sign(\sigma) = \sign(\sigma^{-1})$.
+  \end{proof}
+  
+  \begin{proposition}{}{}
+    Let $A$ be a square matrix, then $\det(A) = \det(A^T)$.
+  \end{proposition}
+  
+  \begin{proof}
+    
+  \end{proof}
+  
+  From this, we get immediately that the determinant of a matrix is also multilinear in the columns as well as the rows.
+  
+  There is also one other key property of determinants:
+  
+  \begin{theorem}{Multiplicativity}{det-multiplicativity}
+    Let $A, B \in \matspace{n}{n}{\RR}$ be matrices, then $\det(AB) = \det(A)\det(B)$.
+  \end{theorem}
+
+
+
+\end{document}

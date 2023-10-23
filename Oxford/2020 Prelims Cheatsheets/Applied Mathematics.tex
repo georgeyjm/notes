@@ -1,0 +1,456 @@
+\documentclass{styles/note}
+\usepackage{styles/cheatsheet}
+\usepackage{styles/calculus}
+\usepackage{styles/probability}
+
+\course{Applied Mathematics Cheat Sheet}
+\courseterm{Prelims 2021}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+\part{Introductory Calculus}
+
+\section{First-Order Differential Equations}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item \term{First order differential equations} are of the form
+      \[ \od{y}{x} = f(x, y) \]
+    
+    \item For ODE in the form $\od{y}{x} = f(x)$, we integrate directly.
+    
+    \item For ODE in the form $\od{y}{x} = a(x) b(y)$, we use separation of variables to obtain
+      \begin{equation}
+        \int \frac{\dif y}{b(y)} = \int a(x) \dif x
+      \end{equation}
+      Sometimes we can reduce an ODE to a separable form by substitution.
+    
+    \item For ODE which are homogeneous, that is, $\od{y}{x} = f\left(\frac{y}{x}\right)$, we can perform the substitution $y(x) = x v(x)$ to obtain
+      \begin{equation}
+        x \od{v}{x} = f(v) - v
+      \end{equation}
+    
+    \item For first-order inhomogeneous linear ODE in the form $\od{y}{x} + p(x)y = q(x)$, we multiply by the integrating factor
+      \begin{equation}
+        I(x) = e^{\int p(x) \dif x}
+      \end{equation}
+      to obtain
+      \begin{equation}
+        y = I(x) \left(\int I(x) q(x) \dif x + c\right)
+      \end{equation}
+  \end{enumerate}
+
+
+\newpage
+\section{Second-Order Differential Equations}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item Suppose $z(x) \neq 0$ is a solution to the second-order homogeneous linear ODE
+      \[ p(x) \od[2]{y}{x} + q(x) \od{y}{x} + r(x)y = 0 \]
+      Perform the substitution $y(x) = v(x) z(x)$ and rearrange to obtain an ODE for $v'$:
+      \begin{equation}
+        p(x) z v'' + \left(2p(x) z' + q(x) z\right) v' = 0
+      \end{equation}
+    
+    \item For second-order homogeneous ODE with constant coefficients
+      \[ \od[2]{y}{x} + q \od{y}{x} + ry = 0 \]
+      where the auxiliary equation $\lambda^2 + q\lambda + r = 0$ has roots $\lambda_1, \lambda$,
+      
+      if $\lambda_1 \neq \lambda_2$ are real, then
+      \begin{equation}
+        y(x) = C_1 e^{\lambda_1 x} + C_2 e^{\lambda_2 x}
+      \end{equation}
+      if $\lambda_1 = \lambda_2 = \lambda$, then
+      \begin{equation}
+        y(x) = (C_1 x + C_2) e^{\lambda x}
+      \end{equation}
+      if $\lambda_1 = \alpha + i\beta, \lambda_2 = \alpha - i\beta$, then
+      \begin{equation}
+        y(x) = e^{\alpha x} (C_1 \cos \beta x + C_2 \sin \beta x)
+      \end{equation}
+    
+    \item To find $y_p$ in an inhomogeneous case, we start by trying something in the form $f(x)$, and then try the next most complicated thing by multiplying by polynomials of $x$ or trying a more general form.
+    \end{enumerate}
+
+
+\newpage
+\section{Partial Differentiation}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item For $F(x, y) = f(u(x, y), v(x, y))$, we have
+      \begin{equation}
+        \pd{F}{x} = \pd{f}{u} \pd{u}{x} + \pd{f}{v} \pd{v}{x}, \quad \pd{F}{y} = \pd{f}{u} \pd{u}{y} + \pd{f}{v} \pd{v}{y}
+      \end{equation}
+  \end{enumerate}
+
+
+
+
+
+\newpage
+\part{Probability}
+
+\section{Events and Probability}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item The number of arrangements of
+      \[ \underbrace{\alpha_1, \dots, \alpha_1}_\textrm{$m_1$ times}, \dots, \underbrace{\alpha_k, \dots, \alpha_k}_\textrm{$m_k$ times} \]
+      where $m_1 + \dots + m_k = n$, is
+      \begin{equation}
+        \frac{n!}{m_1! \cdots m_k!}
+      \end{equation}
+      This is also the \term{multinomial coefficient} of $a_1^{m_1} \cdots a_k^{m_k}$ in the expansion of $(a_1 + \cdots + a_k)^n$.
+    
+%    \item ~\vspace{-2em}
+%      \begin{lemma}{Vandermonde's Identity}{lem:vandermonde}
+%        For $k, m, n \geqslant 0$,
+%        \begin{equation}
+%          {m + n \choose k} = \sum_{j=0}^k {m \choose j} {n \choose k - j}
+%        \end{equation}
+%      \end{lemma}
+
+    \item \result{Vandermonde's Identity}
+      For $k, m, n \geqslant 0$,
+      \begin{equation}
+        {m + n \choose k} = \sum_{j=0}^k {m \choose j} {n \choose k - j}
+      \end{equation}
+    
+    \item \result{Law of Total Probability}
+      For a partition $\set{B_1, B_2, \dots}$ of $\Omega$ with each $\prob(B_i) > 0$ and an event $A \in \eventset$,
+      \begin{equation}
+        \prob(A) = \sum_{i} \prob(A \given B_i) \prob(B_i)
+      \end{equation}
+      
+    \item \result{Bayes' Theorem}
+      For a partition $\set{B_1, B_2, \dots}$ of $\Omega$ and an event $A \in \eventset$ with $\prob(B_i), \prob(A) > 0$,
+      \begin{equation}
+        \prob(B_k \given A) = \frac{\prob(A \given B_k) \prob(B_k)}{\prob(A)} = \frac{\prob(A \given B_k) \prob(B_k)}{\sum_i \prob(A \given B_i) \prob(B_i)}
+      \end{equation}
+    
+    \item
+      \begin{itemize}[leftmargin=1em]
+        \item Events $A$ and $B$ are \term{independent} if $\prob(A \cap B) = \prob(A)\prob(B)$.
+        \item A family of events $\set{A_i : i \in I}$ is \term{independent} if for any finite subset $J$ of $I$,
+          \begin{equation}
+            \prob\Bigg( \bigcap_{i \in J} A_i \Bigg) = \prod_{i \in J} \prob(A_i)
+          \end{equation}
+        \item A family of events $\set{A_i : i \in I}$ is \term{pairwise independent} if $\prob(A_i \cap A_j) = \prob(A_i) \prob(A_j)$ whenever $i \neq j$.
+      \end{itemize}
+      Importantly, $\textrm{pairwise independence} \centernot\implies \textrm{independence}$.
+  \end{enumerate}
+
+
+\newpage
+\section{Discrete Random Variables}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item A \term{discrete random variable} is a function $X : \Omega \to \RR$ s.t.
+      \begin{romanenum}
+        \item $\set{\omega \in \Omega : X(\omega) = x} \in \eventset$ for each $x \in \RR$; \hfill (probability assignment)
+        \item $\image X := \set{X(\omega) : \omega \in \Omega}$ is a countable subset of $\RR$. \hfill (discreteness)
+      \end{romanenum}
+    
+    \item The \term{probability mass function} (p.m.f.) of $X$ is the function $p_X : \RR \to [0, 1]$ defined by
+      \[ p_X(x) = \prob(X = x) \]
+    
+    \item The \term{expectation} of $X$ is
+      \begin{equation}
+        \expectation[X] = \sum_{x \in \image X} x\, p_X(x)
+      \end{equation}
+      We have that
+      \begin{equation}
+        \expectation[h(X)] = \sum_{x \in \image X} h(x)\, p_X(x)
+      \end{equation}
+    
+    \item The \term{$k^\tsp{th}$ moment} of $X$ is $\expectation[X^k]$.
+    
+    \item The \term{variance} of $X$ is
+      \begin{equation}
+        \variance(X) = \expectation\left[(X - \expectation[X])^2\right] = \expectation[X^2] - \expectation[X]^2
+      \end{equation}
+      We have that
+      \begin{equation}
+        \variance(aX + b) = a^2 \variance(X)
+      \end{equation}
+    
+    \item The \term{conditional distribution} of $X$ given $B$ is given by
+      \begin{equation}
+        \prob(X = x \given B) = \frac{\prob(\set{X = x} \cap B)}{\prob(B)}
+      \end{equation}
+      
+      The \term{conditional expectation} of $X$ given $B$ is
+      \begin{equation}
+        \expectation[X \given B] = \sum_x x \prob(X = x \given B) = \sum_x x\, p_{X \given B}(x)
+      \end{equation}
+    
+    \item \result{Partition Theorem for Expectations}
+      For a partition $\set{B_1, B_2, \dots}$ of $\Omega$ with each $\prob(B_i) > 0$,
+      \begin{equation}
+        \expectation[X] = \sum_i \expectation[X \given B_i] \prob(B_i)
+      \end{equation}
+    
+    \item The \term{joint probability mass function} is given by
+      \[ p_{X, Y}(x, y) = \prob\left(\set{X = x} \cap \set{Y = y}\right) \]
+      and the \term{marginal distributions} are obtained by
+      \begin{equation}
+        p_X(x) = \sum_y p_{X, Y}(x, y), \quad p_Y(y) = \sum_x p_{X, Y}(x, y)
+      \end{equation}
+    
+    \item For two r.v.s, the \term{conditional distribution} of $Y$ given that $X = x$ is
+      \begin{equation}
+        p_{Y \given X=x}(y) = \prob(Y = y \given X = x) = \frac{p_{X, Y}(x, y)}{p_X(x)}
+      \end{equation}
+      The \term{conditional expectation} of $Y$ given that $X = x$ is then
+      \begin{equation}
+        \expectation[Y \given X = x] = \sum_y y\, p_{Y \given X=x}(y) = \frac{1}{p_X(x)} \sum_y y\,p_{X, Y}(x, y)
+      \end{equation}
+    
+    \item
+      \begin{itemize}[leftmargin=1em]
+        \item Discrete r.v.s $X$ and $Y$ are \term{independent} if
+          \begin{equation}
+            \prob(X = x, Y = y) = \prob(X = x) \prob(Y = y)
+          \end{equation}
+        \item A family of discrete r.v.s $\set{X_i : i \in I}$ is \term{independent} if for any finite subset $J$ of $I$ and collection $\set{A_j : j \in J}$ where each $A_j \subseteq \RR$,
+          \begin{equation}
+            \prob\Bigg(\bigcap_{j \in J} \set{X_j \in A_j}\Bigg) = \prod_{j \in J} \prob(X_j \in A_j)
+          \end{equation}
+      \end{itemize}
+    
+    \item For $h : \RR^2 \to \RR$ and discrete r.v.s $X$ and $Y$,
+      \begin{equation}
+        \expectation[h(X, Y)] = \sum_x \sum_y h(x, y)\, p_{X, Y}(x, y)
+      \end{equation}
+    
+    \item For two discrete r.v.s $X$ and $Y$,
+      \begin{equation}
+        \expectation[aX + bY] = a\expectation[X] + b\expectation[Y]
+      \end{equation}
+      and when they are independent,
+      \begin{equation}
+        \expectation[XY] = \expectation[X] \expectation[Y]
+      \end{equation}
+  \end{enumerate}
+  
+  \begin{center}
+  \begin{table}[H]
+  \begin{tabular}{lllllll}
+    \textbf{Notation} & \textbf{Parameters} & \textbf{Image} & \textbf{P.m.f.} & $\boldsymbol{\expectation[X]}$ & $\boldsymbol{\variance(X)}$ & $\boldsymbol{G_X(s)}$ \\\hline
+    $\bernoulli(p)$ & $p \in [0, 1]$ & $\set{0, 1}$ & $\begin{cases} p, & k = 1 \\ 1 - p, & k = 0 \end{cases}$ & $p$ & $pq$ & $1 - p + ps$ \\
+    $\binomial(n, p)$ & $n \in \ZZ^+, p \in [0, 1]$ & $\set{0, \dots, n}$ & $\displaystyle {n \choose k} p^k (1 - p)^{n - k}$ & $np$ & $npq$ & $(1 - p + ps)^n$ \\
+    $\geometric(p)$ & $p \in [0, 1]$ & $\ZZ^+$ & $p (1 - p)^{k - 1}$ & $\dfrac{1}{p}$ & $\dfrac{1 - p}{p^2}$ & $e^{\lambda(s-1)}$ \\
+    $\poisson(\lambda)$ & $\lambda \geqslant 0$ & $\ZZ^+_0$ & $\dfrac{\lambda^k e^{-\lambda}}{k!}$ & $\lambda$ & $\lambda$ & $\dfrac{ps}{1 - (1 - p)s}$
+  \end{tabular}
+  \end{table}
+  \end{center}
+
+
+\newpage
+\section{Difference Equations and Random Walks}
+
+  \begin{enumerate}[label=(\alph*)]
+    \item A $k\tsp{th}$-order linear \term{recurrence relation} or \term{difference equation} has the form
+      \[ \sum_{j=0}^k a_j u_{n+j} = f(n), \quad a_0, a_k \neq 0 \]
+    
+    \item Given $u_{n+1} = au_n + b$. \par
+      If $a = 1$,
+      \begin{equation}
+        u_n = A + bn
+      \end{equation}
+      Otherwise,
+      \begin{equation}
+        u_n = A a^n + \frac{b}{1 - a}
+      \end{equation}
+    
+    \item Given $u_{n+1} = au_n + bn$. \par
+      If $a = 1$,
+      \begin{equation}
+        u_n = A + \frac{bn(n-1)}{2}
+      \end{equation}
+      Otherwise,
+      \begin{equation}
+        u_n = A a^n + \frac{bn}{1 - a} - \frac{b}{(1 - a)^2}
+      \end{equation}
+    
+    \item Given $u_{n+1} + au_n + bu_{n-1} = f(n)$. \par
+      If its \term{auxiliary equation} $\lambda^2 + a\lambda + b = 0$ has distinct roots $\lambda_1, \lambda_2$, then the solution to its homogeneous equation is
+      \begin{equation}
+        w_n = A_1 \lambda_1^n + A_2 \lambda_2^n
+      \end{equation}
+      If the auxiliary equation has repeated roots $\lambda$,
+      \begin{equation}
+        w_n = (A + Bn) \lambda^n
+      \end{equation}
+      
+      To find a particular solution, we start by trying something in the same form as $f$, but omitting any terms which is included in the solution to the homogeneous equation. If this doesn't work, we then try the next most complicated thing.
+      
+      As an example, if $w_n = A \cdot 2^n + B$ and $f = 1$, we could start with a constant, but that is a special case of $w_n$, so we should start with $v_n = Cn$.
+      
+      As another example, if $w_n = An + B$ and $f = 1$, we should start with $Cn^2$ as the linear and constant terms are all included in $w_n$.
+  \end{enumerate}
+
+
+\newpage
+\section{Probability Generating Functions}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item For a non-negative integer-valued r.v.~$X$, its \term{probability generating function} is
+      \begin{equation}
+        G_X(s) = \expectation\big[s^X\big] = \sum_{k=0}^\infty s^k \prob(X = k)
+      \end{equation}
+      with domain of absolute convergence:
+      \[ \mathcal{S} = \set{s \in \RR : \sum_{k=0}^\infty \abs{s}^k \prob(X = k) < \infty} \]
+    
+    \item Abbreviating $\prob(X = k)$ as $p_k$, we have
+      \begin{equation}
+        G_X(0) = p_0,\ G'_X(0) = p_1, \ \textrm{more generally,} \ G_X^{(k)}(0) = k! p_k
+      \end{equation}
+      and
+      \begin{gather}
+        \expectation[X] = G'_X(1) \\
+        \variance(X) = G_X''(1) + G_X'(1) - \left(G_X'(1)\right)^2
+      \end{gather}
+    
+    \item If $X$ and $Y$ are independent, then
+      \begin{equation}
+        G_{X+Y}(s) = G_X(s) G_Y(s)
+      \end{equation}
+    
+    \item For independent r.v.s with $X_i \distributed \poisson(\lambda_i)$,
+      \begin{equation}
+        \sum_{i=1}^n X_i \distributed \poisson\left(\sum_{i=1}^n \lambda_i\right)
+      \end{equation}
+    
+    \item For i.i.d. r.v.s~$X_1, X_2, \dots$ with $X_i \distributed \bernoulli(p)$ and $N \distributed \poisson(\lambda)$ independently of $X_i$,
+      \begin{equation}
+        \sum_{i=1}^N X_i \distributed \poisson(\lambda p)
+      \end{equation}
+    
+    \item Let $X_1, X_2, \dots$ be i.i.d.~non-negative integer-valued r.v.s~with p.g.f.~$G_X$ and $N$ be a non-negative integer-valued r.v.~independent of $X_i$ and with p.g.f.~$G_N$. Then the p.g.f.~of $\sum_{i=1}^N X_i$ is $G_N \circ G_X$.
+  \end{enumerate}
+
+
+\newpage
+\section{Continuous Random Variables}
+
+  \begin{enumerate}[label=(\alph*)]
+    \item A \term{continuous random variable} is a function $X : \Omega \to \RR$ s.t.~for each $x \in \RR$,
+      \[ \set{\omega \in \Omega : X(\omega) \leqslant x} \in \eventset \]
+    
+    \item The \term{cumulative distribution function} of $X$ is the function $F_X : \RR \to [0, 1]$ defined by
+      \[ F_X(x) = \prob(X \leqslant x) \]
+      The \term{probability density function} of $X$ is the function $f_X : \RR \to \RR$ s.t.
+      \begin{romanenum}
+        \item $\displaystyle F_X(x) = \int_{-\infty}^x f_X(u) \dif u$
+        \item $\displaystyle \int_{-\infty}^\infty f_X(u) \dif u = 1$
+        \item $f_X(u) \geqslant 0$ for all $u \in \RR$
+      \end{romanenum}
+      Importantly, $f_X$ is \emph{not} a probability.
+
+    \item The \term{expectation} of $X$ is
+      \begin{equation}
+        \expectation[X] = \int_{-\infty}^\infty x\, f_X(x) \dif x
+      \end{equation}
+      We still have that
+      \begin{equation}
+        \expectation[h(X)] = \int_{-\infty}^\infty h(x)\, f_X(x) \dif x
+      \end{equation}
+      The variance is still defined as $\variance(X) = \expectation[X^2] - \expectation[X]^2$ and expectation and variance both behave identically to the discrete case.
+
+    \item The \term{joint cumulative distribution function} is given by
+      \[ F_{X, Y}(x, y) = \prob\left(\set{X \leqslant x} \cap \set{Y \leqslant y}\right) \]
+      The \term{joint density function} is the function $f_{X, Y} : \RR^2 \to \RR$ s.t.
+      \begin{romanenum}
+        \item $f_{X, Y}(x, y) \geqslant 0$ for all $x, y \in \RR$
+        \item $\displaystyle \int_{-\infty}^\infty \int_{-\infty}^\infty f_{X, Y}(x, y) \dif x \dif y = 1$
+      \end{romanenum}
+      Given sufficient smoothness of $f_{X, Y}$, we have
+      \begin{equation}
+        f_{X, Y}(x, y) = \frac{\partial^2}{\partial x \partial y} F_{X, Y}(x, y)
+      \end{equation}
+      
+    \item The \term{marginal distributions} are obtained by
+      \begin{equation}
+        f_X(x) = \int_{-\infty}^\infty f_{X, Y}(x, y) \dif y, \quad f_Y(y) = \int_{-\infty}^\infty f_{X, Y}(x, y) \dif x
+      \end{equation}
+    
+    \item
+      \begin{itemize}[leftmargin=1em]
+        \item Jointly continuous r.v.s $X$ and $Y$ are \term{independent} if
+          \begin{equation}
+            f_{X, Y}(x, y) = f_X(x) f_Y(y)
+          \end{equation}
+        \item Jointly continuous r.v.s $X_1, \dots, X_n$ are \term{independent} if
+          \begin{equation}
+            f_{X_1, \dots, X_n}(x_1, \dots, x_n) = \prod_{i=1}^n f_{X_i}(x_i)
+          \end{equation}
+      \end{itemize}
+    
+    \item In both discrete and continuous cases,
+      \begin{equation}
+        \variance(X + Y) = \variance(X) + \variance(Y) + 2\covar(X, Y)
+      \end{equation}
+      where
+      \begin{equation}
+        \covar(X, Y) = \expectation\big[\left(X - \expectation[X]\right) \left(Y - \expectation[Y]\right)\big] = \expectation[XY] - \expectation[X]\expectation[Y]
+      \end{equation}
+      Note independence implies covariance is 0, but not vice versa.
+  \end{enumerate}
+  
+  \begin{center}
+  \begin{table}[H]
+  \begin{tabular}{llllll}
+    \textbf{Notation} & \textbf{Parameters} & \textbf{Image} & \textbf{P.d.f.} & $\boldsymbol{\expectation[X]}$ & $\boldsymbol{\variance(X)}$ \\\hline
+    $\uniform[a, b]$ & $a, b \in \RR$ & $[a, b]$ & $\begin{cases} \frac{1}{b-a}, & a \leqslant x \leqslant b \\ 0, & \textrm{otherwise} \end{cases}$ & $\dfrac{a + b}{2}$ & $\dfrac{(b - a)^2}{12}$ \\
+    $\exponential(\lambda)$ & $\lambda \geqslant 0$ & $\RR^+_0$ & $\lambda e^{-\lambda x}$ & $\dfrac{1}{\lambda}$ & $\dfrac{1}{\lambda^2}$ \\
+    $\gammadist(\alpha, \lambda)$ & $\alpha > 0, \lambda \geqslant 0$ & $\RR^+_0$ & $\dfrac{\lambda^\alpha}{\Gamma(\alpha)} x^{\alpha-1} e^{-\lambda x}$ & $\dfrac{\alpha}{\beta}$ & $\dfrac{\alpha}{\beta^2}$ \\
+    $\betadist(\alpha, \beta)$ & $\alpha, \beta > 0$ & $\RR^+$ & $\dfrac{x^{\alpha-1} (1-x)^{\beta - 1}}{\Beta(\alpha, \beta)}$ & $\dfrac{\alpha}{\alpha + \beta}$ & $\dfrac{\alpha\beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}$ \\
+    $\normal(\mu, \sigma^2)$ & $\mu \in \RR, \sigma^2 > 0$ & $\RR$ & $\dfrac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}$ & $\mu$ & $\sigma^2$
+  \end{tabular}
+  \end{table}
+  \end{center}
+
+
+\newpage
+\section{Weak Law of Large Numbers}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item The \term{sample mean} of a random sample of size $n$ from a distribution with mean $\mu$ and variance $\sigma^2$ is
+      \begin{equation}
+        \overline{X}_n = \frac{1}{n} \sum_{i=1}^n X_i
+      \end{equation}
+      where
+      \begin{equation}
+        \expectation\big[\overline{X}_n\big] = \mu, \quad \variance\big(\overline{X}_n\big) = \frac{1}{n} \sigma^2
+      \end{equation}
+    
+    \item \result{Weak Law of Large Numbers}
+      For i.i.d.~r.v.s~$X_1, X_2, \dots$ with mean $\mu$, and some $\epsilon > 0$, as $n \to \infty$,
+      \begin{equation}
+        \prob\left(\Bigg|\frac{1}{n} \sum_{i=1}^n X_i - \mu\Bigg| > \epsilon\right) \to 0
+      \end{equation}
+    
+    \item \result{Markov's Inequality}
+      For a non-negative r.v.~$Y$ whose expectation exists, and any $t > 0$,
+      \begin{equation}
+        \prob(Y \geqslant t) \leqslant \frac{\expectation[Y]}{t}
+      \end{equation}
+    
+    \item \result{Chebyshev's Inequality}
+      For a r.v.~$Z$ with finite variance, and any $t > 0$,
+      \begin{equation}
+        \prob\left(\abs{Z - \expectation[Z]} \geqslant t\right) \leqslant \frac{\variance(Z)}{t^2}
+      \end{equation}
+  \end{enumerate}
+
+
+
+\end{document}

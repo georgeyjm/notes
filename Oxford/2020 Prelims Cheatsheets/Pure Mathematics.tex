@@ -1,0 +1,220 @@
+\documentclass{styles/note}
+\usepackage{styles/cheatsheet}
+\usepackage{styles/linalg}
+\usepackage{styles/groups}
+\usepackage{styles/analysis}
+
+\course{Pure Mathematics Cheat Sheet}
+\courseterm{Prelims 2021}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+\part{Linear Algebra}
+
+\section{Matrices}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item A square matrix $A$ is \term{skew-symmetric} or \term{antisymmetric} if $A^T = -A$.
+    \item A square matrix $A \in \matspace{n}{n}{\RR}$ is \term{orthogonal} (i.e.~$A^T = A^{-1}$) if and only if its columns or rows are mutually orthogonal vectors. $A$ is also \term{orthogonal} if and only if $A\vb{x} \cdot A\vb{y} = \vb{x} \cdot \vb{y}$ for all $\vb{x}, \vb{y} \in \RR_\mathrm{col}^{n}$
+  \end{enumerate}
+
+
+\section{Vector Spaces and Subspaces}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item If for some non-empty set $V$, we have $\vb{0}_V \in V$, $V$ is closed under addition, and $V$ is closed under scalar multiplication. Then we can say $V$ (along with the addition and scalar multiplication maps) is a vector space given natural definitions of vector addition and scalar multiplication.
+    
+    \item Let $V$ be a vector field over $\FF$. A subspace $U$ of $V$ is a non-empty (usually, show $\vb{0}_V \in U$) subset of $V$ that is closed under addition and scalar multiplication. We denote $U \leqslant V$.
+    
+      The \term{zero subspace} or \term{trivial subspace} $\set{\vb{0}_V}$ and $V$ are always subspaces of $V$.
+      
+      Note subspaces are transitive.
+    
+    \item \result{Subspace Test}
+      For a vector field $V$ over $\FF$ and $U \subseteq V$, $U \leqslant V$ if and only if $\vb{0}_V \in U$ and $\lambda u_1 + u_2 \in U$ for all $u_1, u_2 \in U$ and $\lambda \in \FF$.
+    
+    \item For $U, W \leqslant V$, both $U + W$ and $U \cap W$ are subspaces of $V$. Specifically, $U + W$ is the smallest subspace of $V$ containing both $U$ and $W$; $U \cap W$ is the largest subspace of $V$ contained in both $U$ and $W$.
+    
+    \item The only subspaces of $\RR^n$ are $\RR^k$ hyperplanes which intersect the origin, where $k = 0, 1, \dots, n$.
+  \end{enumerate}
+
+
+\newpage
+\section{Bases}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item The \term{span} of $u_1, u_2, \dots, u_n \in V$ is $\vecspan{u_1, u_2, \dots, u_n} \leqslant V$ where
+      \[ \vecspan{u_1, u_2, \dots, u_n} = \set{\alpha_1 u_1 + \alpha_2 u_2 + \dots + \alpha_n u_n : \alpha_1, \dots, \alpha_n \in \FF} \]
+      This is the smallest subspace of $V$ containing $u_1, \dots, u_n$.
+      
+      More generally, the \term{span} of $S \subseteq V$ is
+      \[ \vecspan{S} = \set{\alpha_1 v_1 + \dots + \alpha_m v_m : m \geqslant 0,\, v_1, \dots, v_m \in S,\, \alpha_1, \dots, \alpha_n \in \FF} \]
+      While $S$ may potentially be infinite, all linear combinations must be finite.
+    
+    \item For some $S \subseteq V$, we say $S$ \term{spans} $V$ or $S$ is a \term{spanning set} for $V$, if $\vecspan{S} = V$.
+    
+    \item For a matrix $M$, we write $\rowspace(M)$ for the \term{row space} of $M$ (i.e.~the span of the rows of $M$) and $\colspace(M)$ for the \term{column space} of $M$.
+    
+    \item We say $v_1, \dots, v_n \in V$ are \term{linearly independent} if the only solution to
+      \[ \alpha_1 v_1 + \dots + \alpha_n v_n = \vb{0}_V \]
+      where $\alpha_1, \dots, \alpha_n \in \FF$ is $\alpha_1 = \dots = \alpha_n = \vb{0}_V$.
+      
+      We say $S \subseteq V$ is linearly independent if every finite subset of $S$ is linearly independent.
+    
+    \item For linearly independent $v_1, \dots, v_n \in V$, then
+      \[ \alpha_1 v_1 + \dots + \alpha_n v_n = \beta_1 v_1 + \dots + \beta_n v_n \]
+      if and only if $\alpha_i = \beta_i$ for $i = 1, \dots, n$.
+    
+    \item For linearly independent $v_1, \dots, v_n \in V$, if for some $v_{n+1} \in V$ there is $v_{n+1} \notin \vecspan{v_1, \dots, v_n}$, then $v_1, \dots, v_n, v_{n+1}$ are linearly independent.
+    
+    \item A \term{basis} of $V$ is a linearly independent, spanning set of $V$.
+    
+      If $V$ has a finite basis, we say $V$ is \term{finite-dimensional}.
+    
+    \item $S \subseteq V$ is a basis of $V$ if and only if every $v \in V$ can be uniquely expressed as a linear combination of elements of $S$. The scalars in such an expression are the \term{coordinates} of $v$ w.r.t.~the basis $S$.
+  \end{enumerate}
+
+
+
+
+
+\newpage
+\part{Groups and Group Actions}
+
+\section{Groups}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item a
+  \end{enumerate}
+
+
+
+
+
+\part{Analysis}
+
+\section{Sequences}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item \result{Scenic Viewpoints Theorem}
+      Any real sequence $(a_n)$ has a monotone subsequence.
+    
+    \item \result{Bolzano--Weierstrass Theorem}
+      Any bounded real sequence $(a_n)$ has a convergent subsequence.
+    
+    \item A sequence $(a_n)$ is \term{Cauchy} if
+      \[ \forall \epsilon > 0 : \exists N \in \NN : \forall m,n \geqslant N : \abs{a_n - a_m} < \epsilon \]
+    
+    \item A sequence $(a_n)$ converges if and only if it is Cauchy.
+  \end{enumerate}
+
+
+\newpage
+\section{Series}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item If a series $\sum_{k=1}^n a_k$ converges, then $a_k \to 0$ as $k \to \infty$.
+    
+    \item \result{Cauchy Convergence Criterion for Series}
+      The series $\sum_{k=1}^\infty a_k$ converges if and only if
+      \begin{equation}
+        \forall \epsilon > 0 : \exists N \in \NN : \forall n > m \geqslant N : \abs{\sum_{k=m+1}^n a_k} < \epsilon
+      \end{equation}
+    
+    \item Absolute convergence implies convergence.
+    
+    \item \result{Comparison Test}
+      For real sequences $(a_k)$ and $(b_k)$ with $0 \leqslant a_k \leqslant b_k$ for all $k \geqslant 1$, if $\sum_{k=1}^\infty b_k$ converges, then $\sum_{k=1}^\infty a_k$ converges too.
+    
+    \item \result{Limit Form of Comparison Test}
+      For real, positive sequences $(a_k), (b_k)$ such that $\frac{a_k}{b_k} \to L$ as $k \to \infty$, the series $\sum_{k=1}^\infty a_k$ converges if and only if $\sum_{k=1}^\infty a_k$ converges.
+    
+    \item \result{Alternating Series Test}
+      For a real, non-negative, decreasing (not necessarily strictly) sequence $(u_k)$ with $u_k \to 0$ as $k \to \infty$, the series $\sum_{k=1}^\infty (-1)^{k-1} u_k$ converges.
+    
+    \item \result{Ratio Test}
+      For a real, positive sequence $(a_k)$ with $\frac{a_{k+1}}{a_k} \to L$ as $k \to \infty$, the series $\sum_{k=1}^\infty a_k$ converges if $0 \leqslant L < 1$, and diverges if $L > 1$; if $L = 1$, we conclude nothing.
+    
+    \item \result{Integral Test}
+      Let $f : [1, \infty) \to \RR$ be non-negative and decreasing, and that $\int_k^{k+1} f(x) \dif x$ exists for each $k \geqslant 1$ (can be implied from continuity). Let $s_n = \sum_{k=1}^n f(k)$ and $I_n = \int_1^n f(x) \dif x$, then the series $(s_n)$ converges if and only if $(I_n)$ converges.
+      
+      Note that if we define $\sigma_n = s_n - I_n$, then $(\sigma_n)$ converges, say, to $\sigma$, and $0 \leqslant \sigma \leqslant f(1)$.
+    
+    \item The Euler constant $\gamma \in [0, 1]$ is defined as the limit of $(\gamma_n)$ where
+      \[ \gamma_n = \sum_{k=1}^n \frac{1}{k} - \int_1^n \frac{\dif x}{x} = 1 + \frac{1}{2} + \dots + \frac{1}{n} - \log n \]
+  \end{enumerate}
+
+
+\newpage
+\section{Continuity}
+  
+  \begin{enumerate}[label=(\alph*)]
+    \item Let $f : E \to \RR$ and $p \in E$. We say $f$ is continuous at $p$ if
+     \[ \forall \epsilon > 0 : \exists \delta > 0 : \forall x \in E : \left( \abs{x - p} < \delta \implies \abs{f(x) - f(p)} < \epsilon \right) \]
+     In other words, $f(p)$ is well-defined, $\lim_{x \to p} f(x)$ exists and is equal to $f(p)$.
+    
+    \item \result{Intermediate Value Theorem}
+      Let $f : [a, b] \to \RR$ be continuous and $c$ be between $f(a)$ and $f(b)$. Then there exists some $\xi \in [a, b]$ with $f(\xi) = c$.
+    
+    \item Let $f : [a, b] \to \RR$ be continuous. Then $f$ is bounded on $[a, b]$ and attains its bounds (supremum and infimum) on $[a, b]$.
+  \end{enumerate}
+
+
+\section{Differentiability}
+
+  \begin{enumerate}[label=(\alph*)]
+    \item Let $(f_n)$ be a sequence of real functions on $E$ and $f$ be a real function on $E$. We say $f_n$ \term{converges uniformly} to $f$ on $E$ if
+      \[ \forall \epsilon > 0 : \exists N \in \NN : \forall x \in E, n \leqslant N : \abs{f_n(x) - f(x)} < \epsilon \]
+    
+    \
+  \end{enumerate}
+
+
+\newpage
+\section{Differentiability}
+
+  \begin{enumerate}[label=(\alph*)]
+    \item Let $f : [a, b] \to \RR$ be continuous and 1-1 on $(a, b)$ and $x_0 \in (a, b)$. If $f$ is differentiable at $x_0$ and $f'(x_0) \neq 0$, then $f^{-1}$ is differentiable at $y_0 = f(x_0)$ and
+      \begin{equation}
+        \frac{\dif}{\dif y} f^{-1}(y_0) = \frac{1}{f'(f^{-1}(y_0))}
+      \end{equation}
+    
+    \item Local extrema
+    
+    \item \result{Fermat's Theorem} Let $f : E \to \RR$ and let $x_0$ be a local extremum of $f$ and $f$ is differentiable at $x_0$. Then $f'(x_0) = 0$.
+    
+    \item \result{Darboux's Intermediate Value Theorem} Let $f : [a, b] \to \RR$ be continuous on $[a, b]$ and differentiable on $(a, b)$ and let $A \in \RR$ with $f'(a) < A < f'(b)$. Then $\exists \xi \in (a, b) : f'(\xi) = A$.
+    
+    \item \result{Rolle's Theorem} Let $f : [a, b] \to \RR$ be continuous on $[a, b]$ and differentiable on $(a, b)$, and $f(a) = f(b)$. Then $\exists x_0 \in (a, b) : f'(x_0) = 0$.
+    
+    \item \result{Mean Value Theorem}
+      Let $f : [a, b] \to \RR$ be continuous on $[a, b]$ and differentiable on $(a, b)$. Then
+      \begin{equation}
+        \exists \xi \in (a, b) : f'(\xi) = \frac{f(b) - f(a)}{b - a}
+      \end{equation}
+      Writing $h = b - a$ and $\xi = a + \theta(b - a)$ for some $\theta \in (0, 1)$, we obtain
+      \begin{equation}
+        f(a + h) = f(a) + f'(a + \theta h) h
+      \end{equation}
+    
+    \item \result{Cauchy's Mean Value Theorem}
+      Let $f, g : [a, b] \to \RR$ be continuous on $[a, b]$ and differentiable on $(a, b)$, and $\forall x \in (a, b) : g'(x) \neq 0$. Then
+      \begin{equation}
+        \exists \xi \in (a, b) : \frac{f'(\xi)}{g'(\xi)} = \frac{f(b) - f(a)}{g(b) - g(a)}
+      \end{equation}
+  \end{enumerate}
+
+
+
+
+
+\end{document}

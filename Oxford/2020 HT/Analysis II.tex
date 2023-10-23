@@ -1,0 +1,127 @@
+\documentclass{styles/tufte}
+\usepackage{styles/analysis}
+
+\course{Analysis II}
+\courseterm{HT 2020}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+\section{Limits and Continuity}
+
+\begin{definition}{}{limit}
+  A sequence $(z_n)$ of (real or complex) numbers has a \term{limit} $L$, if
+  \[ \forall \epsilon > 0 : \exists N \in \RR : \forall n > N : \abs{z_n - L} < \epsilon \]
+  This is denoted by $z_n \to L$ as $n \to \infty$ or $\displaystyle\lim_{n \to \infty} z_n = L$. We say a sequence \term{converges} if it has a limit, and \term{diverges} otherwise.
+\end{definition}
+
+\begin{definition}{}{cauchy}
+  A sequence $(z_n)$ is a \term{Cauchy sequence} if
+  \[ \forall \epsilon > 0 : \exists N \in \RR : \forall n, m > N : \abs{z_n - z_m} < \epsilon \]
+\end{definition}
+
+
+
+\section{Differentiability}
+
+\begin{definition}{}{derivatives}
+  Let $f$ be a function (real or complex) defined on $(a, b) \subseteq \RR$ and $x_0 \in (a, b)$. The \term{derivative} $f'(x_0)$ of $f$ at $x_0$ is defined as the limit
+  \[ \lim_{x \to x_0} \frac{f(x) - f(x_0)}{x - x_0} \]
+  provided the limit exists, in which case we say $f$ is differentiable at $x_0$. This derivative is also denoted by $\dv{f}{x}{}(x_0)$.
+  
+  We also define the \term{left derivative} and \term{right derivative} provided the respective limits exist:
+  \[ f'(x_0^-) = \lim_{x \uparrow x_0} \frac{f(x) - f(x_0)}{x - x_0}, \quad f'(x_0^+) = \lim_{x \downarrow x_0} \frac{f(x) - f(x_0)}{x - x_0} \]
+\end{definition}
+
+\begin{theorem}{Differentiability Implies Continuity}{}
+  Let $f: (a, b) \to \RR$ or $\CC$. If $f$ is differentiable at $x_0 \in (a, b)$, then $f$ is also continuous at $x_0$.
+\end{theorem}
+
+\begin{proof}
+  We have
+  \begin{align*}
+    \lim_{x \to x_0} \left(f(x) - f(x_0)\right) &= \lim_{x \to x_0} \frac{f(x) - f(x_0)}{x - x_0} (x - x_0) \\
+    &= \lim_{x \to x_0} \frac{f(x) - f(x_0)}{x - x_0} \lim_{x \to x_0} (x - x_0) \\
+    &= 0
+  \end{align*}
+  Hence $\lim_{x \to x_0} f(x) = f(x_0)$, therefore $f$ is continuous at $x_0$.
+\end{proof}
+
+A notable result regarding inverse functions is as follows:
+\begin{theorem}{}{}
+  Let $f$ be a real-valued, continuous, and bijective function on $(a, b)$. If $f$ is differentiable at $x_0 \in (a, b)$ with $f'(x_0) \neq 0$, then $f^{-1}$ is differentiable at $y_0 = f(x_0)$ with
+  \[ \dv{y} f^{-1}(y_0) = \frac{1}{f'(f^{-1}(y_0))} = \frac{1}{f'(x_0)} \]
+\end{theorem}
+
+
+\subsection{Differentiability of Power Series}
+  
+  \begin{theorem}{}{}
+    Let $f(z) = \sum_{n=0}^\infty a_n z^n$ be a power series with convergence radius $R > 0$. Its derivative\marginnote{differentiating term by term} $f'$, also a power series, also has convergence radius $R$.
+  \end{theorem}
+  
+  \begin{theorem}{}{}
+    Let $f(z) = \sum_{n=0}^\infty a_n z^n$ be a power series with convergence radius $R > 0$. For any $\abs{z} < R$, the derivative $f'(z)$ exists with
+    \[ f'(z) = \dv{z} \sum_{n=0}^\infty a_n z^n = \sum_{n=1}^\infty n a_n z^{n-1} \]
+  \end{theorem}
+  
+  We can now use power series to study the derivative of several elementary functions.
+
+
+
+\section{Mean-Value Theorems}
+
+We begin with formalizing and proving an intuitive yet important result.
+
+\begin{theorem}{Fermat's Theorem}{fermats}
+  Let $f: E \to \RR$ and $x_0$ a local extremum of $f$ with $f$ differentiable at $x_0$. Then $f'(x_0) = 0$.
+\end{theorem}
+
+\begin{proof}
+  Without loss of generality, let $x_0$ be a local minimum. By definition, we can let $\delta > 0$ be such that $\forall x \in (x_0 - \delta, x_0 + \delta) : f(x) \geqslant f(x_0)$.
+  
+  We now have that $\frac{f(x) - f(x_0)}{x - x_0}$ is negative for any $x \in (x_0 - \delta, x_0)$ and positive for any $x \in (x_0, x_0+ \delta)$. Hence, $f'(x_0^-) \leqslant 0$ and $f'(x_0^+) \geqslant 0$.
+  
+  But from the differentiability assumption, we know $f'(x_0^-) = f'(x_0^+)$, hence it must be the case that $f'(x_0) = f'(x_0^-) = f'(x_0^+) = 0$.
+\end{proof}
+
+\begin{lemma}{Darboux's IVT}{darboux-ivt}
+  If $f: [a, b] \to \RR$ is differentiable on $[a, b]$, then for any $m \in \RR$ strictly between $f'(a)$ and $f'(b)$, there exists some $\xi \in (a, b)$ such that $f'(\xi) = m$.
+\end{lemma}
+
+\begin{theorem}{Rolle's Theorem}{rolles}
+  If $f: [a, b] \to \RR$ is continuous on $[a, b]$ and differentiable on $(a, b)$, and that $f(a) = f(b)$, then there exists some $\xi \in (a, b)$ such that $f'(\xi) = 0$.
+\end{theorem}
+
+\begin{proof}
+  If $f$ is constant on $[a, b]$, then $\forall x \in [a, b]: f'(x) = 0$, which suffices.\marginnote{The fact that the derivative of a constant function is always 0 is glossed over here as it is trivial to prove, but still a result worth noting.}
+  
+  Now suppose that $f$ is not constant on $[a, b]$.
+\end{proof}
+
+
+\begin{theorem}{MVT}{mvt}
+  If $f: [a, b] \to \RR$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then there exists some $\xi \in (a, b)$ such that
+  \[ f'(\xi) = \frac{f(b) - f(a)}{b - a} \]
+\end{theorem}
+
+\begin{theorem}{Cauchy's MVT}{cachy-mvt}
+  If $f, g: [a, b] \to \RR$ are continuous on $[a, b]$ and differentiable on $(a, b)$, and $\forall x \in (a, b) : g'(x) \neq 0$, then there exists some $\xi \in (a, b)$ such that
+  \[ \frac{f'(\xi)}{g'(\xi)} = \frac{f(b) - f(a)}{g(b) - g(a)} \]
+\end{theorem}
+
+
+
+
+  
+
+
+\end{document}

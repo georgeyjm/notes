@@ -1,0 +1,178 @@
+\documentclass{styles/tufte}
+\usepackage{styles/logic}
+
+\course{Elements of Deductive Logic}
+\courseterm{HT 2020}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+\section{Mathematical Induction}
+
+There are numerous formulations of mathematical induction.
+
+\begin{axiom}{Weak Principle of Induction, WPI}{wpi}
+  If (i) some $P$ is true for the first member of a sequence $S$ (ordered by the natural numbers), and (ii) if $P$ is true for any $n$\tsp{th} member of $S$, then $P$ is true for the $(n + 1)$\tsp{th} member of $S$; then for every $x \in S$, $P$ is true for $x$.
+\end{axiom}
+
+We call condition (i) the \term{base case} and condition (ii) the \term{induction case}. Notation-wise, we can write $P(x)$ for the statement `$P$ is true for $x$'. This way, we can rewrite WPI symbolically as:
+\[ P(s_0) \wedge \forall n (P(s_n) \entails P(s_{n+1})) \entails (\forall x \in S) P(x) \]
+
+\begin{axiom}{Strong Principle of Induction, SPI}{spi}
+  If, for every $n$, if $P$ is true for all of $s_m$ whenever $m < n$, then $P(s_n)$; then for every $x \in S$, $P(x)$.\marginnote{The base case is implied when $n = 0$}
+  \[ \forall n \left(\forall m (m < n \entails P(s_m)) \entails P(s_n)\right) \entails (\forall x \in S) P(x) \]
+\end{axiom}
+
+\begin{axiom}{The Least Number Principle, LNP}{lnp}
+  For any non-empty subset $M$ of $\NN$, $M$ has a least member.
+\end{axiom}
+
+We now claim that all of WPI, SPI, and LNP are logically equivalent.
+
+\begin{theorem}{}{}
+  The SPI follows from the WPI.
+\end{theorem}
+
+\begin{proof}
+  Let $P$ be a proposition defined on $\NN$.\marginnote{We can always transform those ordered by $\NN$ to ones defined on $\NN$} Assume the WPI and that $\forall n \left(\forall m (m < n \entails P(m)) \entails P(n)\right)$. Define $Q(n)$ as the proposition $\forall m (m < n \entails P(m))$. $Q(0)$ is vacuously true. Now assume $Q(n)$; combining $Q(n)$ and the assumption, we have that $P(n)$, hence by definition $Q(n + 1)$ is true. Therefore, applying the WPI, we have that $(\forall n \in \NN) Q(n)$, and therefore $(\forall n \in \NN) P(n)$.\marginnote{Some extra reasoning could be used here but I will leave as is}
+\end{proof}
+
+\begin{theorem}{}{}
+  The WPI follows from the LNP.
+\end{theorem}
+\begin{proof}
+  Let $P$ be a proposition defined on $\NN$. Assume $P(0)$ and $P(n) \entails P(n + 1)$. Also let $M \subseteq \NN$ be the set containing those $m$ where $\neg P(m)$.\marginnote{Observe that we are assuming we can construct a set with all and only those elements satisfying a property, it turns out that this isn't a trivial result, but it is outside the scope of this course.}
+  
+  Assume $M$ has a least member $m$ (with $m > 0$), then by definition, $\neg P(m)$ and $P(m - 1)$. But by assumption, $P(m - 1)$ entails $P(m)$. Hence by contradiction, $M$ has no least member. Hence by the contrapositive of LNP, it follows that $M$ is empty. So we conclude $(\forall n \in \NN) P(n)$.
+\end{proof}
+
+\begin{theorem}{}{}
+  The LNP follows from the SPI.
+\end{theorem}
+\begin{proof}
+  Let $M \subseteq \NN$ be a set without a least member. Let $P(n)$ be the proposition $n \notin M$. Now assume, for a given $n$, all the $m$'s strictly less than $n$ satisfy $P(m)$. Since $n$ is the least number larger than all the possible $m$'s, this entails that $n \notin M$, because otherwise it would mean that $M$ does have a least member --- $n$; therefore $P(n)$. Applying SPI, we conclude that $(\forall n \in \NN) P(n)$, and thus $M$ is an empty set. This proves the contrapositive of the LNP and hence the LNP.
+\end{proof}
+
+These principles of induction can be very helpful when proving results about formulas. To do this, we usually want to perform induction on the complexity of formulas.
+
+\begin{definition}{}{}
+  Let $\phi$ be an $\Lone$-formula. Denote the set of all connectives and sentence letters in $\phi$ by $\conn(\phi)$ and $\sls(\phi)$ respectively. The \term{complexity} of $\phi$, denoted by $\comp(\phi)$, is the total number of connectives in $\phi$, that is, $\comp(\phi) = \abs{\conn(\phi)}$.
+\end{definition}
+
+
+
+\newpage
+\section[Metatheory of $\Lone$]{Metatheory of ${\boldsymbol\Lone}$}
+
+\begin{definition}{}{literal}
+  A \term{literal} is any sentence letter or negated sentence letter.
+\end{definition}
+
+\begin{definition}{}{}
+  Let $\Lone^+$ be an extension of $\Lone$ with two extra atomic sentences $\top$ and $\bot$ where $\valunder{\top}{A} = 1$ and $\valunder{\bot}{A} = 0$ for all structures $\struct{A}$. Importantly, $\top$ and $\bot$ are both atoms but not sentence letters.\marginnote{In $\Lone$, atoms and sentence letters can be used interchangeably, but it is no longer the case in $\Lone^+$.}
+\end{definition}
+
+\begin{lemma}{Relevance Lemma}{relevance}
+  Let $\phi$ be a sentence and $\struct{A}, \struct{B}$ structures. If for all $\alpha \in \sls(\phi)$ there is $\valunder{\alpha}{A} = \valunder{\alpha}{B}$, then $\valunder{\phi}{A} = \valunder{\phi}{B}$.
+\end{lemma}
+
+\begin{proof}
+  We prove by induction on the complexity of $\phi$.
+  
+  When $\comp(\phi) = 0$, $\phi$ is either a sentence letter $\alpha$ or one of $\top$ and $\bot$ (in the case of $\Lone^+$). In either case, it follows immediately that $\valunder{\phi}{A} = \valunder{\phi}{B}$.
+  
+  For the inductive step, let $\comp(\phi) = n$ and assume that the desired result holds for all sentences with complexity strictly less than $n$. Next, we consider all possible forms of $\phi$ in terms of $\psi$ and $\chi$ (both with complexity strictly less than $n$):
+  \begin{description}
+    \item[Case 1.] $\phi = \neg \psi$. Then $\valunder{\phi}{A} = 1 - \valunder{\psi}{A} = 1 - \valunder{\psi}{B} = \valunder{\phi}{B}$.
+    \item[Case 2.] $\phi = \psi \land \chi$.
+    \item[Case 3.] $\phi = \psi \lor \chi$.
+    \item[Case 4.] $\phi = \psi \entails \chi$.
+    \item[Case 5.] $\phi = \psi \iff \chi$.
+  \end{description}
+  For cases 2--5, we know that the value of each compound formula is determined exactly by the value of $\psi$ and $\chi$; but we also know by induction hypothesis that $\valunder{\psi}{A} = \valunder{\psi}{B}$ and $\valunder{\chi}{A} = \valunder{\chi}{B}$, hence $\valunder{\phi}{A} = \valunder{\phi}{B}$.
+\end{proof}
+
+The above proof serves as an example of a typical proof by induction, and in particularly, by induction on the complexity of sentences. Next, we move on to defining substitutions --- a rather complicated one in order to capture our intuitions.
+
+\begin{definition}{}{}
+  
+\end{definition}
+
+
+
+\begin{definition}{}{dnf}
+  An $\Lone$ sentence $\phi$ is in \term{disjunctive normal form} (DNF) if there exist natural numbers $n, m_1, \dots, m_n$ such that
+  \[ \phi = \disj_{i=1}^n \left[\conj_{i=1}^{m_i} s_{i,j} \right] \]
+  where all $s_{i,j}$ are literals.\marginnote{Conjunctive normal forms (CNF) are defined in a parallel way}
+\end{definition}
+
+\begin{theorem}{}{dnf}
+  Every truth function can be expressed by an $\Lone$ sentence in DNF.
+\end{theorem}
+
+
+\subsection{Expressive Adequacy}
+  
+  \begin{definition}{}{}
+    A set of connectives is \term{expressively adequate} if for any truth function $f$, there exists a sentence containing only those connectives which expresses $f$.
+  \end{definition}
+
+
+
+\subsection{Duality}
+  
+  Duality is a semantic concept from the theory of truth functions.
+
+  \begin{definition}{}{}
+    A \term{truth function} is an $n$-ary function from the set of $n$-tuples of $\true$'s and $\false$'s to the set $\set{\true, \false}$.
+  \end{definition}
+  
+  \begin{definition}{}{}
+    For a connective $c$, we say it \term{expresses} a truth function $f$ if for any $\Lone$ sentences $\phi$ and $\psi$ and any $\Lone$ structure $\struct{A}$,
+    \[ f_c\left(\valunder{\phi_1}{A}, \dots, \valunder{\phi_n}{A}\right) = \valunder{c(\phi_1, \dots, \phi_n)}{A} \]
+  \end{definition}
+
+
+
+\section{The Syntax of $\Lone$}
+  
+  \begin{definition}{}{}
+    The \term{alphabet} of the language $\Lone$ consists of the following types of characters:
+    \begin{enumerate}
+      \item Sentence letters: $P, Q, R, P_1, Q_1, R_1, P_2, Q_2, R_2, \dots$
+      \item Logical connectives: $\neg, \land, \lor, \entails, \iff$
+      \item Parentheses: $(, )$
+    \end{enumerate}
+  \end{definition}
+  
+  \begin{definition}{}{}
+    A \term{string} in a language $\LL$ is any finite, ordered sequence of characters from the alphabet of $\LL$.
+  \end{definition}
+  
+  \begin{definition}{}{}
+    The \term{sentences} of $\Lone$ are defined in the following manner:
+    \begin{enumerate}
+      \item All sentence letters are sentences of $\Lone$.
+      \item If $\phi$ and $\psi$ are sentences of $\Lone$, then so are:
+        \begin{itemize}
+          \item $\neg\phi$
+          \item $\phi \land \psi$
+          \item $\phi \lor \psi$
+          \item $\phi \entails \psi$
+          \item $\phi \iff \psi$
+        \end{itemize}
+      \item Nothing else is a sentence of $\Lone$.
+    \end{enumerate}
+  \end{definition}
+
+
+
+
+\end{document}
