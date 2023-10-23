@@ -1,0 +1,82 @@
+\documentclass{styles/tufte}
+\usepackage{styles/probability}
+
+\course{CS234 - Reinforcement Learning}
+\courseterm{HT 2020}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+
+\part{Lecture 1}
+
+\section{Reinforcement Learning}
+
+
+
+\part{Given a Model of the World}
+
+\section{Markov Processes}
+  
+  For now, we only consider Markov processes with finite states. We first consider Markov reward processes\sidenote{we will only consider finite Markov processes as of right now}, which do not involve actions
+  
+  \begin{definition}{}{}
+    A \term{Markov Reward Process} (MRP) is a 4-tuple $(S, P, R, \gamma)$ where
+    \begin{romanenum}
+      \item $S$ is the (finite) set\marginnote{we only consider finite cases} of possible states
+      \item $P$ is the transition model
+      \item $R$ is the reward function such that $R(s_t = s) = \expectation[r_t \given s_t = s]$
+      \item $\gamma \in [0, 1]$ is the discount factor
+    \end{romanenum}
+  \end{definition}
+  
+  Specifically, the transition (a.k.a. dynamics) model specifies $\prob(s_{t+1} = s' \given s_t = s)$ and can be deterministic or stochastic.
+  
+  \begin{enumerate}
+    \item auhdiaush daisuhd iaus dhia usdiasidhu as
+    \item vbhnasdfiuhasid uhai sduh asudhaius\marginnote{yes this is correct} hdaisu
+    \item iuhadis uhasid asuidhasid
+  \end{enumerate}
+  
+  \begin{definition}{}{}
+    The \term{horizon} of an MRP is the number of timesteps in each episode (could potentially be infinite). When an MRP has a finite horizon, we call it a \term{finite MRP}.
+  \end{definition}
+  
+  \begin{definition}{}{}
+    The \term{return} $G_t$ of an MRP from timestep $t$ is the discounted sum of rewards from that timestep to horizon:
+    \[ G_t = \sum_{k=0} \gamma^k r_{t+k} = r_t + \gamma r_{t+1} + \gamma^2 r_{t+2} + \dots \]
+  \end{definition}
+  
+  \begin{definition}{}{}
+    The \term{state value function} $V(S)$ of an MRP gives the expected return starting in state $s$:
+    \[ V(s) = \expectation[G_t \given s_t = s] \]
+  \end{definition}
+  
+  \paragraph{Obtaining $V(S)$} For a finite-state MRP
+  
+  Next, we define the Markov decision process, which are essentially the MRP with actions. Formally:
+  
+  \begin{definition}{}{}
+    A \term{Markov Decision Process} (MDP) is a 5-tuple $(S, A, P, R, \gamma)$ where
+    \begin{romanenum}
+      \item $S$ is the (finite) set of possible states
+      \item $A$ is the (finite) set of possible actions
+      \item $P$ is the transition model
+      \item $R$ is the reward function such that $R(s_t = s) = \expectation[r_t \given s_t = s]$
+      \item $\gamma \in [0, 1]$ is the discount factor
+    \end{romanenum}
+  \end{definition}
+  
+  Similar to MRP, $P$ specifies $\prob(s_{t+1} = s' \given s_t = s, a_t = a)$, and $R : S \times A \to \RR$ is defined by $R(s_t = s, a_t = a) = \expectation[r_t \given s_t = s, a_t = a]$
+
+
+
+\end{document}
