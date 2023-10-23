@@ -2,9 +2,18 @@
 \ProvidesPackage{linalg}
 
 \RequirePackage{physics}
+\RequirePackage[mathscr]{euscript}
+\RequirePackage{stmaryrd}
 
 \newcommand{\FF}{\mathbb{F}}
-\newcommand*{\mat}[1]{#1}
+\newcommand{\BB}{\mathscr{B}}
+\newcommand{\changeofbasis}[3]{{}_{#1}[#2]_{#3}}
+\DeclareMathOperator{\Hom}{Hom}
+\newcommand{\ns}{\mathrel{\triangleleft}}
+\newcommand{\nseq}{\mathrel{\trianglelefteqslant}}
+\newcommand{\conj}[1]{\overline{#1}}
+
+\newcommand{\divides}{\mid}
 
 % Common sizes of vectors and matrices
 \newenvironment{defaultvector}{\begin{bmatrix}}{\end{bmatrix}}
@@ -15,3 +24,7 @@
 \newcommand{\matspace}[3]{\mathcal{M}_{#1\times#2}(#3)}
 
 \DeclareMathOperator{\sign}{sign}
+
+%\newcommand{\abrak}[2][]{\ifthenelse{\isempty{#1}}{\left}{#1}\langle #2 \ifthenelse{\isempty{#1}}{\right}{#1}\rangle}
+\newcommand{\abrak}[2][]{#1\langle #2 #1\rangle}
+\newcommand{\restrictto}[1]{|_{#1}}

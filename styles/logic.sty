@@ -1,0 +1,34 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{logic}
+
+\RequirePackage{bussproofs}
+\RequirePackage{hhline}
+
+%\newcommand{\LL}[1][]{\mathcal{L}_{#1}}
+%\newcommand{\Lone}{\LL[1]}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\Lprop}{\LL_\textrm{prop}}
+\newcommand{\struct}[1]{\mathcal{#1}}
+\newcommand{\valunder}[2]{\abs{#1}_\struct{#2}}
+
+\newcommand{\true}{\textit{T}}
+\newcommand{\false}{\textit{F}}
+\newcommand{\settf}{\set{\true, \false}}
+
+\renewcommand{\implies}{\rightarrow}
+\renewcommand{\iff}{\leftrightarrow}
+\renewcommand{\models}{\mathrel{|}\joinrel\mkern-.5mu\mathrel{=}} % Connect two parts
+\newcommand{\entails}{\models}
+\newcommand{\proves}{\mathrel{|}\joinrel\mkern-1mu\mathrel{-}} % Bigger than \vDash, consistent with \models
+\newcommand{\lequiv}{\models\mkern-5mu\mathrel{\text{\reflectbox{$\models$}}}}
+
+\newcommand{\conj}{\bigwedge}
+\newcommand{\disj}{\bigvee}
+
+\newcommand{\val}[1][v]{\tilde{#1}}
+
+\DeclareMathOperator{\conn}{Conn}
+\DeclareMathOperator{\sls}{SenLett}
+\DeclareMathOperator{\comp}{Comp}
+\DeclareMathOperator{\formulas}{Form}
+\DeclareMathOperator{\terms}{Term}

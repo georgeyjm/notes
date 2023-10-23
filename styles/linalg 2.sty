@@ -1,0 +1,20 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{linalg}
+
+\RequirePackage{physics}
+
+\newcommand{\FF}{\mathbb{F}}
+\newcommand*{\mat}[1]{#1}
+
+% Common sizes of vectors and matrices
+\newenvironment{defaultvector}{\begin{bmatrix}}{\end{bmatrix}}
+\newenvironment{defaultmatrix}{\begin{bmatrix}}{\end{bmatrix}}
+\newcommand{\coltwo}[2]{\begin{defaultvector} #1 \\ #2 \end{defaultvector}}
+\newcommand{\squaretwo}[4]{\begin{defaultmatrix} #1 & #2 \\ #3 & #4 \end{defaultmatrix}}
+
+\newcommand{\matspace}[3]{\mathcal{M}_{#1\times#2}(#3)}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\rowspace}{Row}
+\DeclareMathOperator{\colspace}{Col}
+\DeclarePairedDelimiter{\vecspan}{\langle}{\rangle}

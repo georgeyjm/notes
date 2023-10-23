@@ -1,0 +1,42 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{settheory}
+
+\RequirePackage{suffix}
+
+\newcommand{\LL}{\mathcal{L}}
+
+\newcommand{\true}{\textit{T}}
+\newcommand{\false}{\textit{F}}
+
+\renewcommand{\implies}{\rightarrow}
+\renewcommand{\iff}{\leftrightarrow}
+%\newcommand{\entails}{\models}
+%\newcommand{\proves}{\vdash}
+
+% Better control of set curly brackets size
+\renewcommand{\set}[2][DEFAULT]{\IfNoValueTF{#1}{\{#2\}}{\ifthenelse{\equal{#1}{DEFAULT}}{\left\{#2\right\}}{#1\{#2#1\}}}}
+\WithSuffix\newcommand\set*[1]{\{#1\}}
+\newcommand{\opair}[1]{\langle#1\rangle}
+\newcommand{\class}[1]{\mathbf{#1}}
+\newcommand{\power}{\mathcal{P}}
+\newcommand{\universe}{\mathbf{V}}
+
+\newcommand{\cls}{\prec}
+\newcommand{\cgt}{\succ}
+\newcommand{\cleq}{\preccurlyeq}
+\newcommand{\cgeq}{\succcurlyeq}
+\newcommand{\simm}{\approx}
+
+\DeclareMathOperator{\domain}{Dom}
+\DeclareMathOperator{\range}{Range}
+
+\newcommand{\negspace}{\hspace{-\fontdimen2\font plus -\fontdimen3\font minus -\fontdimen4\font}}
+\newtcbtheorem[auto counter]{zf}{Axiom ZF\negspace}{
+  basicstyle,
+  label type=zf,
+  label separator={},
+  coltitle={axiomcolor},
+  borderline west={\envBorderWidth}{\envBorderOffset}{axiomcolor}
+}{zf}
+\crefname{zf}{ZF}{ZF}
+\crefformat{zf}{\textsf{#2ZF#1#3}}
