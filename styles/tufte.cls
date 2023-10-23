@@ -22,6 +22,8 @@
 
 % Packages for document font settings
 \RequirePackage[osf,sc]{mathpazo} % Palatino for main text and math
+%\RequirePackage{newpxtext}
+%\RequirePackage{newpxmath} % if not loaded, uncomment amssymb, amsthm
 %\RequirePackage[scaled=0.90]{helvet} % Helvetica for sans-serif
 %\RequirePackage[scaled=0.85]{beramono} % Bera Mono for monospaced
 
@@ -32,11 +34,13 @@
 
 % Packages for general math typesetting
 \RequirePackage{amsmath}
-\RequirePackage{amssymb}
-\RequirePackage{amsthm}
+\RequirePackage{amssymb} % loaded by newpxmath
+\RequirePackage{amsthm} % loaded by newpxmath
 \RequirePackage{amsfonts}
 \RequirePackage{mathtools}
 \RequirePackage{commath}
+\RequirePackage{bm}
+\RequirePackage{thmtools}
 
 % Packages for general uses
 \RequirePackage[dvipsnames]{xcolor}
@@ -49,23 +53,6 @@
 \RequirePackage{contour}
 \RequirePackage{ulem}
 
-% Overwrite tufte handling of marginnote
-\let\@twoside\undefined
-\let\marginnote\undefined
-\RequirePackage{marginnote}
-\renewcommand*{\marginfont}{\footnotesize}
-\newcounter{marginnoteCounter}
-\let\oldmarginnote\marginnote
-\renewcommand{\marginnote}[1]{\stepcounter{marginnoteCounter}\textsuperscript{\arabic{marginnoteCounter}}\oldmarginnote{{\normalsize\textsuperscript{\arabic{marginnoteCounter}}}\,#1}}
-\RequirePackage{marginfix}
-% Force marginnote to only be on the right side
-\AtBeginDocument{
-  \makeatletter
-  \patchcmd{\@addmarginpar}{\ifodd\c@page}{\ifodd\c@page\@tempcnta\m@ne}{}{}
-  \makeatother
-  \reversemarginpar
-}
-
 
 
 %==================================================
@@ -76,31 +63,35 @@
 \geometry{
   a4paper,
   left=15mm,
+  bottom=25mm,
   textwidth=126mm, % Body width
   marginparsep=8mm, % Gutter
   marginparwidth=50mm, % Margin note width
 }
-\renewcommand{\baselinestretch}{1.05} % Line spacing
+\renewcommand{\baselinestretch}{1.1} % Line spacing
+%\renewcommand{\arraystretch}{0.6} % Matrix line spacing
 \setlength{\parskip}{0em}
 \allsectionsfont{\normalfont \bfseries}
+\AtBeginEnvironment{pmatrix}{\renewcommand{\arraystretch}{0.8}} % Matrix line spacing
 
 
 % Colors
-\definecolor{secondary}{gray}{0.6}
-\definecolor{orange}{HTML}{ffa502}
-\definecolor{lightorange}{HTML}{eccc68}
-\definecolor{green}{HTML}{2ed573}
-\definecolor{lightgreen}{HTML}{7bed9f}
-\definecolor{coral}{HTML}{ff6348}
-\definecolor{lightcoral}{HTML}{ff7f50}
-\definecolor{pink}{HTML}{ff4757}
-\definecolor{lightpink}{HTML}{ff6b81}
-\definecolor{blue}{HTML}{1e90ff}
-\definecolor{lightblue}{HTML}{70a1ff}
-\definecolor{purple}{HTML}{3742fa}
-\definecolor{lightpurple}{HTML}{5352ed}
+\definecolor{secondary}{gray}{0.9}
+\definecolor{axiomcolor}{gray}{0}
 
-\definecolor{defcolor}{HTML}{273c75}
+%\definecolor{defcolor}{HTML}{273c75} % 273c75
+%\definecolor{theoremcolor}{HTML}{2c6e49} % 419d78
+%\definecolor{propcolor}{HTML}{30b398}
+%\definecolor{lemmacolor}{HTML}{674b85}
+%\definecolor{corollarycolor}{HTML}{c79b24} % c5ae6c
+%\definecolor{examplecolor}{HTML}{d94646}
+
+\definecolor{defcolor}{HTML}{2e5090}
+\definecolor{theoremcolor}{HTML}{4f7942}
+\definecolor{propcolor}{HTML}{009b7d}
+\definecolor{lemmacolor}{HTML}{915c83}
+\definecolor{corollarycolor}{HTML}{a57c00}
+\definecolor{examplecolor}{HTML}{cb410b}
 
 % Table of contents
 \setcounter{tocdepth}{2}
@@ -176,32 +167,32 @@
 \newtcbtheorem[auto counter, number within=section]{theorem}{Theorem}{
   basicstyle,
   label type=theorem,
-  coltitle={lightcoral},
-  borderline west={\envBorderWidth}{\envBorderOffset}{lightcoral}
+  coltitle={theoremcolor},
+  borderline west={\envBorderWidth}{\envBorderOffset}{theoremcolor}
 }{thm}
 \newtcbtheorem[auto counter, number within=section, use counter from=theorem]{lemma}{Lemma}{
   basicstyle,
   label type=lemma,
-  coltitle={lightpink},
-  borderline west={\envBorderWidth}{\envBorderOffset}{lightpink}
+  coltitle={lemmacolor},
+  borderline west={\envBorderWidth}{\envBorderOffset}{lemmacolor}
 }{lem}
 \newtcbtheorem[auto counter, number within=section, use counter from=theorem]{corollary}{Corollary}{
   basicstyle,
   label type=corollary,
-  coltitle={orange},
-  borderline west={\envBorderWidth}{\envBorderOffset}{orange}
+  coltitle={corollarycolor},
+  borderline west={\envBorderWidth}{\envBorderOffset}{corollarycolor}
 }{cor}
 \newtcbtheorem[auto counter, number within=section, use counter from=theorem]{proposition}{Proposition}{
   basicstyle,
   label type=proposition,
-  coltitle={green},
-  borderline west={\envBorderWidth}{\envBorderOffset}{green}
+  coltitle={propcolor},
+  borderline west={\envBorderWidth}{\envBorderOffset}{propcolor}
 }{prop}
 \newtcbtheorem[auto counter, number within=section, use counter from=theorem]{axiom}{Axiom}{
   basicstyle,
   label type=axiom,
-  coltitle={black},
-  borderline west={\envBorderWidth}{\envBorderOffset}{black}
+  coltitle={axiomcolor},
+  borderline west={\envBorderWidth}{\envBorderOffset}{axiomcolor}
 }{axm}
 \newtcbtheorem[auto counter, number within=section]{definition}{Definition}{
   basicstyle,
@@ -212,12 +203,14 @@
 \newtcbtheorem[auto counter, number within=section]{example}{Example}{
   basicstyle,
   label type=example,
-  coltitle={lightpurple},
-  borderline west={\envBorderWidth}{\envBorderOffset}{lightpurple}
+  coltitle={examplecolor},
+  borderline west={\envBorderWidth}{\envBorderOffset}{examplecolor}
 }{ex}
 \tcolorboxenvironment{proof}{
   basicstyle,
   breakable,
+  top=1.5em,
+  enlarge top by=-1.5em,
   borderline west={\envBorderWidth}{\envBorderOffset}{secondary},
 }
 
@@ -230,6 +223,12 @@
 \crefname{definition}{Definition}{Definition}
 \crefname{example}{Example}{Example}
 
+% Named cref
+\newcommand{\namedcref}[1]{\cref{#1} (\nameref{#1})}
+\newcommand{\namedCref}[1]{\Cref{#1} (\nameref{#1})}
+%\newcommand{\namedcref}[1]{\nameref{#1} (\ref{#1})}
+%\newcommand{\namedCref}[1]{\nameref{#1} (\ref{#1})}
+
 
 
 %==================================================
@@ -239,7 +238,11 @@
 \setlist{font=\upshape}%,topsep=0.5em}
 
 \newlist{romanenum}{enumerate}{1}
-\setlist[romanenum]{label=(\roman*),leftmargin=2em}%,labelsep=0.75em}
+\setlist[romanenum]{label=(\roman*),leftmargin=2.5em}%,labelsep=0.75em}
+
+%\renewcommand{\descriptionlabel}[1]{%
+%  \hspace{\labelsep}\normalfont\underline{#1}% 
+%}
 
 
 %==================================================
@@ -261,9 +264,19 @@
 \let\epsilon\varepsilon
 \let\varepsilon\oldepsilon
 \let\oldabs\abs
+\let\oldleq\leq
+\let\leq\leqslant
+\let\oldgeq\geq
+\let\geq\geqslant
+\let\smalltilde\tilde
+\let\tilde\widetilde
+\newcommand{\contradiction}{\!\scalebox{1.25}{\textreferencemark}}
 \renewcommand{\abs}[1]{\,\oldabs{#1}}
+\newcommand{\defeq}{\coloneqq} % \coloneq or \vcentcolon
+\newcommand{\funcarg}{\makebox[1ex]{\textbf{$\cdot$}}}
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\DeclareMathOperator{\image}{Im}
 
 % Sets
 \newcommand{\NN}{\mathbb{N}}
@@ -314,6 +327,88 @@
 \renewcommand{\bigg}{\mathopen{}\mathclose\oldbigg}
 \renewcommand{\Big}{\mathopen{}\mathclose\oldBig}
 \renewcommand{\Bigg}{\mathopen{}\mathclose\oldBigg}
+
+% Overwrite tufte handling of marginnote
+\let\marginnote\undefined
+\RequirePackage{marginnote}
+\renewcommand*{\marginfont}{\footnotesize}
+\newcounter{marginnoteCounter}
+\let\oldmarginnote\marginnote
+\renewcommand{\marginnote}[1]{\stepcounter{marginnoteCounter}\textsuperscript{\arabic{marginnoteCounter}}\oldmarginnote{{\normalsize\textsuperscript{\arabic{marginnoteCounter}}}\,#1}} % Can add [0.25em] offset
+%\RequirePackage{marginfix}
+
+% Force marginnote to only be on the right side
+\AtBeginDocument{
+  \makeatletter
+  \long\def\@mn@@@marginnote[#1]#2[#3]{%
+    \begingroup
+      \ifmmode\mn@strut\let\@tempa\mn@vadjust\else
+        \if@inlabel\leavevmode\fi
+        \ifhmode\mn@strut\let\@tempa\mn@vadjust\else\let\@tempa\mn@vlap\fi
+      \fi
+      \@tempa{%
+        \vbox to\z@{%
+          \vss
+          \@mn@margintest
+          \if@reversemargin\if@tempswa
+              \@tempswafalse
+            \else
+              \@tempswatrue
+          \fi\fi
+            \rlap{%
+              \ifx\@mn@currxpos\relax
+                \kern\marginnoterightadjust
+                \if@mn@verbose
+                  \PackageInfo{marginnote}{%
+                    xpos not known,\MessageBreak
+                    using \string\marginnoterightadjust}%
+                \fi
+              \else\ifx\@mn@currxpos\@empty
+                  \kern\marginnoterightadjust
+                  \if@mn@verbose
+                    \PackageInfo{marginnote}{%
+                      xpos not known,\MessageBreak
+                      using \string\marginnoterightadjust}%
+                  \fi
+                \else
+                  \if@mn@verbose
+                    \PackageInfo{marginnote}{%
+                      xpos seems to be \@mn@currxpos,\MessageBreak
+                      \string\marginnoterightadjust
+                      \space ignored}%
+                  \fi
+                  \begingroup
+                    \setlength{\@tempdima}{\@mn@currxpos}%
+                    \kern-\@tempdima
+                    \if@twoside\ifodd\@mn@currpage\relax
+                        \kern\oddsidemargin
+                      \else
+                        \kern\evensidemargin
+                      \fi
+                    \else
+                      \kern\oddsidemargin
+                    \fi
+                    \kern 1in
+                  \endgroup
+                \fi
+              \fi
+              \kern\marginnotetextwidth\kern\marginparsep
+              \vbox to\z@{\kern\marginnotevadjust\kern #3
+                \vbox to\z@{%
+                  \hsize\marginparwidth
+                  \linewidth\hsize
+                  \kern-\parskip
+                  \marginfont\raggedrightmarginnote\strut\hspace{\z@}%
+                  \ignorespaces#2\endgraf
+                  \vss}%
+                \vss}%
+            }%
+        }%
+      }%
+    \endgroup
+  }
+  \makeatother
+}
 
 % Centering in indented environments
 \newcommand{\nomathindent}{\displayindent0pt \displaywidth\textwidth}

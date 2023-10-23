@@ -22,6 +22,7 @@
 % Packages for back-end uses
 \RequirePackage{etoolbox}
 \RequirePackage{xparse}
+\RequirePackage{xifthen}
 
 % Packages for general math typesetting
 \RequirePackage{amsmath}
@@ -215,6 +216,11 @@
 % General Math
 \let\oldemptyset\emptyset
 \let\emptyset\varnothing
+\let\oldepsilon\epsilon
+\let\epsilon\varepsilon
+\let\varepsilon\oldepsilon
+\let\oldabs\abs
+\renewcommand{\abs}[1]{\,\oldabs{#1}}
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
@@ -245,11 +251,19 @@
   \copy2 %
 }
 
-% Remove space around \left and \right
+% Remove space around \left, \right, and others
 \let\oldleft\left
 \let\oldright\right
 \renewcommand{\left}{\mathopen{}\mathclose\bgroup\oldleft}
 \renewcommand{\right}{\aftergroup\egroup\oldright}
+\let\oldbig\big
+\let\oldbigg\bigg
+\let\oldBig\Big
+\let\oldBigg\Bigg
+\renewcommand{\big}{\mathopen{}\mathclose\oldbig}
+\renewcommand{\bigg}{\mathopen{}\mathclose\oldbigg}
+\renewcommand{\Big}{\mathopen{}\mathclose\oldBig}
+\renewcommand{\Bigg}{\mathopen{}\mathclose\oldBigg}
 
 % Centering in indented environments
 \newcommand{\nomathindent}{\displayindent0pt \displaywidth\textwidth}
