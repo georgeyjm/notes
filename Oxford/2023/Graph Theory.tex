@@ -1,0 +1,43 @@
+\documentclass{styles/tufte}
+\usepackage{styles/graph}
+
+\course{B8.5 Graph Theory}
+\courseterm{MT 2023}
+\author{Jiaming (George) Yu}
+\email{jiaming.yu@jesus.ox.ac.uk}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+
+
+\section{Graph Theory Basics}
+
+In all definitions below, we assume $G = (V, E)$ is any graph.
+
+\subsection{Degrees}
+
+\begin{definition}{Degree}{}
+  The \term{degree} of a vertex $v$, denoted $d_G(v)$ or simply $d(v)$, is the number of its incident edges.
+  \[ d_G(v) = \card{\set{w \in V: vw \in E}} \]
+  
+  If $d_G(v) = 0$, then we say $v$ is an \term{isolated vertex}.
+\end{definition}
+
+\begin{definition}{Neighbor}{}
+  A vertex $w$ is a \term{neighbor} of another vertex $v$ if $v$ and $w$ are adjacent.
+  
+  The \term{neighborhood} of $v$, denoted $N_G(V)$ or simply $N(v)$, is the set of all neighbors of $v$.
+  \[ N_G(v) = \set{w \in V: vw \in E} \]
+\end{definition}
+
+\begin{definition}
+  
+\end{definition}
+
+
+\end{document}
